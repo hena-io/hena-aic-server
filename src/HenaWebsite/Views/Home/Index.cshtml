@@ -1,0 +1,67 @@
+﻿@using Hena;
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@using Microsoft.Extensions.Configuration;
+@using Microsoft.Extensions.DependencyInjection;
+@{
+	Layout = null;
+
+	string[] headCSS = WebServiceUtility.ToStringArrayForce(ViewData["head-css"]);
+	string[] headScripts = WebServiceUtility.ToStringArrayForce(ViewData["head-scripts"]);
+	string[] pageScripts = WebServiceUtility.ToStringArrayForce(ViewData["page-scripts"]);
+}
+@*
+	<h1>
+		@Localizer["TEST"]
+	</h1>
+*@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="HENA Cryptocurrency Team">
+	<link rel="shortcut icon" href="~/dashboard/img/favicon.png">
+
+	<title>Hena AIC</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="~/dashboard/css/bootstrap.min.css" rel="stylesheet">
+	<link href="~/dashboard/css/bootstrap-reset.css" rel="stylesheet">
+
+	<!--external css-->
+	<link href="~/dashboard/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+	<link href="~/dashboard/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css" media="screen" />
+	<link href="~/dashboard/css/owl.carousel.css" rel="stylesheet" type="text/css">
+
+	<!--right slidebar-->
+	<link href="~/dashboard/css/slidebars.css" rel="stylesheet">
+
+	<!-- Custom styles for this template -->
+	<link href="~/dashboard/css/style.css" rel="stylesheet">
+	<link href="~/dashboard/css/style-responsive.css" rel="stylesheet" />
+
+	@foreach (var it in headCSS)
+	{
+		<link href="@it" rel="stylesheet" />
+	}
+
+	@foreach (var it in headScripts)
+	{
+		<script src="@it"></script>
+	}
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
+	<!--[if lt IE 9]>
+	  <script src="~/dashboard/js/html5shiv.js"></script>
+	  <script src="~/dashboard/js/respond.min.js"></script>
+	<![endif]-->
+</head>
+<body class="login-body">
+	<div class="container">
+		<h1>LANDING PAGE</h1>
+	</div>
+	</body>
+</html>

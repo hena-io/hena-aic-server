@@ -1,0 +1,52 @@
+{
+	"connections": [
+		{
+			"name": "Hena_AIC_Config",
+			"max_execute_query_per_frame": 100,
+			"ping_interval": 5000.0,
+			"connection_data": {
+				"host": "52.231.69.215",
+				"port": 13307,
+				"database": "hena_aic_config",
+				"id": "hena",
+				"password": "Hena1188!"
+			}
+		},
+		{
+			"name": "Hena_AIC_Service",
+			"max_execute_query_per_frame": 100,
+			"ping_interval": 5000.0,
+			"connection_data": {
+				"host": "52.231.69.215",
+				"port": 13307,
+				"database": "hena_aic_service",
+				"id": "hena",
+				"password": "Hena1188!"
+			}
+		},
+		{
+			"name": "Hena_AIC_Report",
+			"max_execute_query_per_frame": 100,
+			"ping_interval": 5000.0,
+			"connection_data": {
+				"host": "52.231.69.215",
+				"port": 13307,
+				"database": "hena_aic_report",
+				"id": "hena",
+				"password": "Hena1188!"
+			}
+		},
+		{
+			"name": "Hena_AIC_Log",
+			"max_execute_query_per_frame": 100,
+			"ping_interval": 5000.0,
+			"connection_data": {
+				"host": "52.231.69.215",
+				"port": 13307,
+				"database": "hena_aic_log",
+				"id": "hena",
+				"password": "Hena1188!"
+			}
+		}
+	]
+}

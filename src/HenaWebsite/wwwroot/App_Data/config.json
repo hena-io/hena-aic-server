@@ -1,0 +1,8 @@
+{
+	"DatabaseConfigFileName": "database.json",
+	"SupportEmailSmtpHost": "smtp.worksmobile.com",
+	"SupportEmailSmtpPort": 587,
+	"SupportEmailId": "noreply@hena.io",
+	"SupportEmailPassword": "Hena1188!",
+	"SupportEmailDisplayName": "Hena AIC"
+}
