@@ -27,7 +27,7 @@ namespace Hena.DB
 
 	public class COMMON_IN_DATA_MachineDBKeyOnly : DBQueryBase.IN_BASE
 	{
-		public short DBKey { get; set; } = GlobalDefine.INVALID_MACHINEDBKEY;
+		public short DBKey { get; set; } = GlobalDefine.INVALID_MACHINE_ID;
 
 		public override void FillParameters(List<object> parameters)
 		{

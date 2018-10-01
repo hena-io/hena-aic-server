@@ -31,6 +31,13 @@
 	<!--right slidebar-->
 	<link href="~/dashboard/css/slidebars.css" rel="stylesheet">
 
+	<!--bootstrap switcher-->
+	<link href="~/dashboard/assets/bootstrap-switch/static/stylesheets/bootstrap-switch.css" rel="stylesheet">
+	<!-- switchery-->
+	<link href="~/dashboard/assets/switchery/switchery.css" rel="stylesheet">
+	<!--select 2-->
+	<link href="~/dashboard/assets/select2/css/select2.min.css" rel="stylesheet">
+
 	<!-- Custom styles for this template -->
 	<link href="~/dashboard/css/style.css" rel="stylesheet">
 	<link href="~/dashboard/css/style-responsive.css" rel="stylesheet" />
@@ -48,29 +55,96 @@
 </head>
 <body class="login-body">
 	<div class="container">
-		<form class="form-signin" action="index.html">
-			<h2 class="form-signin-heading">sign up</h2>
-			<div class="login-wrap">
-				<div>
-					<input type="text" class="form-control " placeholder="EMail" autofocus>
-					<span><i class="fa fa-check "></i></span>
-					
-				</div>
-				
-				<input type="password" class="form-control" placeholder="Password">
-				<button class="btn btn-lg btn-send btn-block" type="button">VERIFY E-MAIL</button>
+		<div class="" style="max-width: 330px;margin:100px auto 0 auto;">
+			<section class="panel">
+				<header class="panel-heading bg-primary text-center">
+					<h1 class="m-t-10 m-b-0">
+						SIGNUP
+					</h1>
+				</header>
+				<div class="panel-body">
+					<form role="form" class="signup-form">
+						<div class="form-group">
+							<label>E-Mail</label>
+							<div class="input-group group-email ">
+								<input name="email" type="text" class="form-control " placeholder="E-Mail" autofocus>
+								<span class="input-group-btn ">
+									<button class="btn" type="button" style="pointer-events: none;" disabled><i class="fa fa-check"></i></button>
+									<button id="btn_request_verify" class="btn btn-primary" type="button">VERIFY</button>
+								</span>
+							</div>
+						</div>
 
-				<section id="group-signup" class="p-t-15">
-					<input type="text" class="form-control" placeholder="VERIFY CODE">
-					<button class="btn btn-lg btn-login btn-block" type="button">SIGN UP</button>
-				</section>
-			</div>
-		</form>
+						<div class="form-group" id="group-verify-email" hidden>
+							<div class="description p-l-5 p-r-5 text-warning">
+								Please check your email and enter your verification code within 5 minutes.
+							</div>
+							<div class="input-group col-lg-10">
+								<input name="verify_code" type="text" class="form-control" placeholder="Verify code">
+								<span class="input-group-btn ">
+									<button id="btn_check_verify_code" class="btn btn-success" type="button">Check</button>
+								</span>
+							</div>
+							<div class="alert alert-danger" hidden>
+								Invalid code.
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label>Password</label>
+							<div class="input-group">
+								<input name="password" type="password" class="form-control" placeholder="Password" autofocus>
+								<span class="input-group-btn ">
+									<button class="btn" type="button" style="pointer-events: none;" disabled><i class="fa fa-check"></i></button>
+								</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label>Confirm Password</label>
+							<div class="input-group">
+								<input name="confirm_password" type="password" class="form-control" placeholder="Confirm Password" autofocus>
+								<span class="input-group-btn ">
+									<button class="btn" type="button" style="pointer-events: none;" disabled><i class="fa fa-check"></i></button>
+								</span>
+							</div>
+						</div>
+
+						<div class="form-group" id="alert_signup_failed_message" hidden>
+							<div class="alert alert-danger">
+								Signup failed.
+							</div>
+						</div>
+
+						<div class="form-group">
+							<button id="btn_signup" class="btn btn-primary w-full" disabled style="height:50px;">SIGN UP</button>
+						</div>
+
+					</form>
+				</div>
+			</section>
+		</div>
+
 	</div>
+
 
 	<!-- js placed at the end of the document so the pages load faster -->
 	<script src="~/dashboard/js/jquery.js"></script>
 	<script src="~/dashboard/js/bootstrap.min.js"></script>
+	<script src="~/dashboard/js/jquery.scrollTo.min.js"></script>
+	<script src="~/dashboard/js/jquery.nicescroll.js" type="text/javascript"></script>
+	<script src="~/dashboard/js/jquery-ui-1.9.2.custom.min.js"></script>
+	<script class="include" type="text/javascript" src="~/dashboard/js/jquery.dcjqaccordion.2.7.js"></script>
+
+	<!--custom switch-->
+	<script src="~/dashboard/js/bootstrap-switch.js"></script>
+	<!--custom tagsinput-->
+	<script src="~/dashboard/js/jquery.tagsinput.js"></script>
+	<!--custom checkbox & radio-->
+	<script type="text/javascript" src="~/dashboard/js/ga.js"></script>
+	<script type="text/javascript" src="~/dashboard/assets/bootstrap-inputmask/bootstrap-inputmask.min.js"></script>
+
+	<script src="~/hena/js/misc/utility.js"></script>
+	<script src="~/hena/js/pages/user/signup.js"></script>
 
 </body>
 </html>

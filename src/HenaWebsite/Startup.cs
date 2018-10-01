@@ -209,7 +209,7 @@ namespace HenaWebsite
 				bool result = await DBThread.Instance.ReqQueryAsync(query);
 				if (result)
 				{
-					IDGenerator.SetMachineId(query.OUT.MachineDBKey);
+					IDGenerator.SetMachineId(query.OUT.MachineId);
 				}
 			}));
 		}

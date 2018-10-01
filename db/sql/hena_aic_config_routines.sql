@@ -33,18 +33,18 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_machine`(IN in_MacAddress
 )
 BEGIN
 
-	IF (SELECT 1 = 1 FROM table_machine 
+	IF (SELECT 1 = 1 FROM tbl_machine 
 		WHERE `MacAddress` = in_MacAddress AND `Port` = in_Port) THEN
 	
-		SELECT * FROM table_machine 
+		SELECT * FROM tbl_machine 
         WHERE `MacAddress` = in_MacAddress AND `Port` = in_Port;
 	
 	ELSE
 	
-		INSERT INTO table_machine (`MacAddress`, `Port`) 
+		INSERT INTO tbl_machine (`MacAddress`, `Port`) 
         VALUES(in_MacAddress, in_Port);
 		
-        SELECT * FROM table_machine
+        SELECT * FROM tbl_machine
         WHERE `MachineId` = LAST_INSERT_ID();
 	
 	END IF;
@@ -65,4 +65,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-28 17:51:41
+-- Dump completed on 2018-10-01 18:39:55

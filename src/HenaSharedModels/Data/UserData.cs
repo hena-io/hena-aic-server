@@ -8,16 +8,16 @@ using Newtonsoft.Json.Linq;
 namespace Hena.Shared.Data
 {
 	// 계정 전체 데이터
-	public class AccountData : IJSONSerializable, ICloneable<AccountData>
+	public class UserData : IJSONSerializable, ICloneable<UserData>
 	{
 		// 기본값
-		private readonly static AccountData Default = new AccountData();
+		private readonly static UserData Default = new UserData();
 
 		// 계정 기본정보
-		public AccountBasicData BasicData = new AccountBasicData();
+		public UserBasicData BasicData = new UserBasicData();
 
 		// 계정 권한
-		public AccountPermissionDataContainer Permissions = new AccountPermissionDataContainer();
+		public UserPermissionDataContainer Permissions = new UserPermissionDataContainer();
 
         // 유저 타임존 Offset
         public TimeSpan TimeZoneOffset = TimeSpan.Zero;
@@ -25,12 +25,12 @@ namespace Hena.Shared.Data
         public object CustomData { get; set; }
 
 		#region ICloneable
-		public AccountData Clone()
+		public UserData Clone()
 		{
-			return this.Clone<AccountData>();
+			return this.Clone<UserData>();
 		}
 
-		public void CopyTo(ref AccountData target)
+		public void CopyTo(ref UserData target)
 		{
             BasicData.CopyTo(ref target.BasicData);
 			Permissions.CopyTo(ref target.Permissions);

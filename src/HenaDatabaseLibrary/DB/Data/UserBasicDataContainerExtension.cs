@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace Hena.Shared.Data
 {
-    public static class AccountBasicDataContainerExtension
+    public static class UserBasicDataContainerExtension
 	{
-        public static async Task<int> FromDBByEMailsAsync(this AccountBasicDataContainer item, string[] emails)
+        public static async Task<int> FromDBByEMailsAsync(this UserBasicDataContainer item, string[] emails)
         {
             item.Clear();
             if (emails.Length == 0)
                 return 0;
 
-            List<DBQuery_Account_Select_By_EMail> queries = new List<DBQuery_Account_Select_By_EMail>();
+            List<DBQuery_User_Select_By_EMail> queries = new List<DBQuery_User_Select_By_EMail>();
             foreach (var it_email in emails)
             {
-                var query = new DBQuery_Account_Select_By_EMail();
+                var query = new DBQuery_User_Select_By_EMail();
                 query.IN.EMail = it_email;
                 queries.Add(query);
             }
@@ -37,10 +37,10 @@ namespace Hena.Shared.Data
             return item.Count;
         }
 
-        public static async Task<int> FromDBByLikeEMailAsync(this AccountBasicDataContainer item, string email, int offset = 0, int limit = 10)
+        public static async Task<int> FromDBByLikeEMailAsync(this UserBasicDataContainer item, string email, int offset = 0, int limit = 10)
         {
             item.Clear();
-            var query = new DBQuery_Account_Select_By_LikeEMail();
+            var query = new DBQuery_User_Select_By_LikeEMail();
             query.IN.EMail = email;
             query.IN.Offset = offset;
             query.IN.Limit = limit;
@@ -49,26 +49,26 @@ namespace Hena.Shared.Data
             return item.Count;
         }
 
-        public static async Task<int> FromDBByLikeEMailCountAsync(this AccountBasicDataContainer item, string email)
+        public static async Task<int> FromDBByLikeEMailCountAsync(this UserBasicDataContainer item, string email)
         {
-            var query = new DBQuery_Account_Select_By_LikeEMail_Count();
+            var query = new DBQuery_User_Select_By_LikeEMail_Count();
             query.IN.EMail = email;
             await DBThread.Instance.ReqQueryAsync(query);
             return query.OUT.Count;
         }
 
-        public static async Task<int> FromDBCountAsync(this AccountBasicDataContainer item)
+        public static async Task<int> FromDBCountAsync(this UserBasicDataContainer item)
         {
-            var query = new DBQuery_Account_Select_Count();
+            var query = new DBQuery_User_Select_Count();
             await DBThread.Instance.ReqQueryAsync(query);
             return query.OUT.Count;
         }
 
-        public static async Task<int> FromDBByCreateTimeAsync(this AccountBasicDataContainer item
+        public static async Task<int> FromDBByCreateTimeAsync(this UserBasicDataContainer item
             , DateTime beginCreateTime, DateTime endCreateTime, bool sortByCreateTimeDesc, int offset = 0, int limit = 10)
         {
             item.Clear();
-            var query = new DBQuery_Account_Select_By_CreateTime();
+            var query = new DBQuery_User_Select_By_CreateTime();
             query.IN.BeginCreateTime = beginCreateTime;
             query.IN.EndCreateTime = endCreateTime;
             query.IN.SortByCreateTimeDesc = sortByCreateTimeDesc;

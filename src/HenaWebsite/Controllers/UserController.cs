@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
+using Hena.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Hena;
@@ -11,6 +11,7 @@ using HenaWebsite.Models;
 using HenaWebsite.Models.User;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace HenaWebsite.Controllers
 {
@@ -32,7 +33,7 @@ namespace HenaWebsite.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Login(LoginFormModel model)
 		{
-			ErrorCode errorCode = await ProcessLoginAsync(model.EmailOrUserName, model.Password, model.TimeZoneOffsetFromUTC);
+			ErrorCode errorCode = await ProcessLoginAsync(model.EMail, model.Password, model.TimeZoneOffsetFromUTC);
 
 			ViewData["ErrorCode"] = errorCode;
 
@@ -44,40 +45,31 @@ namespace HenaWebsite.Controllers
 		}
 
 		// 로그인 처리
-		private async Task<ErrorCode > ProcessLoginAsync(string emailOrUserName, string password, int timeZoneOffsetFromUTC)
+		private async Task<ErrorCode > ProcessLoginAsync(string email, string password, int timeZoneOffsetFromUTC = 0)
 		{
 			if (User.Identity.IsAuthenticated)
 			{
 				return ErrorCode.AlreadyLoggedin;
 			}
 
-			if (emailOrUserName.Length < 2)
-				return ErrorCode.InvalidUserName;
+			if (email.IsValidEmailAddress() == false)
+				return ErrorCode.InvalidEMail;
 
-			bool isEMail = emailOrUserName.Contains('@');
-
-			AccountBasicData basicData = new AccountBasicData();
-			if (isEMail)
-			{
-				if (await basicData.FromDBByEmailAsync(emailOrUserName) == false)
-					return ErrorCode.InvalidEMail;
-			}
-			else
-			{
-				if (await basicData.FromDBByUserNameAsync(emailOrUserName) == false)
-					return ErrorCode.InvalidUserName;
-			}
+			UserBasicData basicData = new UserBasicData();
+			if (await basicData.FromDBByEmailAsync(email) == false)
+				return ErrorCode.InvalidEMail;
 
 			if (PasswordUtility.VerifyPassword(password, basicData.Password) == false)
 				return ErrorCode.InvalidPassword;
 
 			var claims = new List<Claim>();
-			claims.Add(new Claim(ClaimTypes.SerialNumber, basicData.AccountDBKey.ToString()));
-			claims.Add(new Claim(ClaimTypes.GivenName, basicData.GivenName));
-			claims.Add(new Claim(ClaimTypes.Surname, basicData.SurName));
-			claims.Add(new Claim(ClaimTypes.Name, basicData.Username));
-			claims.Add(new Claim(ClaimTypes.Email, basicData.EMail));
-			claims.Add(new Claim("TimeZoneOffset", TimeSpan.FromMinutes(timeZoneOffsetFromUTC).ToString()));
+			claims.Add(new Claim(HenaClaimTypes.SerialNumber, basicData.UserDBKey.ToString()));
+			claims.Add(new Claim(HenaClaimTypes.GivenName, basicData.GivenName));
+			claims.Add(new Claim(HenaClaimTypes.Surname, basicData.SurName));
+			claims.Add(new Claim(HenaClaimTypes.Email, basicData.EMail));
+			claims.Add(new Claim(HenaClaimTypes.Language, basicData.Language));
+			claims.Add(new Claim(HenaClaimTypes.TimeZoneId, basicData.TimeZoneId));
+			claims.Add(new Claim(HenaClaimTypes.TimeZoneOffset, TimeSpan.FromMinutes(timeZoneOffsetFromUTC).ToString()));
 
 			var userIdentity = new ClaimsIdentity(claims, "login");
 

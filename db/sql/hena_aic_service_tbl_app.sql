@@ -24,16 +24,17 @@ DROP TABLE IF EXISTS `tbl_app`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_app` (
   `Idx` bigint(20) NOT NULL AUTO_INCREMENT,
-  `UserId` bigint(20) NOT NULL,
-  `AppId` bigint(20) NOT NULL,
+  `UserDBKey` bigint(20) NOT NULL,
+  `AppDBKey` bigint(20) NOT NULL,
   `AppName` varchar(80) NOT NULL,
   `MarketType` varchar(20) NOT NULL,
-  `CreateTime` datetime NOT NULL,
+  `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `LastUpdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`UserId`,`AppId`),
-  UNIQUE KEY `AppId_UNIQUE` (`AppId`),
-  UNIQUE KEY `Idx_UNIQUE` (`Idx`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`UserDBKey`,`AppDBKey`),
+  UNIQUE KEY `Idx_UNIQUE` (`Idx`),
+  UNIQUE KEY `AppDBKey_UNIQUE` (`AppDBKey`) /*!80000 INVISIBLE */,
+  KEY `Idx_AppName` (`AppName`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -45,4 +46,4 @@ CREATE TABLE `tbl_app` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-28 17:51:42
+-- Dump completed on 2018-10-01 18:39:55

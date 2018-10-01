@@ -10,6 +10,7 @@ using Hena.Shared.Data;
 using HenaWebsite.Models;
 using HenaWebsite.Models.User;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HenaWebsite.Controllers
@@ -28,7 +29,7 @@ namespace HenaWebsite.Controllers
 				return Responsed(ErrorCode.InvalidEMail);
 
 			// check account
-			AccountBasicData basicData = new AccountBasicData();
+			UserBasicData basicData = new UserBasicData();
 			if (await basicData.FromDBByEmailAsync(model.EMail))
 				return Responsed(ErrorCode.ExistEMail);
 
@@ -44,7 +45,7 @@ namespace HenaWebsite.Controllers
 				return Responsed(ErrorCode.InvalidUserName);
 
 			// check account
-			AccountBasicData basicData = new AccountBasicData();
+			UserBasicData basicData = new UserBasicData();
 			if (await basicData.FromDBByUserNameAsync(model.Username))
 				return Responsed(ErrorCode.ExistUserName);
 
@@ -56,17 +57,11 @@ namespace HenaWebsite.Controllers
 		public async Task<IActionResult> Join([FromBody] RequestUserJoinModel model)
 		{
 			// check format
-			if (model.Username.IsValidUsername() == false)
-				return Responsed(ErrorCode.InvalidUserName);
-
 			if (model.EMail.IsValidEmailAddress() == false)
 				return Responsed(ErrorCode.InvalidEMail);
 
 			// check account
-			AccountBasicData basicData = new AccountBasicData();
-			if (await basicData.FromDBByUserNameAsync(model.Username))
-				return Responsed(ErrorCode.ExistUserName);
-
+			UserBasicData basicData = new UserBasicData();
 			if (await basicData.FromDBByEmailAsync(model.EMail))
 				return Responsed(ErrorCode.ExistEMail);
 
@@ -78,12 +73,11 @@ namespace HenaWebsite.Controllers
 			}
 
 			// insert database
-			DBQuery_Account_Insert query = new DBQuery_Account_Insert();
+			DBQuery_User_Insert query = new DBQuery_User_Insert();
 			basicData = query.IN.BasicData;
-			basicData.AccountDBKey = IDGenerator.NewUserId;
+			basicData.UserDBKey = IDGenerator.NewUserId;
 			basicData.EMail = model.EMail;
 			basicData.CreateTime = DateTime.UtcNow;
-			basicData.Username = model.Username;
 			basicData.Password = PasswordUtility.HashPassword(model.Password);
 
 			if (await DBThread.Instance.ReqQueryAsync(query) == false)
@@ -93,7 +87,6 @@ namespace HenaWebsite.Controllers
 			ResponseUserJoinModel responseData = new ResponseUserJoinModel();
 			responseData.EMail = model.EMail;
 			responseData.CreateTime = basicData.CreateTime;
-			responseData.Username = model.Username;
 
 			return Success(responseData);
 		}
@@ -134,9 +127,9 @@ namespace HenaWebsite.Controllers
 		public async Task<IActionResult> SendVerifyEMail([FromBody] RequestUserSendVerifyEMailModel model)
 		{
 			// check account
-			AccountBasicData basicData = new AccountBasicData();
-			if (await basicData.FromDBByUserNameAsync(model.Username))
-				return Responsed(ErrorCode.ExistUserName);
+			UserBasicData basicData = new UserBasicData();
+			if( model.EMail.IsValidEmailAddress() == false)
+				return Responsed(ErrorCode.InvalidEMail);
 
 			if (await basicData.FromDBByEmailAsync(model.EMail))
 				return Responsed(ErrorCode.ExistEMail);
@@ -147,7 +140,7 @@ namespace HenaWebsite.Controllers
 
 			// 이메일 발송
 			StringBuilder msg = new StringBuilder(1024);
-			msg.AppendLine(string.Format($"Hello. {model.Username}"));
+			msg.AppendLine(string.Format($"Hello. "));
 			msg.AppendLine(string.Format($"Please enter your verification code below and complete verification."));
 			msg.AppendLine();
 			msg.AppendLine(string.Format($"CODE : {verifyData.VerifyCode}"));
@@ -157,7 +150,6 @@ namespace HenaWebsite.Controllers
 			// 메일 발송
 			ResponseUserSendVerifyEMailModel responseData = new ResponseUserSendVerifyEMailModel();
 			responseData.EMail = model.EMail;
-			responseData.Username = model.Username;
 
 			return Success(responseData);
 		}
@@ -167,15 +159,15 @@ namespace HenaWebsite.Controllers
 		public async Task<IActionResult> ResetPassword([FromBody] RequestUserResetPasswordModel model)
 		{
 			// check account
-			AccountBasicData basicData = new AccountBasicData();
+			UserBasicData basicData = new UserBasicData();
 			if (await basicData.FromDBByEmailAsync(model.EMail) == false)
 				return Responsed(ErrorCode.InvalidEMail);
 
 			string newPassword = IDGenerator.NewVerifyCode;
 			basicData.Password = PasswordUtility.HashPassword(newPassword);
 
-			var query = new DBQuery_Account_Update_Password();
-			query.IN.AccountDBKey = basicData.AccountDBKey;
+			var query = new DBQuery_User_Update_Password();
+			query.IN.UserDBKey = basicData.UserDBKey;
 			query.IN.Password = basicData.Password;
 
 			if (await DBThread.Instance.ReqQueryAsync(query) == false)
@@ -184,7 +176,7 @@ namespace HenaWebsite.Controllers
 
 			// 이메일 발송
 			StringBuilder msg = new StringBuilder(1024);
-			msg.AppendLine(string.Format($"Hello. {basicData.Username}"));
+			msg.AppendLine(string.Format($"Hello. {basicData.EMail.Split('@')[0]}"));
 			msg.AppendLine(string.Format($"Reseted your password."));
 			msg.AppendLine();
 			msg.AppendLine(string.Format($"Your temp password : {newPassword}"));

@@ -9,16 +9,25 @@ using Newtonsoft.Json.Linq;
 namespace Hena.Shared.Data
 {
 	// 계정 기본 정보
-	public class AccountBasicData : IJSONSerializable, ICloneable<AccountBasicData>
+	public class UserBasicData : IJSONSerializable, ICloneable<UserBasicData>
 	{
 		// 기본값
-		private readonly static AccountBasicData Default = new AccountBasicData();
+		public readonly static UserBasicData Default = new UserBasicData();
 
-		// 계정 DB키
-		public DBKey AccountDBKey = GlobalDefine.INVALID_DBKEY;
+		// 유저 DBKey
+		public DBKey UserDBKey = GlobalDefine.INVALID_DBKEY;
+		
+		// 이메일
+		public string EMail = string.Empty;
 
-		// 계정 생성 시간
-		public DateTime CreateTime = GlobalDefine.INVALID_DATETIME;
+		// 비밀번호
+		public string Password = string.Empty;
+
+		// 언어
+		public string Language = string.Empty;
+
+		// 타임존 ID
+		public string TimeZoneId = string.Empty;
 
 		// 이름
 		public string GivenName = string.Empty;
@@ -26,26 +35,30 @@ namespace Hena.Shared.Data
 		// 성
 		public string SurName = string.Empty;
 
-		// 유저명( ID )
-		public string Username = string.Empty;
-
-		// 이메일
-		public string EMail = string.Empty;
-
-		// 비밀번호
-		public string Password = string.Empty;
-
         // 지역코드
-        public string RegionCodeForNumber = "KR";
+        public string RegionCodeForNumber = "";
 
         // 국가번호
-        public int CountryCode = 82;
+        public int CountryCode = 00;
 
         // 전화번호
         public long NationalNumber = 0100000000;
 
-        // 전화번호
-        public string PhoneNumber
+		// 계정 삭제여부
+		public bool IsDeleted = false;
+
+		// 계정 삭제 시간
+		public DateTime DeletedTime = GlobalDefine.INVALID_DATETIME;
+
+		// 계정 생성 시간
+		public DateTime CreateTime = GlobalDefine.INVALID_DATETIME;
+
+		// DB 마지막 업데이트 시간
+		public DateTime LastUpdate = GlobalDefine.INVALID_DATETIME;
+
+
+		// 전화번호
+		public string PhoneNumber
         {
             get { return GeneratePhoneNumberString(CountryCode, NationalNumber); }
         }
@@ -92,55 +105,68 @@ namespace Hena.Shared.Data
         }
 
 		#region ICloneable
-		public AccountBasicData Clone()
+		public UserBasicData Clone()
 		{
-			return this.Clone<AccountBasicData>();
+			return this.Clone<UserBasicData>();
 		}
 
-		public void CopyTo(ref AccountBasicData target)
+		public void CopyTo(ref UserBasicData target)
 		{
-			target.AccountDBKey = AccountDBKey;
-			target.CreateTime = CreateTime;
-			target.GivenName = GivenName;
-			target.SurName = SurName;
-			target.Username = Username;
+			target.UserDBKey = UserDBKey;
 			target.EMail = EMail;
 			target.Password = Password;
-            target.RegionCodeForNumber = RegionCodeForNumber;
+			target.Language = Language;
+			target.TimeZoneId = TimeZoneId;
+			target.GivenName = GivenName;
+			target.SurName = SurName;
+			target.RegionCodeForNumber = RegionCodeForNumber;
 			target.CountryCode = CountryCode;
-            target.NationalNumber = NationalNumber;
+			target.NationalNumber = NationalNumber;
+			target.IsDeleted = IsDeleted;
+			target.DeletedTime = DeletedTime;
+			target.CreateTime = CreateTime;
+			target.LastUpdate = LastUpdate;
 		}
 		#endregion // ICloneable
 
 		#region IJSONSerializable
 		public bool FromJSON(JToken token)
 		{
-			AccountDBKey = JSONUtility.GetValue(token, "AccountDBKey", Default.AccountDBKey);
-			CreateTime = JSONUtility.GetValue(token, "CreateTime", Default.CreateTime);
-			GivenName = JSONUtility.GetValue(token, "GivenName", Default.GivenName);
-			SurName = JSONUtility.GetValue(token, "SurName", Default.SurName);
-			Username = JSONUtility.GetValue(token, "Username", Default.Username);
+			UserDBKey = JSONUtility.GetValue(token, "UserDBKey", Default.UserDBKey);
 			EMail = JSONUtility.GetValue(token, "EMail", Default.EMail);
 			Password = JSONUtility.GetValue(token, "Password", Default.Password);
+			Language = JSONUtility.GetValue(token, "Language", Default.Language);
+			TimeZoneId = JSONUtility.GetValue(token, "TimeZoneId", Default.TimeZoneId);
+			GivenName = JSONUtility.GetValue(token, "GivenName", Default.GivenName);
+			SurName = JSONUtility.GetValue(token, "SurName", Default.SurName);
 			RegionCodeForNumber = JSONUtility.GetValue(token, "RegionCodeForNumber", Default.RegionCodeForNumber);
 			CountryCode = JSONUtility.GetValue(token, "CountryCode", Default.CountryCode);
 			NationalNumber = JSONUtility.GetValue(token, "NationalNumber", Default.NationalNumber);
+			IsDeleted = JSONUtility.GetValue(token, "IsDeleted", Default.IsDeleted);
+			DeletedTime = JSONUtility.GetValue(token, "DeletedTime", Default.DeletedTime);
+			CreateTime = JSONUtility.GetValue(token, "CreateTime", Default.CreateTime);
+			LastUpdate = JSONUtility.GetValue(token, "LastUpdate", Default.LastUpdate);
+
 			return true;
 		}
 
 		public JToken ToJSON()
 		{
 			var jObject = new JObject();
-			jObject["AccountDBKey"] = AccountDBKey;
-			jObject["GivenName"] = GivenName;
-			jObject["SurName"] = SurName;
-			jObject["Username"] = Username;
+			jObject["UserDBKey"] = UserDBKey;
 			jObject["EMail"] = EMail;
 			jObject["Password"] = Password;
+			jObject["Language"] = Language;
+			jObject["TimeZoneId"] = TimeZoneId;
+			jObject["GivenName"] = GivenName;
+			jObject["SurName"] = SurName;
 			jObject["RegionCodeForNumber"] = RegionCodeForNumber;
 			jObject["CountryCode"] = CountryCode;
 			jObject["NationalNumber"] = NationalNumber;
+			jObject["IsDeleted"] = IsDeleted;
+			jObject["DeletedTime"] = DeletedTime;
 			jObject["CreateTime"] = CreateTime;
+			jObject["LastUpdate"] = LastUpdate;
 			return jObject;
 		}
 		#endregion // IJSONSerializable

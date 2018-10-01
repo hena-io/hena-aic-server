@@ -9,25 +9,21 @@ using System.Threading.Tasks;
 
 namespace Hena.DB
 {
-	#region table_account
-	// 계정 추가
-	public class DBQuery_Account_Insert : DBQuery<DBQuery_Account_Insert.IN_DATA>
+	#region tbl_user
+	// 유저 추가
+	public class DBQuery_User_Insert : DBQuery<DBQuery_User_Insert.IN_DATA>
 	{
 		public override DBType DBType => DBType.Hena_AIC_Service;
-		public override string ProcedureName => "sp_account_insert";
+		public override string ProcedureName => "sp_user_insert";
 
 		#region IN / OUT
 		public class IN_DATA : IN_BASE
 		{
-			public AccountBasicData BasicData = new AccountBasicData();
+			public UserBasicData BasicData = new UserBasicData();
 
 			public override void FillParameters(List<object> parameters)
 			{
-				parameters.Add(BasicData.AccountDBKey);
-				parameters.Add(BasicData.CreateTime);
-				parameters.Add(BasicData.GivenName);
-				parameters.Add(BasicData.SurName);
-				parameters.Add(BasicData.Username);
+				parameters.Add(BasicData.UserDBKey);
 				parameters.Add(BasicData.EMail);
 				parameters.Add(BasicData.Password);
 			}
@@ -35,33 +31,33 @@ namespace Hena.DB
 		#endregion // IN / OUT
 	}
 	
-    // 계정 비밀번호 변경
-    public class DBQuery_Account_Update_Password : DBQuery<DBQuery_Account_Update_Password.IN_DATA>
+    // 유저 비밀번호 변경
+    public class DBQuery_User_Update_Password : DBQuery<DBQuery_User_Update_Password.IN_DATA>
     {
         public override DBType DBType => DBType.Hena_AIC_Service;
-        public override string ProcedureName => "sp_account_update_password";
+        public override string ProcedureName => "sp_user_update_password";
 
         #region IN / OUT
         public class IN_DATA : IN_BASE
         {
-            // 계정 DB키
-            public DBKey AccountDBKey = GlobalDefine.INVALID_DBKEY;
+            // 유저 DB키
+            public DBKey UserDBKey = GlobalDefine.INVALID_DBKEY;
 
             // 이메일 알림 서비스 이용여부
             public string Password = string.Empty;
 
             public override void FillParameters(List<object> parameters)
             {
-                parameters.Add(AccountDBKey);
+                parameters.Add(UserDBKey);
                 parameters.Add(Password);
             }
         }
         #endregion // IN / OUT
     }
 
-    // 계정 정보 조회( OUT 선 정의 )
-    public abstract class DBQuery_Account_Select_Base<T_IN> 
-		: DBQuery<T_IN, DBQuery_Account_Select_Base<T_IN>.OUT_DATA>
+    // 유저 정보 조회( OUT 선 정의 )
+    public abstract class DBQuery_User_Select_Base<T_IN> 
+		: DBQuery<T_IN, DBQuery_User_Select_Base<T_IN>.OUT_DATA>
 		where T_IN : DBQueryBase.IIN, new()
 	{
 		public override DBType DBType => DBType.Hena_AIC_Service;
@@ -69,9 +65,9 @@ namespace Hena.DB
 		#region IN / OUT
 		public class OUT_DATA : IOUT
 		{
-			public AccountBasicDataContainer Items { get; private set; } = new AccountBasicDataContainer();
+			public UserBasicDataContainer Items { get; private set; } = new UserBasicDataContainer();
 
-            public AccountBasicData FirstItem => Items.FirstItem;
+            public UserBasicData FirstItem => Items.FirstItem;
 
 			public bool FromDataTable(DataTable table)
 			{
@@ -79,7 +75,7 @@ namespace Hena.DB
 				{
 					foreach (DataRow row in table.Rows)
 					{
-						var item = new AccountBasicData();
+						var item = new UserBasicData();
 						item.FromDBTable(row);
 						Items.Add(item);
 					}
@@ -94,29 +90,29 @@ namespace Hena.DB
 		#endregion // IN / OUT
 	}
 
-	// 계정정보 조회( AccountDBKey )
-	public class DBQuery_Account_Select_By_AccountDBKey : DBQuery_Account_Select_Base<COMMON_IN_DATA_DBKeyOnly>
+	// 유저정보 조회( UserDBKey )
+	public class DBQuery_User_Select_By_UserDBKey : DBQuery_User_Select_Base<COMMON_IN_DATA_DBKeyOnly>
 	{
-		public override string ProcedureName => "sp_account_select_by_account_dbkey";
+		public override string ProcedureName => "sp_user_select_by_user_dbkey";
 	}
 
-	// 계정정보 조회( EMail )
-	public class DBQuery_Account_Select_By_EMail : DBQuery_Account_Select_Base<COMMON_IN_DATA_EMailOnly>
+	// 유저정보 조회( EMail )
+	public class DBQuery_User_Select_By_EMail : DBQuery_User_Select_Base<COMMON_IN_DATA_EMailOnly>
 	{
-		public override string ProcedureName => "sp_account_select_by_email";
+		public override string ProcedureName => "sp_user_select_by_email";
 	}
 
-	// 계정정보 조회( Username )
-	public class DBQuery_Account_Select_By_UserName : DBQuery_Account_Select_Base<COMMON_IN_DATA_UserNameOnly>
+	// 유저정보 조회( Username )
+	public class DBQuery_User_Select_By_UserName : DBQuery_User_Select_Base<COMMON_IN_DATA_UserNameOnly>
 	{
-		public override string ProcedureName => "sp_account_select_by_username";
+		public override string ProcedureName => "sp_user_select_by_username";
 	}
 
-	// 계정정보 조회( Like EMail )
-	public class DBQuery_Account_Select_By_LikeEMail 
-        : DBQuery_Account_Select_Base<DBQuery_Account_Select_By_LikeEMail.IN_DATA>
+	// 유저정보 조회( Like EMail )
+	public class DBQuery_User_Select_By_LikeEMail 
+        : DBQuery_User_Select_Base<DBQuery_User_Select_By_LikeEMail.IN_DATA>
     {
-        public override string ProcedureName => "sp_account_select_by_like_email";
+        public override string ProcedureName => "sp_user_select_by_like_email";
 
         #region IN / OUT
         public class IN_DATA : IN_BASE
@@ -135,12 +131,12 @@ namespace Hena.DB
         #endregion // IN / OUT
     }
 
-    // 계정정보 갯수 조회( Like EMail )
-    public class DBQuery_Account_Select_By_LikeEMail_Count
-        : DBQuery<DBQuery_Account_Select_By_LikeEMail_Count.IN_DATA, COMMON_OUT_DATA_CountOnly>
+    // 유저정보 갯수 조회( Like EMail )
+    public class DBQuery_User_Select_By_LikeEMail_Count
+        : DBQuery<DBQuery_User_Select_By_LikeEMail_Count.IN_DATA, COMMON_OUT_DATA_CountOnly>
     {
 		public override DBType DBType => DBType.Hena_AIC_Service;
-        public override string ProcedureName => "sp_account_select_by_like_email_count";
+        public override string ProcedureName => "sp_user_select_by_like_email_count";
 
         #region IN / OUT
         public class IN_DATA : IN_BASE
@@ -155,11 +151,11 @@ namespace Hena.DB
         #endregion // IN / OUT
     }
 
-    // 계정정보 조회( 생성일 기준 정렬 )
-    public class DBQuery_Account_Select_By_CreateTime
-        : DBQuery_Account_Select_Base<DBQuery_Account_Select_By_CreateTime.IN_DATA>
+    // 유저정보 조회( 생성일 기준 정렬 )
+    public class DBQuery_User_Select_By_CreateTime
+        : DBQuery_User_Select_Base<DBQuery_User_Select_By_CreateTime.IN_DATA>
     {
-        public override string ProcedureName => "sp_account_select_by_createtime";
+        public override string ProcedureName => "sp_user_select_by_createtime";
 
         #region IN / OUT
         public class IN_DATA : IN_BASE
@@ -182,12 +178,12 @@ namespace Hena.DB
         #endregion // IN / OUT
     }
 
-    // 계정갯수 조회
-    public class DBQuery_Account_Select_Count
-        : DBQuery<DBQuery_Account_Select_Count.IN_DATA, COMMON_OUT_DATA_CountOnly>
+    // 유저갯수 조회
+    public class DBQuery_User_Select_Count
+        : DBQuery<DBQuery_User_Select_Count.IN_DATA, COMMON_OUT_DATA_CountOnly>
     {
         public override DBType DBType => DBType.Hena_AIC_Service;
-        public override string ProcedureName => "sp_account_select_count";
+        public override string ProcedureName => "sp_user_select_count";
 
         #region IN / OUT
         public class IN_DATA : IN_BASE
@@ -200,75 +196,28 @@ namespace Hena.DB
 
         public static async Task<int> GetAccountCountFromDBAsync()
         {
-            DBQuery_Account_Select_Count query = new DBQuery_Account_Select_Count();
+            DBQuery_User_Select_Count query = new DBQuery_User_Select_Count();
             await DBThread.Instance.ReqQueryAsync(query);
             return query.OUT.Count;
         }
     }
-	#endregion // table_account
+	#endregion // tbl_user
 
-	#region table_login_history
-	// 계정 기록 추가
-	public class DBQuery_Account_History_Insert : DBQuery<DBQuery_Account_History_Insert.IN_DATA>
+	#region tbl_user_permission
+	// 유저 권한 추가
+	public class DBQuery_User_Permission_Insert : DBQuery<DBQuery_User_Permission_Insert.IN_DATA>
 	{
 		public override DBType DBType => DBType.Hena_AIC_Service;
-		public override string ProcedureName => "sp_account_history_insert";
+		public override string ProcedureName => "sp_user_permission_insert";
 
 		#region IN / OUT
 		public class IN_DATA : IN_BASE
 		{
-			public DBKey AccountDBKey = GlobalDefine.INVALID_DBKEY;
-			public string UserAgent = string.Empty;
-			public string Comment = string.Empty;
-			public string IPAddress = string.Empty;
-			public DateTime HistoryTime = DateTime.UtcNow;
+			public UserPermissionData PermissionData = new UserPermissionData();
 
 			public override void FillParameters(List<object> parameters)
 			{
-				parameters.Add(AccountDBKey);
-				parameters.Add(UserAgent);
-				parameters.Add(Comment);
-				parameters.Add(IPAddress);
-				parameters.Add(HistoryTime);
-			}
-		}
-		#endregion // IN / OUT
-
-		public static void LogHistory(DBKey accountDBKey, string userAgent, string comment, string ipAddress, DateTime historyTime)
-		{
-			Task.Run(async () =>
-			{
-				await LogHistoryAsync(accountDBKey, userAgent, comment, ipAddress, historyTime);
-			});
-		}
-		public static async Task LogHistoryAsync(DBKey accountDBKey, string userAgent, string comment, string ipAddress, DateTime historyTime)
-		{
-			DBQuery_Account_History_Insert query = new DBQuery_Account_History_Insert();
-			query.IN.AccountDBKey = accountDBKey;
-			query.IN.UserAgent = userAgent;
-			query.IN.Comment = comment;
-			query.IN.IPAddress = ipAddress;
-			query.IN.HistoryTime = historyTime;
-			await DBThread.Instance.ReqQueryAsync(query);
-		}
-	}
-	#endregion // table_login_history
-
-	#region table_account_permission
-	// 계정 권한 추가
-	public class DBQuery_Account_Permission_Insert : DBQuery<DBQuery_Account_Permission_Insert.IN_DATA>
-	{
-		public override DBType DBType => DBType.Hena_AIC_Service;
-		public override string ProcedureName => "sp_account_permission_insert";
-
-		#region IN / OUT
-		public class IN_DATA : IN_BASE
-		{
-			public AccountPermissionData PermissionData = new AccountPermissionData();
-
-			public override void FillParameters(List<object> parameters)
-			{
-				parameters.Add(PermissionData.AccountDBKey);
+				parameters.Add(PermissionData.UserDBKey);
 				parameters.Add(PermissionData.PermissionType.ToString());
 				parameters.Add(PermissionData.Level);
 				parameters.Add(PermissionData.RegisterTime);
@@ -277,9 +226,9 @@ namespace Hena.DB
 		#endregion // IN / OUT
 	}
 
-	// 계정 권한 조회( OUT 선 정의 )
-	public abstract class DBQuery_Account_Permission_Select_Base<T_IN>
-		: DBQuery<T_IN, DBQuery_Account_Permission_Select_Base<T_IN>.OUT_DATA>
+	// 유저 권한 조회( OUT 선 정의 )
+	public abstract class DBQuery_User_Permission_Select_Base<T_IN>
+		: DBQuery<T_IN, DBQuery_User_Permission_Select_Base<T_IN>.OUT_DATA>
 		where T_IN : DBQueryBase.IIN, new()
 	{
 		public override DBType DBType => DBType.Hena_AIC_Service;
@@ -287,7 +236,7 @@ namespace Hena.DB
 		#region IN / OUT
 		public class OUT_DATA : IOUT
 		{
-			public AccountPermissionDataContainer Items { get; private set; } = new AccountPermissionDataContainer();
+			public UserPermissionDataContainer Items { get; private set; } = new UserPermissionDataContainer();
 
 			public bool FromDataTable(DataTable table)
 			{
@@ -296,7 +245,7 @@ namespace Hena.DB
 					Items.Clear();
 					foreach (DataRow row in table.Rows)
 					{
-						var item = new AccountPermissionData();
+						var item = new UserPermissionData();
 						item.FromDBTable(row);
 						if (item.PermissionType == AccountPermissionType.None)
 							continue;
@@ -315,39 +264,39 @@ namespace Hena.DB
 		#endregion // IN / OUT
 	}
 
-    // 계정권한 조회
-    public class DBQuery_Account_Permission_Select
-        : DBQuery_Account_Permission_Select_Base<DBQuery_Account_Permission_Select.IN_DATA>
+    // 유저권한 조회
+    public class DBQuery_User_Permission_Select
+        : DBQuery_User_Permission_Select_Base<DBQuery_User_Permission_Select.IN_DATA>
     {
-        public override string ProcedureName => "sp_account_permission_select";
+        public override string ProcedureName => "sp_user_permission_select";
 
         #region IN / OUT
         public class IN_DATA : IN_BASE
         {
-            public DBKey AccountDBKey = GlobalDefine.INVALID_DBKEY;
+            public DBKey UserDBKey = GlobalDefine.INVALID_DBKEY;
             public AccountPermissionType PermissionType = AccountPermissionType.None;
 
             public override void FillParameters(List<object> parameters)
             {
-                parameters.Add(AccountDBKey);
+                parameters.Add(UserDBKey);
                 parameters.Add(PermissionType.ToString());
             }
         }
         #endregion // IN / OUT
     }
 
-    // 계정권한 조회( AccountDBKey )
-    public class DBQuery_Account_Permission_Select_By_AccountDBKey : DBQuery_Account_Permission_Select_Base<COMMON_IN_DATA_DBKeyOnly>
+    // 유저권한 조회( UserDBKey )
+    public class DBQuery_User_Permission_Select_By_UserDBKey : DBQuery_User_Permission_Select_Base<COMMON_IN_DATA_DBKeyOnly>
 	{
-		public override string ProcedureName => "sp_account_permission_select_by_accountdbkey";
+		public override string ProcedureName => "sp_user_permission_select_by_userdbkey";
 	}
 
-	// 계정권한 조회( PermissionType )
-	public class DBQuery_Account_Permission_Select_By_PermissionType 
-		: DBQuery<DBQuery_Account_Permission_Select_By_PermissionType.IN_DATA, DBQuery_Account_Permission_Select_By_PermissionType.OUT_DATA>
+	// 유저권한 조회( PermissionType )
+	public class DBQuery_User_Permission_Select_By_PermissionType 
+		: DBQuery<DBQuery_User_Permission_Select_By_PermissionType.IN_DATA, DBQuery_User_Permission_Select_By_PermissionType.OUT_DATA>
 	{
 		public override DBType DBType => DBType.Hena_AIC_Service;
-		public override string ProcedureName => "sp_account_permission_select_by_permissiontype";
+		public override string ProcedureName => "sp_user_permission_select_by_permissiontype";
 		#region IN / OUT
 		public class IN_DATA : IN_BASE
 		{
@@ -361,7 +310,7 @@ namespace Hena.DB
 
 		public class OUT_DATA : IOUT
 		{
-			public List<AccountPermissionData> Items { get; private set; } = new List<AccountPermissionData>();
+			public List<UserPermissionData> Items { get; private set; } = new List<UserPermissionData>();
 
 			public bool FromDataTable(DataTable table)
 			{
@@ -370,7 +319,7 @@ namespace Hena.DB
 					Items.Clear();
 					foreach (DataRow row in table.Rows)
 					{
-						var item = new AccountPermissionData();
+						var item = new UserPermissionData();
 						item.FromDBTable(row);
 						if (item.PermissionType == AccountPermissionType.None)
 							continue;
@@ -388,29 +337,29 @@ namespace Hena.DB
 		}
 		#endregion // IN / OUT
 
-		public static async Task<AccountPermissionData[]> FromDBByPermissionTypeAsync(AccountPermissionType permissionType)
+		public static async Task<UserPermissionData[]> FromDBByPermissionTypeAsync(AccountPermissionType permissionType)
 		{
-			var query = new DBQuery_Account_Permission_Select_By_PermissionType();
+			var query = new DBQuery_User_Permission_Select_By_PermissionType();
 			query.IN.PermissionType = permissionType;
 			var result = await DBThread.Instance.ReqQueryAsync(query);
 			return query.OUT.Items.ToArray();
 		}
 	}
 
-	// 계정 권한 갱신 - 레벨
-	public class DBQuery_Account_Permission_Level_Update : DBQuery<DBQuery_Account_Permission_Level_Update.IN_DATA>
+	// 유저 권한 갱신 - 레벨
+	public class DBQuery_User_Permission_Level_Update : DBQuery<DBQuery_User_Permission_Level_Update.IN_DATA>
 	{
 		public override DBType DBType => DBType.Hena_AIC_Service;
-		public override string ProcedureName => "sp_account_permission_level_update";
+		public override string ProcedureName => "sp_user_permission_level_update";
 
 		#region IN / OUT
 		public class IN_DATA : IN_BASE
 		{
-			public AccountPermissionData PermissionData = new AccountPermissionData();
+			public UserPermissionData PermissionData = new UserPermissionData();
 
 			public override void FillParameters(List<object> parameters)
 			{
-				parameters.Add(PermissionData.AccountDBKey);
+				parameters.Add(PermissionData.UserDBKey);
 				parameters.Add(PermissionData.PermissionType.ToString());
 				parameters.Add(PermissionData.Level);
 			}
@@ -418,28 +367,28 @@ namespace Hena.DB
 		#endregion // IN / OUT
 	}
 
-	// 계정 권한 삭제
-	public class DBQuery_Account_Permission_Delete : DBQuery<DBQuery_Account_Permission_Delete.IN_DATA>
+	// 유저 권한 삭제
+	public class DBQuery_User_Permission_Delete : DBQuery<DBQuery_User_Permission_Delete.IN_DATA>
 	{
 		public override DBType DBType => DBType.Hena_AIC_Service;
-		public override string ProcedureName => "sp_account_permission_delete";
+		public override string ProcedureName => "sp_user_permission_delete";
 
 		#region IN / OUT
 		public class IN_DATA : IN_BASE
 		{
-			// 계정 DB키
-			public DBKey AccountDBKey = GlobalDefine.INVALID_DBKEY;
+			// 유저 DB키
+			public DBKey UserDBKey = GlobalDefine.INVALID_DBKEY;
 
 			// 권한 타입
 			public AccountPermissionType PermissionType = AccountPermissionType.None;
 
 			public override void FillParameters(List<object> parameters)
 			{
-				parameters.Add(AccountDBKey);
+				parameters.Add(UserDBKey);
 				parameters.Add(PermissionType.ToString());
 			}
 		}
 		#endregion // IN / OUT
 	}
-	#endregion // table_account_permission
+	#endregion // tbl_user_permission
 }

@@ -7,13 +7,13 @@ using Newtonsoft.Json.Linq;
 
 namespace Hena.Shared.Data
 {
-	public class AccountPermissionDataContainer
-		: DictionaryDataContainer<AccountPermissionDataContainer, AccountPermissionType, AccountPermissionData>
+	public class UserPermissionDataContainer
+		: DictionaryDataContainer<UserPermissionDataContainer, AccountPermissionType, UserPermissionData>
 	{
 
-		protected override AccountPermissionData NewValue(AccountPermissionType key)
+		protected override UserPermissionData NewValue(AccountPermissionType key)
 		{
-			return new AccountPermissionData() { PermissionType = key };
+			return new UserPermissionData() { PermissionType = key };
 		}
 		public bool CheckPermission(AccountPermissionType permissionType, short level = 0)
 		{

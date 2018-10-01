@@ -7,8 +7,8 @@ using Newtonsoft.Json.Linq;
 
 namespace Hena.Shared.Data
 {
-	public class AccountDataContainer
-        : ListDataContainer<AccountDataContainer, AccountData>
+	public class UserDataContainer
+        : ListDataContainer<UserDataContainer, UserData>
 	{
         
 	}

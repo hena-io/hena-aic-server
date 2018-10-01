@@ -30,7 +30,7 @@ namespace Hena.DB
 
 		public class OUT_DATA : IOUT
 		{
-			public short MachineDBKey = GlobalDefine.INVALID_MACHINEDBKEY;
+			public short MachineId = GlobalDefine.INVALID_MACHINE_ID;
 			public string MacAddress = string.Empty;
 			public int Port = 0;
 
@@ -43,7 +43,7 @@ namespace Hena.DB
 
 					var row = table.Rows[0];
 
-					DBUtility.AsValue(row, "MachineDBKey", out MachineDBKey);
+					DBUtility.AsValue(row, "MachineId", out MachineId);
 					DBUtility.AsValue(row, "MacAddress", out MacAddress);
 					DBUtility.AsValue(row, "Port", out Port);
 					return true;

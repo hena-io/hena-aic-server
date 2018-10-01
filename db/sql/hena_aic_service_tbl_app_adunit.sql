@@ -24,16 +24,16 @@ DROP TABLE IF EXISTS `tbl_app_adunit`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_app_adunit` (
   `Idx` bigint(20) NOT NULL AUTO_INCREMENT,
-  `UserId` bigint(20) NOT NULL,
-  `AppId` bigint(20) NOT NULL,
-  `AppUnitId` bigint(20) NOT NULL,
+  `UserDBKey` bigint(20) NOT NULL,
+  `AppDBKey` bigint(20) NOT NULL,
+  `AppUnitDBKey` bigint(20) NOT NULL,
   `UnitName` varchar(80) NOT NULL COMMENT 'Display ',
   `UnitType` varchar(20) NOT NULL COMMENT 'Banner, Interstitial, Reward',
-  `CreateTime` datetime NOT NULL,
+  `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `LastUpdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`AppUnitId`,`UserId`,`AppId`),
+  PRIMARY KEY (`AppUnitDBKey`,`UserDBKey`,`AppDBKey`),
   UNIQUE KEY `Idx_UNIQUE` (`Idx`),
-  UNIQUE KEY `UnitId_UNIQUE` (`AppUnitId`)
+  UNIQUE KEY `UnitDBKey_UNIQUE` (`AppUnitDBKey`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -46,4 +46,4 @@ CREATE TABLE `tbl_app_adunit` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-28 17:51:42
+-- Dump completed on 2018-10-01 18:39:55

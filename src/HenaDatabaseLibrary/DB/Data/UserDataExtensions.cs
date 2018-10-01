@@ -9,26 +9,26 @@ using System.Threading.Tasks;
 
 namespace Hena.Shared.Data
 {
-    public static class AccountDataExtension
+    public static class UserDataExtension
 	{
         #region AccountPermissionData
-        public static bool FromDBTable(this AccountPermissionData item, DataRow row)
+        public static bool FromDBTable(this UserPermissionData item, DataRow row)
 		{
 			if (row == null)
 				return false;
 
-			DBUtility.AsValue(row, "AccountDBKey", out item.AccountDBKey);
+			DBUtility.AsValue(row, "UserDBKey", out item.UserDBKey);
 			DBUtility.AsValueEnum(row, "PermissionType", out item.PermissionType);
 			DBUtility.AsValue(row, "Level", out item.Level);
 			DBUtility.AsValue(row, "RegisterTime", out item.RegisterTime);
 			return true;
 		}
 
-        public static async Task<bool> FromDBAsync(this AccountPermissionData item
-            , DBKey accountDBKey, AccountPermissionType permissionType)
+        public static async Task<bool> FromDBAsync(this UserPermissionData item
+            , DBKey userDBKey, AccountPermissionType permissionType)
         {
-            var query = new DBQuery_Account_Permission_Select();
-            query.IN.AccountDBKey = accountDBKey;
+            var query = new DBQuery_User_Permission_Select();
+            query.IN.UserDBKey = userDBKey;
             query.IN.PermissionType = permissionType;
             var result = await DBThread.Instance.ReqQueryAsync(query);
             var permissionData = query.OUT.Items.Find(permissionType);
@@ -42,10 +42,10 @@ namespace Hena.Shared.Data
         #endregion // AccountPermissionData
 
         #region AccountPermissionDataContainer
-        public static async Task<int> FromDBByAccountDBKeyAsync(this AccountPermissionDataContainer item, DBKey accountDBKey)
+        public static async Task<int> FromDBByUserDBKeyAsync(this UserPermissionDataContainer item, DBKey userDBKey)
 		{
-			var query = new DBQuery_Account_Permission_Select_By_AccountDBKey();
-			query.IN.DBKey = accountDBKey;
+			var query = new DBQuery_User_Permission_Select_By_UserDBKey();
+			query.IN.DBKey = userDBKey;
 			var result = await DBThread.Instance.ReqQueryAsync(query);
 			query.OUT.Items.CopyTo(ref item);
 			return item.Count;
@@ -53,7 +53,7 @@ namespace Hena.Shared.Data
 		#endregion // AccountPermissionDataContainer
 
 		#region AccountData
-		public static async Task<bool> FromDBByAccountDBKeyAsync(this AccountData item, DBKey accountDBKey, bool takeBasicData, TimeSpan timeZoneOffset)
+		public static async Task<bool> FromDBByUserDBKeyAsync(this UserData item, DBKey userDBKey, bool takeBasicData, TimeSpan timeZoneOffset)
 		{
             item.TimeZoneOffset = timeZoneOffset;
             DateTime utcNow = DateTime.UtcNow;
@@ -63,39 +63,39 @@ namespace Hena.Shared.Data
 			List<Task> tasks = new List<Task>();
             if(takeBasicData)
             {
-                tasks.Add(item.BasicData.FromDBByEmailAsync(accountDBKey));
+                tasks.Add(item.BasicData.FromDBByEmailAsync(userDBKey));
             }
-			tasks.Add(item.Permissions.FromDBByAccountDBKeyAsync(accountDBKey));
+			tasks.Add(item.Permissions.FromDBByUserDBKeyAsync(userDBKey));
 
 			await Task.WhenAll(tasks.ToArray());
 			return Array.TrueForAll(tasks.ToArray(), (Task t) => { return t is Task<bool> ? ((Task<bool>)t).Result : true; });
 		}
 
-		public static async Task<bool> FromDBByEmailAsync(this AccountData item, string email, TimeSpan timeZoneOffset)
+		public static async Task<bool> FromDBByEmailAsync(this UserData item, string email, TimeSpan timeZoneOffset)
 		{
 			if (await item.BasicData.FromDBByEmailAsync(email) == false)
 				return false;
 
-			return await item.FromDBByAccountDBKeyAsync(item.BasicData.AccountDBKey, false, timeZoneOffset);
+			return await item.FromDBByUserDBKeyAsync(item.BasicData.UserDBKey, false, timeZoneOffset);
 		}
         #endregion // AccountData
 
         #region AccountDataContainer
-        public static async Task<int> FromDBByLikeEMailAsync(this AccountDataContainer item, string email, TimeSpan timeZoneOffset, int offset, int limit = 10)
+        public static async Task<int> FromDBByLikeEMailAsync(this UserDataContainer item, string email, TimeSpan timeZoneOffset, int offset, int limit = 10)
         {
             item.Clear();
 
-            AccountBasicDataContainer basicDataContainer = new AccountBasicDataContainer();
+            UserBasicDataContainer basicDataContainer = new UserBasicDataContainer();
             if( await basicDataContainer.FromDBByLikeEMailAsync(email, offset, limit) == 0)
                 return 0;
 
             List<Task<bool>> tasks = new List<Task<bool>>();
             foreach( var it in basicDataContainer.Items)
             {
-                var accountData = new AccountData();
+                var accountData = new UserData();
                 accountData.BasicData = it;
                 item.Add(accountData);
-                tasks.Add(accountData.FromDBByAccountDBKeyAsync(it.AccountDBKey, false, timeZoneOffset));
+                tasks.Add(accountData.FromDBByUserDBKeyAsync(it.UserDBKey, false, timeZoneOffset));
             }
 
             await Task.WhenAll(tasks.ToArray());
@@ -103,22 +103,22 @@ namespace Hena.Shared.Data
             return item.Count;
         }
 
-        public static async Task<int> FromDBByCreateTimeAsync(this AccountDataContainer item
+        public static async Task<int> FromDBByCreateTimeAsync(this UserDataContainer item
             , DateTime beginCreateTime, DateTime endCreateTime, bool sortByCreateTimeDesc, TimeSpan timeZoneOffset, int offset = 0, int limit = 10)
         {
             item.Clear();
 
-            AccountBasicDataContainer basicDataContainer = new AccountBasicDataContainer();
+            UserBasicDataContainer basicDataContainer = new UserBasicDataContainer();
             if (await basicDataContainer.FromDBByCreateTimeAsync(beginCreateTime, endCreateTime, sortByCreateTimeDesc, offset, limit) == 0)
                 return 0;
 
             List<Task<bool>> tasks = new List<Task<bool>>();
             foreach (var it in basicDataContainer.Items)
             {
-                var accountData = new AccountData();
+                var accountData = new UserData();
                 accountData.BasicData = it;
                 item.Add(accountData);
-                tasks.Add(accountData.FromDBByAccountDBKeyAsync(it.AccountDBKey, false, timeZoneOffset));
+                tasks.Add(accountData.FromDBByUserDBKeyAsync(it.UserDBKey, false, timeZoneOffset));
             }
 
             await Task.WhenAll(tasks.ToArray());

@@ -24,29 +24,26 @@ DROP TABLE IF EXISTS `tbl_user`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_user` (
   `Idx` bigint(20) NOT NULL AUTO_INCREMENT,
-  `UserId` bigint(20) NOT NULL,
-  `UserName` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'id, use to login',
+  `UserDBKey` bigint(20) NOT NULL,
   `EMail` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'email, use to login',
   `Password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'password, use to login',
-  `Language` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'ex) en-US, ko-KR, ja-JP',
-  `TimeZoneId` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'ex) UTC, Korea Standard Time, Central Standard Time',
-  `GivenName` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '이름',
-  `SurName` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '성',
+  `Language` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'ex) en-US, ko-KR, ja-JP',
+  `TimeZoneId` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'ex) UTC, Korea Standard Time, Central Standard Time',
+  `GivenName` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '이름',
+  `SurName` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '성',
   `RegionCodeForNumber` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'for phone number',
   `CountryCode` int(11) DEFAULT NULL COMMENT 'for phone number',
   `NationalNumber` bigint(20) DEFAULT NULL COMMENT 'for phone number',
-  `IsDeleted` tinyint(4) DEFAULT NULL,
-  `DeletedTime` datetime NOT NULL COMMENT 'account deleted time',
-  `CreateTime` datetime NOT NULL COMMENT 'account create time',
+  `IsDeleted` tinyint(4) NOT NULL DEFAULT '0',
+  `DeletedTime` datetime DEFAULT NULL COMMENT 'account deleted time',
+  `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'account create time',
   `LastUpdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`UserId`),
+  PRIMARY KEY (`UserDBKey`),
   UNIQUE KEY `Idx_UNIQUE` (`Idx`),
-  UNIQUE KEY `UserId_UNIQUE` (`UserId`),
-  UNIQUE KEY `UserName_UNIQUE` (`UserName`),
+  UNIQUE KEY `UserDBKey_UNIQUE` (`UserDBKey`),
   UNIQUE KEY `EMail_UNIQUE` (`EMail`),
-  KEY `Idx_EMail` (`EMail`),
-  KEY `Idx_UserName` (`UserName`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `Idx_EMail` (`EMail`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -58,4 +55,4 @@ CREATE TABLE `tbl_user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-28 17:51:42
+-- Dump completed on 2018-10-01 18:39:56

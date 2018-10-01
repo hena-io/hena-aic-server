@@ -8,13 +8,13 @@ using Newtonsoft.Json.Linq;
 namespace Hena.Shared.Data
 {
 	// 계정 권한
-	public class AccountPermissionData : IJSONSerializable, ICloneable<AccountPermissionData>
+	public class UserPermissionData : IJSONSerializable, ICloneable<UserPermissionData>
 	{
 		// 기본값
-		private readonly static AccountPermissionData Default = new AccountPermissionData();
+		private readonly static UserPermissionData Default = new UserPermissionData();
 
 		// 계정 DB키
-		public DBKey AccountDBKey = GlobalDefine.INVALID_DBKEY;
+		public DBKey UserDBKey = GlobalDefine.INVALID_DBKEY;
 
 		// 권한 타입
 		public AccountPermissionType PermissionType = AccountPermissionType.None;
@@ -32,14 +32,14 @@ namespace Hena.Shared.Data
 
 	
 		#region ICloneable
-		public AccountPermissionData Clone()
+		public UserPermissionData Clone()
 		{
-			return this.Clone<AccountPermissionData>();
+			return this.Clone<UserPermissionData>();
 		}
 
-		public void CopyTo(ref AccountPermissionData target)
+		public void CopyTo(ref UserPermissionData target)
 		{
-			target.AccountDBKey = AccountDBKey;
+			target.UserDBKey = UserDBKey;
 			target.PermissionType = PermissionType;
 			target.Level = Level;
 			target.RegisterTime = RegisterTime;
@@ -49,7 +49,7 @@ namespace Hena.Shared.Data
 		#region IJSONSerializable
 		public bool FromJSON(JToken token)
 		{
-			AccountDBKey = JSONUtility.GetValue(token, "AccountDBKey", Default.AccountDBKey);
+			UserDBKey = JSONUtility.GetValue(token, "UserDBKey", Default.UserDBKey);
 			PermissionType = JSONUtility.GetValueEnum(token, "PermissionType", Default.PermissionType);
 			Level = JSONUtility.GetValue(token, "Level", Default.Level);
 			RegisterTime = JSONUtility.GetValue(token, "RegisterTime", Default.RegisterTime);
@@ -59,7 +59,7 @@ namespace Hena.Shared.Data
 		public JToken ToJSON()
 		{
 			var jObject = new JObject();
-			jObject["AccountDBKey"] = AccountDBKey;
+			jObject["UserDBKey"] = UserDBKey;
 			jObject["PermissionType"] = PermissionType.ToString();
 			jObject["Level"] = Level;
 			jObject["RegisterTime"] = RegisterTime;

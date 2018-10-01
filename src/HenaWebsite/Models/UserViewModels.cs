@@ -8,7 +8,7 @@ namespace HenaWebsite.Models.User
 	// Login
 	public class LoginFormModel
 	{
-		public string EmailOrUserName { get; set; }
+		public string EMail { get; set; }
 		public string Password { get; set; }
 
 		public int TimeZoneOffsetFromUTC { get; set; } = 0;
@@ -46,7 +46,6 @@ namespace HenaWebsite.Models.User
 	#region User Join
 	public class RequestUserJoinModel
 	{
-		public string Username { get; set; }
 		public string EMail { get; set; }
 		public string Password { get; set; }
 		public string VerifyCode { get; set; }
@@ -54,7 +53,6 @@ namespace HenaWebsite.Models.User
 
 	public class ResponseUserJoinModel : IResponseData
 	{
-		public string Username { get; set; }
 		public string EMail { get; set; }
 		public DateTime CreateTime { get; set; }
 	}
@@ -71,13 +69,11 @@ namespace HenaWebsite.Models.User
 	#region Verify EMail
 	public class RequestUserSendVerifyEMailModel
 	{
-		public string Username { get; set; }
 		public string EMail { get; set; }
 	}
 
 	public class ResponseUserSendVerifyEMailModel : IResponseData
 	{
-		public string Username { get; set; }
 		public string EMail { get; set; }
 		public DateTime SendTime { get; set; }
 	}

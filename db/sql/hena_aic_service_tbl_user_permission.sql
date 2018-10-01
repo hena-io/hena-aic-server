@@ -24,12 +24,12 @@ DROP TABLE IF EXISTS `tbl_user_permission`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_user_permission` (
   `Idx` bigint(20) NOT NULL AUTO_INCREMENT,
-  `UserId` bigint(20) NOT NULL,
+  `UserDBKey` bigint(20) NOT NULL,
   `PermissionType` varchar(20) NOT NULL,
   `Level` tinyint(4) NOT NULL DEFAULT '0',
-  `CreateTime` datetime DEFAULT NULL,
-  `LastUpdate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`UserId`,`PermissionType`),
+  `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `LastUpdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`UserDBKey`,`PermissionType`),
   UNIQUE KEY `Idx_UNIQUE` (`Idx`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -43,4 +43,4 @@ CREATE TABLE `tbl_user_permission` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-28 17:51:42
+-- Dump completed on 2018-10-01 18:39:56
