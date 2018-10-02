@@ -25,6 +25,18 @@
     <Content Update="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="Views\Apps\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Campaigns\Create.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Campaigns\Reports.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Dashboard\Index_backup.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Shared\_LayoutDashboard.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
@@ -35,7 +47,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\hena\js\pages\landing\" />
-    <Folder Include="wwwroot\hena\js\pages\dashboard\" />
   </ItemGroup>
 
 </Project>

@@ -8,14 +8,14 @@ using Newtonsoft.Json.Linq;
 namespace Hena.Shared.Data
 {
 	public class UserPermissionDataContainer
-		: DictionaryDataContainer<UserPermissionDataContainer, AccountPermissionType, UserPermissionData>
+		: DictionaryDataContainer<UserPermissionDataContainer, UserPermissionTypes, UserPermissionData>
 	{
 
-		protected override UserPermissionData NewValue(AccountPermissionType key)
+		protected override UserPermissionData NewValue(UserPermissionTypes key)
 		{
 			return new UserPermissionData() { PermissionType = key };
 		}
-		public bool CheckPermission(AccountPermissionType permissionType, short level = 0)
+		public bool CheckPermission(UserPermissionTypes permissionType, short level = 0)
 		{
 			var permission = Find(permissionType);
 			if (permission == null)
@@ -24,7 +24,7 @@ namespace Hena.Shared.Data
 			return permission.CheckLevel(level);
 		}
 
-		public bool HasPermissions(params AccountPermissionType[] permissionTypes)
+		public bool HasPermissions(params UserPermissionTypes[] permissionTypes)
 		{
 			if (permissionTypes.Length == 0)
 				return false;
@@ -37,12 +37,12 @@ namespace Hena.Shared.Data
 			return true;
 
 		}
-		protected override bool FromJSON_Key(JToken token, out AccountPermissionType outKey)
+		protected override bool FromJSON_Key(JToken token, out UserPermissionTypes outKey)
 		{
 			return token.AsEnum(out outKey, true);
 		}
 
-		protected override JToken ToJSON_Key(AccountPermissionType key)
+		protected override JToken ToJSON_Key(UserPermissionTypes key)
 		{
 			return new JValue(key.ToString());
 		}

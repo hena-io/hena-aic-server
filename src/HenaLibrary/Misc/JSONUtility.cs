@@ -50,18 +50,29 @@ namespace Hena
             if (token == null)
                 return defaultValue;
 
-            try
-            {
+			try
+			{
                 JToken value = token[propertyName];
                 if (value != null)
                 {
-                    if (typeof(TValue) == typeof(DBKey))
-                        return (TValue)(object)(value.AsDBKey());
+					if (typeof(TValue).IsEnum)
+					{
+						object outValue;
+						if (Enum.TryParse(typeof(TValue), value.Value<string>(), true, out outValue))
+						{
+							return (TValue)outValue;
+						}
+					}
+					else
+					{
+						if (typeof(TValue) == typeof(DBKey))
+							return (TValue)(object)(value.AsDBKey());
 
-                    else if (typeof(TValue) == typeof(TimeSpan))
-                        return (TValue)(object)(value.AsTimeSpan());
+						else if (typeof(TValue) == typeof(TimeSpan))
+							return (TValue)(object)(value.AsTimeSpan());
 
-                    return value.Value<TValue>();
+						return value.Value<TValue>();
+					}
                 }
             }
             catch (Exception ex)

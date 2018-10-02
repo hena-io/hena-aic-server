@@ -16,30 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `tbl_campaign`
+-- Table structure for table `tbl_campaign_design`
 --
 
-DROP TABLE IF EXISTS `tbl_campaign`;
+DROP TABLE IF EXISTS `tbl_campaign_design`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `tbl_campaign` (
+CREATE TABLE `tbl_campaign_design` (
   `Idx` bigint(20) NOT NULL AUTO_INCREMENT,
   `UserDBKey` bigint(20) NOT NULL,
   `CampaignDBKey` bigint(20) NOT NULL,
-  `CampaignName` varchar(80) NOT NULL COMMENT 'display campaign name',
-  `CampaignType` varchar(10) NOT NULL COMMENT 'ex) CPM, CPC',
-  `Cost` decimal(20,10) NOT NULL DEFAULT '0.0000000000',
-  `TargetValue` bigint(20) NOT NULL DEFAULT '0' COMMENT '목표치',
-  `BeginTime` datetime NOT NULL,
-  `EndTime` datetime NOT NULL,
+  `DesignDBKey` bigint(20) NOT NULL,
+  `DesignName` varchar(25) NOT NULL,
+  `DesignType` varchar(15) NOT NULL DEFAULT 'None',
+  `ResourceName` varchar(64) NOT NULL,
+  `DestinationUrl` text NOT NULL,
   `IsPause` tinyint(4) NOT NULL DEFAULT '0',
   `IsDeleted` tinyint(4) NOT NULL DEFAULT '0',
   `DeletedTime` datetime DEFAULT NULL,
   `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `LastUpdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`UserDBKey`,`CampaignDBKey`),
-  UNIQUE KEY `CampaignDBKey_UNIQUE` (`CampaignDBKey`),
-  UNIQUE KEY `Idx_UNIQUE` (`Idx`)
+  PRIMARY KEY (`UserDBKey`,`CampaignDBKey`,`DesignDBKey`),
+  UNIQUE KEY `Idx_UNIQUE` (`Idx`),
+  UNIQUE KEY `CampaignDesignDBKey_UNIQUE` (`DesignDBKey`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

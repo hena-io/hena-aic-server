@@ -11,7 +11,7 @@ namespace Hena.Shared.Data
 {
     public static class UserDataExtension
 	{
-        #region AccountPermissionData
+        #region UserPermissionData
         public static bool FromDBTable(this UserPermissionData item, DataRow row)
 		{
 			if (row == null)
@@ -25,7 +25,7 @@ namespace Hena.Shared.Data
 		}
 
         public static async Task<bool> FromDBAsync(this UserPermissionData item
-            , DBKey userDBKey, AccountPermissionType permissionType)
+            , DBKey userDBKey, UserPermissionTypes permissionType)
         {
             var query = new DBQuery_User_Permission_Select();
             query.IN.UserDBKey = userDBKey;
@@ -39,9 +39,9 @@ namespace Hena.Shared.Data
             }
             return false;
         }
-        #endregion // AccountPermissionData
+        #endregion // UserPermissionData
 
-        #region AccountPermissionDataContainer
+        #region UserPermissionDataContainer
         public static async Task<int> FromDBByUserDBKeyAsync(this UserPermissionDataContainer item, DBKey userDBKey)
 		{
 			var query = new DBQuery_User_Permission_Select_By_UserDBKey();
@@ -50,9 +50,9 @@ namespace Hena.Shared.Data
 			query.OUT.Items.CopyTo(ref item);
 			return item.Count;
 		}
-		#endregion // AccountPermissionDataContainer
+		#endregion // UserPermissionDataContainer
 
-		#region AccountData
+		#region UserData
 		public static async Task<bool> FromDBByUserDBKeyAsync(this UserData item, DBKey userDBKey, bool takeBasicData, TimeSpan timeZoneOffset)
 		{
             item.TimeZoneOffset = timeZoneOffset;
@@ -78,9 +78,9 @@ namespace Hena.Shared.Data
 
 			return await item.FromDBByUserDBKeyAsync(item.BasicData.UserDBKey, false, timeZoneOffset);
 		}
-        #endregion // AccountData
+        #endregion // UserData
 
-        #region AccountDataContainer
+        #region UserDataContainer
         public static async Task<int> FromDBByLikeEMailAsync(this UserDataContainer item, string email, TimeSpan timeZoneOffset, int offset, int limit = 10)
         {
             item.Clear();
@@ -92,10 +92,10 @@ namespace Hena.Shared.Data
             List<Task<bool>> tasks = new List<Task<bool>>();
             foreach( var it in basicDataContainer.Items)
             {
-                var accountData = new UserData();
-                accountData.BasicData = it;
-                item.Add(accountData);
-                tasks.Add(accountData.FromDBByUserDBKeyAsync(it.UserDBKey, false, timeZoneOffset));
+                var UserData = new UserData();
+                UserData.BasicData = it;
+                item.Add(UserData);
+                tasks.Add(UserData.FromDBByUserDBKeyAsync(it.UserDBKey, false, timeZoneOffset));
             }
 
             await Task.WhenAll(tasks.ToArray());
@@ -115,15 +115,15 @@ namespace Hena.Shared.Data
             List<Task<bool>> tasks = new List<Task<bool>>();
             foreach (var it in basicDataContainer.Items)
             {
-                var accountData = new UserData();
-                accountData.BasicData = it;
-                item.Add(accountData);
-                tasks.Add(accountData.FromDBByUserDBKeyAsync(it.UserDBKey, false, timeZoneOffset));
+                var UserData = new UserData();
+                UserData.BasicData = it;
+                item.Add(UserData);
+                tasks.Add(UserData.FromDBByUserDBKeyAsync(it.UserDBKey, false, timeZoneOffset));
             }
 
             await Task.WhenAll(tasks.ToArray());
             return item.Count;
         }
-        #endregion  // AccountDataContainer
+        #endregion  // UserDataContainer
     }
 }

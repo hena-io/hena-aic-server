@@ -8,21 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace HenaWebsite.Controllers
 {
 	[Authorize]
-    public class DashboardController : BaseController
+    public class AppsController : BaseController
 	{
         public IActionResult Index()
         {
             return View();
         }
 
-		public IActionResult Campaigns()
-		{
-			return View();
-		}
-
-		public IActionResult Apps()
-		{
-			return View();
-		}
     }
 }

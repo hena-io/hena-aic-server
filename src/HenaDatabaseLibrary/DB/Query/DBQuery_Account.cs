@@ -247,7 +247,7 @@ namespace Hena.DB
 					{
 						var item = new UserPermissionData();
 						item.FromDBTable(row);
-						if (item.PermissionType == AccountPermissionType.None)
+						if (item.PermissionType == UserPermissionTypes.None)
 							continue;
 
 						Items.Add(item.PermissionType, item);
@@ -274,7 +274,7 @@ namespace Hena.DB
         public class IN_DATA : IN_BASE
         {
             public DBKey UserDBKey = GlobalDefine.INVALID_DBKEY;
-            public AccountPermissionType PermissionType = AccountPermissionType.None;
+            public UserPermissionTypes PermissionType = UserPermissionTypes.None;
 
             public override void FillParameters(List<object> parameters)
             {
@@ -300,7 +300,7 @@ namespace Hena.DB
 		#region IN / OUT
 		public class IN_DATA : IN_BASE
 		{
-			public AccountPermissionType PermissionType = AccountPermissionType.None;
+			public UserPermissionTypes PermissionType = UserPermissionTypes.None;
 
 			public override void FillParameters(List<object> parameters)
 			{
@@ -321,7 +321,7 @@ namespace Hena.DB
 					{
 						var item = new UserPermissionData();
 						item.FromDBTable(row);
-						if (item.PermissionType == AccountPermissionType.None)
+						if (item.PermissionType == UserPermissionTypes.None)
 							continue;
 
 						Items.Add(item);
@@ -337,7 +337,7 @@ namespace Hena.DB
 		}
 		#endregion // IN / OUT
 
-		public static async Task<UserPermissionData[]> FromDBByPermissionTypeAsync(AccountPermissionType permissionType)
+		public static async Task<UserPermissionData[]> FromDBByPermissionTypeAsync(UserPermissionTypes permissionType)
 		{
 			var query = new DBQuery_User_Permission_Select_By_PermissionType();
 			query.IN.PermissionType = permissionType;
@@ -380,7 +380,7 @@ namespace Hena.DB
 			public DBKey UserDBKey = GlobalDefine.INVALID_DBKEY;
 
 			// 권한 타입
-			public AccountPermissionType PermissionType = AccountPermissionType.None;
+			public UserPermissionTypes PermissionType = UserPermissionTypes.None;
 
 			public override void FillParameters(List<object> parameters)
 			{

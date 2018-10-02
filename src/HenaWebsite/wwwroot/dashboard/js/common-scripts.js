@@ -5,7 +5,7 @@ $(function() {
         autoClose: true,
         saveState: true,
         disableLink: true,
-        speed: 'slow',
+        speed: 'fast',
         showCount: false,
         autoExpand: true,
 //        cookie: 'dcjq-accordion-1',

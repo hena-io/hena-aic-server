@@ -6,44 +6,27 @@ using System.Threading.Tasks;
 
 namespace Hena.Shared.Data
 {
-	
-	public enum AccountStatusType
+	// 캠페인 타입
+	public enum CampaignTypes
 	{
 		None,
-		Pending,
-		Active,
-		Block,
+		CPC,	// Click Per Click( 클릭 1회당 과금 )
+		CPM,    // Click Per Mille( 노출 1000회당 과금 )
 	}
 
-	public enum AccountPermissionType
+	// 광고 디자인 타입
+	public enum CampaignDesignTypes
+	{
+		None,
+		Banner,			// 배너 광고
+		Interstitial,	// 전면 광고
+		Video,			// 비디오 광고
+	}
+
+	// 유저 권한
+	public enum UserPermissionTypes
 	{
 		None,
 		Administrator,  // 관리자 권한
-		EZBot,          // EZBot 사용 권한
-        Korbit,         // 코빗 권한
-	}
-
-	// 상품 타입
-	public enum ProductTypes
-	{
-		None,
-		Normal,
-		Event,
-		Special,
-	}
-
-    // 입금 상태
-    public enum DepositState
-    {
-        None,
-        NotFoundAccount,    // 입금 대상 계정을 찾을 수 없음
-        Pending,            // 입금 대기
-        Complete,           // 완료
-    }
-
-	public enum TimeEventType
-	{
-		None,
-		DepositBonusPoint,	// 입금 보너스 포인트 이벤트
 	}
 }

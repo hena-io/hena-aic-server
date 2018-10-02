@@ -17,7 +17,7 @@ namespace Hena.Shared.Data
 		public DBKey UserDBKey = GlobalDefine.INVALID_DBKEY;
 
 		// 권한 타입
-		public AccountPermissionType PermissionType = AccountPermissionType.None;
+		public UserPermissionTypes PermissionType = UserPermissionTypes.None;
 
 		// 권한 레벨
 		public short Level = 0;

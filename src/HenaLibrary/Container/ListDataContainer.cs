@@ -133,7 +133,16 @@ namespace Hena
 			Items.Clear_LockThis();
 		}
 
-        public bool Swap(ref TContainer target)
+		public virtual TData Find(Predicate<TData> match)
+		{
+			lock (Items)
+			{
+				return Items.Find(match);
+			}
+		}
+
+
+		public bool Swap(ref TContainer target)
         {
             var p = target as ListDataContainer<TContainer, TData>;
             if (p == null)

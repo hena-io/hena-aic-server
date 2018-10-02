@@ -53,6 +53,210 @@ SET character_set_client = @saved_cs_client;
 --
 -- Dumping routines for database 'hena_aic_service'
 --
+/*!50003 DROP PROCEDURE IF EXISTS `sp_campaign_design_insert` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_campaign_design_insert`(IN in_UserDBKey BIGINT
+, IN in_CampaignDBKey BIGINT
+, IN in_DesignDBKey BIGINT
+
+, IN in_DesignName VARCHAR(80)
+, IN in_DesignType VARCHAR(10)
+, IN in_ResourceName VARCHAR(10)
+, IN in_DestinationUrl TEXT
+)
+BEGIN
+
+	INSERT INTO `tbl_campaign`(`UserDBKey`
+		, `in_CampaignDBKey`
+		, `in_DesignDBKey`
+		
+		, `DesignName`
+		, `DesignType`
+		, `ResourceName`
+		, `DestinationUrl`
+	) VALUES (UserDBKey
+		, in_CampaignDBKey
+		, in_DesignDBKey
+		
+		, in_DesignName
+		, in_DesignType
+		, in_ResourceName
+		, in_DestinationUrl
+	);
+	
+    
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_campaign_design_select_by_userdbkey` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_campaign_design_select_by_userdbkey`(IN in_UserDBKey BIGINT
+)
+BEGIN
+
+	SELECT * FROM `tbl_campaign_design`
+    WHERE `UserDBKey` = in_UserDBKey;
+        
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_campaign_design_update` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_campaign_design_update`(IN in_DesignDBKey BIGINT
+, IN in_DesignName VARCHAR(80)
+, IN in_DesignType VARCHAR(10)
+, IN in_ResourceName VARCHAR(10)
+, IN in_DestinationUrl TEXT
+)
+BEGIN
+
+	UPDATE `tbl_campaign`
+    SET `DesignName` = in_DesignName
+    , `DesignType` = in_DesignType
+    , `ResourceName` = in_ResourceName
+    , `DestinationUrl` = in_DestinationUrl
+    WHERE `DesignDBKey` = in_DesignDBKey;
+        
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_campaign_insert` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_campaign_insert`(IN in_UserDBKey BIGINT
+, IN in_CampaignDBKey BIGINT
+, IN in_CampaignName VARCHAR(80)
+, IN in_CampaignType VARCHAR(10)
+, IN in_TargetValue BIGINT
+, IN in_Cost DECIMAL(20,10)
+, IN in_BeginTime DATETIME
+, IN in_EndTime DATETIME
+)
+BEGIN
+
+	INSERT INTO `tbl_campaign`(`UserDBKey`
+		, `CampaignDBKey`
+		, `CampaignName`
+		, `CampaignType`
+        , `TargetValue`
+		, `Cost`
+		, `BeginTime`
+		, `EndTime`
+	) VALUES (in_UserDBKey
+		, in_CampaignDBKey
+		, in_CampaignName
+		, in_CampaignType
+        , in_TargetValue
+		, in_Cost
+		, in_BeginTime
+		, in_EndTime
+	);
+	
+    
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_campaign_select_by_userdbkey` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_campaign_select_by_userdbkey`(IN in_UserDBKey BIGINT
+)
+BEGIN
+
+	SELECT * FROM `tbl_campaign`
+    WHERE `UserDBKey` = in_UserDBKey;
+        
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_campaign_update` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_campaign_update`(IN in_CampaignDBKey BIGINT
+, IN in_CampaignName VARCHAR(80)
+, IN in_CampaignType VARCHAR(10)
+, IN in_TargetValue BIGINT
+, IN in_Cost DECIMAL(20,10)
+, IN in_BeginTime DATETIME
+, IN in_EndTime DATETIME
+)
+BEGIN
+
+	UPDATE `tbl_campaign`
+    SET `CampaignName` = in_CampaignName
+    , `CampaignType` = in_CampaignType
+    , `TargetValue` = in_TargetValue
+    , `Cost` = in_Cost
+    , `BeginTime` = in_BeginTime
+    , `EndTime` = in_EndTime
+    WHERE `CampaignDBKey` = in_CampaignDBKey;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `sp_user_change_password_by_email` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -514,4 +718,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-01 18:39:57
+-- Dump completed on 2018-10-02 18:32:21
