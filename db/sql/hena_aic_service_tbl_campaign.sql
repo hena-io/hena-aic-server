@@ -26,7 +26,7 @@ CREATE TABLE `tbl_campaign` (
   `Idx` bigint(20) NOT NULL AUTO_INCREMENT,
   `UserDBKey` bigint(20) NOT NULL,
   `CampaignDBKey` bigint(20) NOT NULL,
-  `CampaignName` varchar(80) NOT NULL COMMENT 'display campaign name',
+  `Name` varchar(80) NOT NULL COMMENT 'display campaign name',
   `CampaignType` varchar(10) NOT NULL COMMENT 'ex) CPM, CPC',
   `Cost` decimal(20,10) NOT NULL DEFAULT '0.0000000000',
   `TargetValue` bigint(20) NOT NULL DEFAULT '0' COMMENT '목표치',
@@ -40,7 +40,7 @@ CREATE TABLE `tbl_campaign` (
   PRIMARY KEY (`UserDBKey`,`CampaignDBKey`),
   UNIQUE KEY `CampaignDBKey_UNIQUE` (`CampaignDBKey`),
   UNIQUE KEY `Idx_UNIQUE` (`Idx`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +52,4 @@ CREATE TABLE `tbl_campaign` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-02 18:32:21
+-- Dump completed on 2018-10-05 18:15:34

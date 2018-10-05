@@ -16,24 +16,24 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `tbl_app_adunit`
+-- Table structure for table `tbl_ad_unit`
 --
 
-DROP TABLE IF EXISTS `tbl_app_adunit`;
+DROP TABLE IF EXISTS `tbl_ad_unit`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `tbl_app_adunit` (
+CREATE TABLE `tbl_ad_unit` (
   `Idx` bigint(20) NOT NULL AUTO_INCREMENT,
   `UserDBKey` bigint(20) NOT NULL,
   `AppDBKey` bigint(20) NOT NULL,
-  `AppUnitDBKey` bigint(20) NOT NULL,
-  `UnitName` varchar(80) NOT NULL COMMENT 'Display ',
-  `UnitType` varchar(20) NOT NULL COMMENT 'Banner, Interstitial, Reward',
+  `AdUnitDBKey` bigint(20) NOT NULL,
+  `Name` varchar(80) NOT NULL COMMENT 'Display ',
+  `AdDesignType` varchar(15) NOT NULL DEFAULT 'None' COMMENT 'None, Banner, Interstitial, Video',
   `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `LastUpdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`AppUnitDBKey`,`UserDBKey`,`AppDBKey`),
+  PRIMARY KEY (`AdUnitDBKey`,`UserDBKey`,`AppDBKey`),
   UNIQUE KEY `Idx_UNIQUE` (`Idx`),
-  UNIQUE KEY `UnitDBKey_UNIQUE` (`AppUnitDBKey`)
+  UNIQUE KEY `AdUnitDBKey_UNIQUE` (`AdUnitDBKey`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -46,4 +46,4 @@ CREATE TABLE `tbl_app_adunit` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-02 18:32:20
+-- Dump completed on 2018-10-05 18:15:34

@@ -20,11 +20,11 @@ namespace Hena.Shared.Data
 		// 캠페인 DBKey
 		public DBKey CampaignDBKey = GlobalDefine.INVALID_DBKEY;
 
-		// 캠페인 이름
-		public string CampaignName = string.Empty;
+		// 캠페인 이름( Max 80 )
+		public string Name = string.Empty;
 
 		// 캠페인 타입
-		public CampaignTypes CampaignType = CampaignTypes.CPC;
+		public CampaignTypes CampaignType = CampaignTypes.None;
 
 		// 캠표인 목표( CPC -> 목표 클릭 수, CPM -> 노출 목표 수 )
 		public long TargetValue = 0;
@@ -63,7 +63,7 @@ namespace Hena.Shared.Data
 		{
 			target.UserDBKey = UserDBKey;
 			target.CampaignDBKey = CampaignDBKey;
-			target.CampaignName = CampaignName;
+			target.Name = Name;
 			target.CampaignType = CampaignType;
 			target.TargetValue = TargetValue;
 			target.Cost = Cost;
@@ -82,7 +82,7 @@ namespace Hena.Shared.Data
 		{
 			UserDBKey = JSONUtility.GetValue(token, "UserDBKey", Default.UserDBKey);
 			CampaignDBKey = JSONUtility.GetValue(token, "CampaignDBKey", Default.CampaignDBKey);
-			CampaignName = JSONUtility.GetValue(token, "CampaignName", Default.CampaignName);
+			Name = JSONUtility.GetValue(token, "Name", Default.Name);
 			CampaignType = JSONUtility.GetValue(token, "CampaignType", Default.CampaignType);
 			TargetValue = JSONUtility.GetValue(token, "TargetValue", Default.TargetValue);
 			Cost = JSONUtility.GetValue(token, "Cost", Default.Cost);
@@ -95,13 +95,17 @@ namespace Hena.Shared.Data
 			LastUpdate = JSONUtility.GetValue(token, "LastUpdate", Default.LastUpdate);
 			return true;
 		}
-
 		public JToken ToJSON()
+		{
+			return ToJSON(SerializationMode.Normal);
+		}
+
+		public JToken ToJSON(SerializationMode serializationMode)
 		{
 			var jObject = new JObject();
 			jObject["UserDBKey"] = UserDBKey;
 			jObject["CampaignDBKey"] = CampaignDBKey;
-			jObject["CampaignName"] = CampaignName;
+			jObject["Name"] = Name;
 			jObject["CampaignType"] = CampaignType.ToString();
 			jObject["TargetValue"] = TargetValue;
 			jObject["Cost"] = Cost;
@@ -112,6 +116,7 @@ namespace Hena.Shared.Data
 			jObject["DeletedTime"] = DeletedTime;
 			jObject["CreateTime"] = CreateTime;
 			jObject["LastUpdate"] = LastUpdate;
+
 			return jObject;
 		}
 		#endregion // IJSONSerializable

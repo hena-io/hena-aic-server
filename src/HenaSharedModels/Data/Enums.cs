@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 
 namespace Hena.Shared.Data
 {
+	public enum SerializationMode
+	{
+		Normal,
+		Simple,
+		Full,
+		API,
+	}
+
 	// 캠페인 타입
 	public enum CampaignTypes
 	{
@@ -15,7 +23,7 @@ namespace Hena.Shared.Data
 	}
 
 	// 광고 디자인 타입
-	public enum CampaignDesignTypes
+	public enum AdDesignTypes
 	{
 		None,
 		Banner,			// 배너 광고
@@ -28,5 +36,14 @@ namespace Hena.Shared.Data
 	{
 		None,
 		Administrator,  // 관리자 권한
+	}
+
+	// 앱 마켓타입
+	public enum AppMarketTypes
+	{
+		None,
+		GooglePlay,
+		AppleAppStore,
+		WebSite,
 	}
 }

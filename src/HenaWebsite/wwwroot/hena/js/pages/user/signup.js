@@ -65,7 +65,7 @@
 			var target = inputEMail.parent().find("i");
 
 			$.ajax({
-				url: "/api/user/JoinVerifyEMail",
+				url: "/api/users/JoinVerifyEMail",
 				type: "POST",
 				contentType: "application/json; charset=utf-8",
 				dataType: "json",
@@ -101,7 +101,7 @@
 		inputEMail.prop('readonly', true);
 
 		$.ajax({
-			url: "/api/user/SendVerifyEMail",
+			url: "/api/users/SendVerifyEMail",
 			type: "POST",
 			contentType: "application/json; charset=utf-8",
 			dataType: "json",
@@ -133,7 +133,7 @@
 		isValidVerifyCode = false;
 
 		$.ajax({
-			url: "/api/user/SendVerifyEMail",
+			url: "/api/users/SendVerifyEMail",
 			type: "POST",
 			contentType: "application/json; charset=utf-8",
 			dataType: "json",
@@ -162,7 +162,7 @@
 		var verifyCode = inputVerifyCode.val();
 		isValidVerifyCode = false;
 		$.ajax({
-			url: "/api/user/IsValidEMailVerifyCode",
+			url: "/api/users/IsValidEMailVerifyCode",
 			type: "POST",
 			contentType: "application/json; charset=utf-8",
 			dataType: "json",
@@ -250,7 +250,7 @@
 		btnSignup.addClass('disabled');
 
 		$.ajax({
-			url: "/api/user/Join",
+			url: "/api/users/Join",
 			type: "POST",
 			contentType: "application/json; charset=utf-8",
 			dataType: "json",

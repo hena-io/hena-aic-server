@@ -12,10 +12,7 @@ namespace Hena.Shared.Data
 	{
         public UserBasicData FindByUserDBKey(DBKey userDBKey)
 		{
-			lock(Items)
-			{
-				return Items.Find(item => item.UserDBKey == userDBKey);
-			}
+			return Find(item => item.UserDBKey == userDBKey);
 		}
 	}
 }

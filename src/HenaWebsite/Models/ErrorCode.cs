@@ -9,6 +9,8 @@ namespace HenaWebsite.Models
 	{
 		Success,				// 성공
 		Failed,					// 실패
+		BadRequest,				// 잘못된 요청
+		InvalidParameters,		// 잘못된 파라미터
 		InvalidSession,			// 잘못된 세션
 		InvalidVerifyCode,		// 잘못된 인증 코드
 		InvalidUserName,		// 잘못된 유저명

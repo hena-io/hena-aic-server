@@ -16,25 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `tbl_campaign_ad`
+-- Table structure for table `tbl_ad_design`
 --
 
-DROP TABLE IF EXISTS `tbl_campaign_ad`;
+DROP TABLE IF EXISTS `tbl_ad_design`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `tbl_campaign_ad` (
+CREATE TABLE `tbl_ad_design` (
   `Idx` bigint(20) NOT NULL AUTO_INCREMENT,
   `UserDBKey` bigint(20) NOT NULL,
   `CampaignDBKey` bigint(20) NOT NULL,
-  `CampaignAdDBKey` bigint(20) NOT NULL,
-  `AdName` varchar(25) NOT NULL,
-  `UploadPath` varchar(255) DEFAULT NULL,
+  `AdDesignDBKey` bigint(20) NOT NULL,
+  `Name` varchar(80) NOT NULL,
+  `AdDesignType` varchar(15) NOT NULL DEFAULT 'None' COMMENT 'None, Banner, Interstitial, Video',
+  `ResourceName` varchar(64) NOT NULL,
   `DestinationUrl` text NOT NULL,
+  `IsPause` tinyint(4) NOT NULL DEFAULT '0',
+  `IsDeleted` tinyint(4) NOT NULL DEFAULT '0',
+  `DeletedTime` datetime DEFAULT NULL,
   `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `LastUpdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`UserDBKey`,`CampaignAdDBKey`,`CampaignDBKey`),
+  PRIMARY KEY (`UserDBKey`,`CampaignDBKey`,`AdDesignDBKey`),
   UNIQUE KEY `Idx_UNIQUE` (`Idx`),
-  UNIQUE KEY `CampaignAdDBKey_UNIQUE` (`CampaignAdDBKey`)
+  UNIQUE KEY `CampaignDesignDBKey_UNIQUE` (`AdDesignDBKey`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -47,4 +51,4 @@ CREATE TABLE `tbl_campaign_ad` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-01 18:39:56
+-- Dump completed on 2018-10-05 18:15:33

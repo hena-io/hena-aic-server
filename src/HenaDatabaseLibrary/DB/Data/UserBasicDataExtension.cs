@@ -33,9 +33,9 @@ namespace Hena.Shared.Data
 			return true;
 		}
 		
-        public static async Task<bool> FromDBByUserDBKeyAsync(this UserBasicData userBasicData, DBKey userDBKey)
+        public static async Task<bool> FromDBAsync(this UserBasicData userBasicData, DBKey userDBKey)
         {
-            var query = new DBQuery_User_Select_By_UserDBKey();
+            var query = new DBQuery_User_Select();
             query.IN.DBKey = userDBKey;
 
             await DBThread.Instance.ReqQueryAsync(query);
@@ -50,19 +50,6 @@ namespace Hena.Shared.Data
 		{
 			var query = new DBQuery_User_Select_By_EMail();
 			query.IN.EMail = email;
-
-			await DBThread.Instance.ReqQueryAsync(query);
-			if (query.OUT.FirstItem == null)
-				return false;
-
-			query.OUT.FirstItem.CopyTo(ref userBasicData);
-			return true;
-		}
-
-		public static async Task<bool> FromDBByUserNameAsync(this UserBasicData userBasicData, string username)
-		{
-			var query = new DBQuery_User_Select_By_UserName();
-			query.IN.Username = username;
 
 			await DBThread.Instance.ReqQueryAsync(query);
 			if (query.OUT.FirstItem == null)

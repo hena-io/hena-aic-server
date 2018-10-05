@@ -1,56 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Hena;
-using Hena.DB;
-using Hena.Shared;
-using Hena.Shared.Data;
-using Newtonsoft.Json.Linq;
-using HenaWebsite.Models;
+using Hena.Security.Claims;
 
 namespace HenaWebsite.Controllers
 {
     public class BaseController : Controller
     {
-		protected virtual IActionResult Success(IResponseData data = null)
-		{
-			return ResponseByData(ErrorCode.Success, string.Empty, data);
-		}
+		#region Properties
+		protected bool IsAuthenticated { get => User.Identity.IsAuthenticated; }
+		protected DBKey UserDBKey { get => GetClaimValueSafe(HenaClaimTypes.SerialNumber, GlobalDefine.INVALID_DBKEY); }
+		protected string EMail { get => GetClaimValueSafe(HenaClaimTypes.Email, string.Empty); }
+		#endregion // Properties
 
-        protected virtual IActionResult Success(JToken data)
-        {
-			return ResponseByJson(ErrorCode.Success, string.Empty, data);
-		}
-
-        protected virtual IActionResult Failed(string message = "")
+		#region Utility
+		protected virtual string GetClaimValueSafe(string type, string defaultValue = "")
 		{
-			return ResponseByData(ErrorCode.Failed, message, null);
+			try
+			{
+				var claim = User.FindFirst(type);
+				if (claim == null)
+				{
+					return defaultValue;
+				}
+				return claim.Value;
+			}
+			catch (Exception) { }
+			return defaultValue;
 		}
-
-		protected virtual IActionResult ResponseByData(ErrorCode errorCode, string message, IResponseData data)
-		{
-			return Ok(new DataResponse() { Result = errorCode, Message = message, Data = data });
-		}
-
-		protected virtual IActionResult ResponseByJson(ErrorCode errorCode, string message, JToken data)
-		{
-			return Ok(new JSONResponse() { Result = errorCode, Message = message, Data = data });
-		}
-
-		protected virtual IActionResult Responsed(ErrorCode errorCode, string message = "")
-		{
-			return Ok(new DataResponse() { Result = errorCode, Message = message });
-		}
-
-		protected virtual IActionResult Responsed(ResponseBase response)
-		{
-			return Ok(response);
-		}
+		#endregion // Utility
 
 		//protected async Task SendEMailAsync(string subject, string body, bool isBodyHtml, MailAddress[] to, MailAddress[] cc, MailAddress[] bcc)
 		//{

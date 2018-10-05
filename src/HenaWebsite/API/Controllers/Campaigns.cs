@@ -1,0 +1,130 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Hena;
+using Hena.DB;
+using Hena.Security.Claims;
+using Hena.Shared.Data;
+using HenaWebsite.Models;
+using HenaWebsite.Models.API.Campaigns;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace HenaWebsite.Controllers.API
+{
+	[Produces("application/json")]
+	[Route("api/[controller]/[action]")]
+	[Authorize]
+	public class Campaigns : BaseApi
+	{
+		#region API
+		// -------------------------------------------------------------------------------
+		// 캠페인 생성
+		[HttpPost]
+		public async Task<IActionResult> Create([FromBody] APIModels.Create.Request request)
+		{
+			// Check valid parameters
+			if (request.IsValidParameters() == false)
+				return APIResponse(ErrorCode.InvalidParameters);
+
+			// Check validation
+
+			// Insert to db
+			var insertQuery = new DBQuery_Campaign_Insert();
+			var item = insertQuery.IN.Item;
+			item.UserDBKey = UserDBKey;
+			item.CampaignDBKey = IDGenerator.NewCampaignId;
+			item.CreateTime = DateTime.UtcNow;
+			request.Fill(insertQuery.IN.Item);
+			if (await DBThread.Instance.ReqQueryAsync(insertQuery) == false)
+				return APIResponse(ErrorCode.DatabaseError);
+
+			// Select from db
+			CampaignData campaignData = new CampaignData();
+			if (await campaignData.FromDBAsync(item.CampaignDBKey) == false)
+				return APIResponse(ErrorCode.DatabaseError);
+
+			// Response
+			var response = new APIModels.Create.Response();
+			response.From(campaignData);
+			return Success(response);
+		}
+
+		// -------------------------------------------------------------------------------
+		// 캠페인 수정
+		[HttpPost]
+		public async Task<IActionResult> Modify([FromBody] APIModels.Modify.Request request)
+		{
+			// Check valid parameters
+			if (request.IsValidParameters() == false)
+				return APIResponse(ErrorCode.InvalidParameters);
+
+			DBKey campaignDBKey = request.Id.ToLong();
+			CampaignData campaignData = new CampaignData();
+
+			// Check validation
+			if (await campaignData.FromDBAsync(campaignDBKey) == false)
+				return APIResponse(ErrorCode.DatabaseError);
+
+			if (UserDBKey != campaignData.UserDBKey)
+				return APIResponse(ErrorCode.BadRequest);
+
+			// Update to db
+			var updateQuery = new DBQuery_Campaign_Update();
+			var item = updateQuery.IN.Item;
+			item.UserDBKey = UserDBKey;
+			item.CampaignDBKey = request.Id.ToLong();
+			request.Fill(updateQuery.IN.Item);
+			if (await DBThread.Instance.ReqQueryAsync(updateQuery) == false)
+				return APIResponse(ErrorCode.DatabaseError);
+
+			// Select from db
+			if (await campaignData.FromDBAsync(item.CampaignDBKey) == false)
+				return APIResponse(ErrorCode.DatabaseError);
+
+			// Response
+			var response = new APIModels.Modify.Response();
+			response.From(campaignData);
+			return Success(response);
+		}
+
+		// -------------------------------------------------------------------------------
+		// 캠페인 삭제
+		[HttpPost]
+		public async Task<IActionResult> Delete([FromBody] APIModels.Delete.Request request)
+		{
+			// Check valid parameters
+			if (request.IsValidParameters() == false)
+				return APIResponse(ErrorCode.InvalidParameters);
+
+			DBKey campaignDBKey = request.Id.ToLong();
+			CampaignData campaignData = new CampaignData();
+
+			// Check validation
+			if (await campaignData.FromDBAsync(campaignDBKey) == false)
+				return APIResponse(ErrorCode.DatabaseError);
+
+			if (UserDBKey != campaignData.UserDBKey)
+				return APIResponse(ErrorCode.BadRequest);
+
+			// Delete from db
+			var deleteQuery = new DBQuery_Campaign_Delete();
+			deleteQuery.IN.DBKey = request.Id.ToLong();
+			if (await DBThread.Instance.ReqQueryAsync(deleteQuery) == false)
+				return APIResponse(ErrorCode.DatabaseError);
+
+			// Response
+			var response = new APIModels.Delete.Response();
+			return Success(response);
+		}
+		#endregion // API
+
+		#region Internal Methods
+		// -------------------------------------------------------------------------------
+		// 
+
+		#endregion // Internal Methods
+
+	}
+}

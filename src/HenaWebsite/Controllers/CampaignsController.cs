@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using HenaWebsite.Models.Campaigns;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,14 +24,5 @@ namespace HenaWebsite.Controllers
 		{
 			return View();
 		}
-
-		#region API
-		[HttpPost]
-		public async Task<IActionResult> CreateCampaign([FromBody] APIReqeust_CreateCampaign model)
-		{
-			return Success();
-		}
-		#endregion	// API
-
 	}
 }

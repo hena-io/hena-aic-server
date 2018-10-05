@@ -15,7 +15,7 @@ namespace Hena.Shared.Data
 		{
 			return new UserPermissionData() { PermissionType = key };
 		}
-		public bool CheckPermission(UserPermissionTypes permissionType, short level = 0)
+		public bool CheckPermission(UserPermissionTypes permissionType, short level = 1)
 		{
 			var permission = Find(permissionType);
 			if (permission == null)
@@ -35,8 +35,8 @@ namespace Hena.Shared.Data
 					return false;
 			}
 			return true;
-
 		}
+
 		protected override bool FromJSON_Key(JToken token, out UserPermissionTypes outKey)
 		{
 			return token.AsEnum(out outKey, true);

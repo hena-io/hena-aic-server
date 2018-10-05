@@ -13,9 +13,9 @@ namespace Hena
 
 		private static Id64Generator _id64Gen_UserId = null;			// 유저 ID
 		private static Id64Generator _id64Gen_AppId = null;				// 앱 ID
-		private static Id64Generator _id64Gen_AppUnitId = null;			// 앱 단위 ID
+		private static Id64Generator _id64Gen_AdUnitId = null;			// 광고 단위 ID
 		private static Id64Generator _id64Gen_CampaignId = null;		// 캠페인 ID
-		private static Id64Generator _id64Gen_CampaignAdId = null;		// 캠페인 광고 ID
+		private static Id64Generator _id64Gen_AdDesignId = null;		// 광고 디자인 ID
 		private static IdStringGeneratorWrapper _idGen_VerifyCode = null;   // 인증코드
 
 		// 절대 변경하지 말 것!! 
@@ -25,8 +25,6 @@ namespace Hena
 		{
 			return (index ^ _idMask);
 		}
-
-
 
 		public static bool IsValidMachineId(short machineId)
 		{
@@ -43,9 +41,9 @@ namespace Hena
 			// 마스크 Index 순서 바꾸지 말것!!
 			_id64Gen_UserId = new Id64Generator(machineId, 0, GenCustomMask(1));
 			_id64Gen_AppId = new Id64Generator(machineId, 0, GenCustomMask(2));
-			_id64Gen_AppUnitId = new Id64Generator(machineId, 0, GenCustomMask(3));
+			_id64Gen_AdUnitId = new Id64Generator(machineId, 0, GenCustomMask(3));
 			_id64Gen_CampaignId = new Id64Generator(machineId, 0, GenCustomMask(4));
-			_id64Gen_CampaignAdId = new Id64Generator(machineId, 0, GenCustomMask(5));
+			_id64Gen_AdDesignId = new Id64Generator(machineId, 0, GenCustomMask(5));
 
 			_idGen_VerifyCode = new IdStringGeneratorWrapper(new Id64Generator(machineId, 0, GenCustomMask(5)), IdStringGeneratorWrapper.Base32, "V");
 			return true;
@@ -56,9 +54,9 @@ namespace Hena
 		// {BEB5A302-46D4-4209-9ECA-F9B4DD442E6E}
 		public static long NewUserId { get { return _id64Gen_UserId.GenerateId(); } }
 		public static long NewAppId { get { return _id64Gen_AppId.GenerateId(); } }
-		public static long NewAppUnitId { get { return _id64Gen_AppUnitId.GenerateId(); } }
+		public static long NewAdUnitId { get { return _id64Gen_AdUnitId.GenerateId(); } }
 		public static long NewCampaignId { get { return _id64Gen_CampaignId.GenerateId(); } }
-		public static long NewCampaignAdId { get { return _id64Gen_CampaignAdId.GenerateId(); } }
+		public static long NewAdDesignId { get { return _id64Gen_AdDesignId.GenerateId(); } }
 		public static string NewVerifyCode { get { return _idGen_VerifyCode.GenerateId(); } }
 
 	}

@@ -7,9 +7,9 @@ using Hena.Shared;
 using Hena.Shared.Data;
 using MySql.Data.MySqlClient;
 
+// tbl_machine
 namespace Hena.DB
 {
-	#region tbl_machine
 	// 계정 추가
 	public class DBQuery_Machine_Select : DBQuery<DBQuery_Machine_Select.IN_DATA, DBQuery_Machine_Select.OUT_DATA>
 	{
@@ -56,5 +56,4 @@ namespace Hena.DB
 		}
 		#endregion // IN / OUT
 	}
-	#endregion // tbl_machine
 }

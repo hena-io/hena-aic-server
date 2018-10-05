@@ -170,7 +170,11 @@ namespace Hena
             try
             {
 				Type type = typeof(T);
-				if (type == value.GetType())
+				if( type.IsEnum)
+				{
+					outValue = (T)Enum.Parse(type, value as string, true);
+				}
+				else if (type == value.GetType())
                 {
                     outValue = (T)value;
                 }
@@ -186,6 +190,7 @@ namespace Hena
             }
             catch (Exception ex)
             {
+				outValue = defaultValue;
 				NLog.LogManager.GetCurrentClassLogger().Error(ex, "Data Type Error");
 				return false;
             }
@@ -225,7 +230,11 @@ namespace Hena
 			try
 			{
 				Type type = value.GetType();
-				if (type == TYPE_DATETIME)
+				if( type.IsEnum )
+				{
+					return value.ToString();
+				}
+				else if (type == TYPE_DATETIME)
 				{
 					return ((DateTime)value).ToString("yyyy-MM-dd HH:mm:ss");
 				}

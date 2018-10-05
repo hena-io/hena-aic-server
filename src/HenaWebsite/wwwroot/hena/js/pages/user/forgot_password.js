@@ -25,7 +25,7 @@
 
 	$('.validate-form').on('submit', function () {
 		$.ajax({
-			url: "/api/user/ResetPassword",
+			url: "/api/users/ResetPassword",
 			type: "POST",
 			contentType: "application/json; charset=utf-8",
 			dataType: "json",

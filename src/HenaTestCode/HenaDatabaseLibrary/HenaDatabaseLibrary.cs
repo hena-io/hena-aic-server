@@ -22,7 +22,7 @@ namespace HenaTestCode.HenaDatabaseLibrary
 			for( int i = 0; i < 100000; ++i)
 			{
 				var newAppId = IDGenerator.NewAppId;
-				var newAppUnitId = IDGenerator.NewAppUnitId;
+				var newAppUnitId = IDGenerator.NewAdUnitId;
 				if ( hsLong.Contains(newAppId) )
 				{
 					Console.WriteLine($"APP ID - {newAppId}(CONTAINS)");

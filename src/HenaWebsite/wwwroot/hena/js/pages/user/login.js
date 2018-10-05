@@ -95,7 +95,6 @@
 			$(this).find('i').removeClass('zmdi-eye-off');
 			showPass = 0;
 		}
-
 	});
-
+	
 })(jQuery);
