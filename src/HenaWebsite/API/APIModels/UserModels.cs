@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HenaWebsite.Models.API.Users
+namespace HenaWebsite.Models.API.User
 {
-	public static partial class APIModels
+	public static class UserModels
 	{
 		// 회원가입 가능한 이메일인지 체크
 		public static class JoinVerifyEMail

@@ -23,9 +23,9 @@ namespace Hena.DB
 
 			public override void FillParameters(List<object> parameters)
 			{
-				parameters.Add(Item.UserDBKey);
-				parameters.Add(Item.CampaignDBKey);
-				parameters.Add(Item.AdDesignDBKey);
+				parameters.Add(Item.UserId);
+				parameters.Add(Item.CampaignId);
+				parameters.Add(Item.AdDesignId);
 				parameters.Add(Item.Name);
 				parameters.Add(Item.AdDesignType);
 				parameters.Add(Item.ResourceName);
@@ -48,7 +48,7 @@ namespace Hena.DB
 
 			public override void FillParameters(List<object> parameters)
 			{
-				parameters.Add(Item.AdDesignDBKey);
+				parameters.Add(Item.AdDesignId);
 				parameters.Add(Item.Name);
 				parameters.Add(Item.AdDesignType);
 				parameters.Add(Item.ResourceName);
@@ -56,6 +56,13 @@ namespace Hena.DB
 			}
 		}
 		#endregion // IN / OUT
+	}
+
+	// 광고 디자인 삭제
+	public class DBQuery_AdDesign_Delete : DBQuery<COMMON_IN_DATA_DBKeyOnly>
+	{
+		public override DBType DBType => DBType.Hena_AIC_Service;
+		public override string ProcedureName => "sp_ad_design_delete";
 	}
 
 	// 광고 디자인 정보 조회( OUT 선 정의 )
@@ -93,21 +100,21 @@ namespace Hena.DB
 		#endregion // IN / OUT
 	}
 
-	// 광고 디자인 조회( AdDesignDBKey )
+	// 광고 디자인 조회( AdDesignId )
 	public class DBQuery_AdDesign_Select : DBQuery_AdDesign_Select_Base<COMMON_IN_DATA_DBKeyOnly>
 	{
 		public override string ProcedureName => "sp_ad_design_select";
 	}
 
-	// 광고 디자인 조회( UserDBKey )
-	public class DBQuery_AdDesign_Select_By_UserDBKey : DBQuery_AdDesign_Select_Base<COMMON_IN_DATA_DBKeyOnly>
+	// 광고 디자인 조회( UserId )
+	public class DBQuery_AdDesign_Select_By_UserId : DBQuery_AdDesign_Select_Base<COMMON_IN_DATA_DBKeyOnly>
 	{
-		public override string ProcedureName => "sp_ad_design_select_by_userdbkey";
+		public override string ProcedureName => "sp_ad_design_select_by_userid";
 	}
 
-	// 광고 디자인 조회( CampaignDBKey )
-	public class DBQuery_AdDesign_Select_By_CampaignDBKey: DBQuery_AdDesign_Select_Base<COMMON_IN_DATA_DBKeyOnly>
+	// 광고 디자인 조회( CampaignId )
+	public class DBQuery_AdDesign_Select_By_CampaignId: DBQuery_AdDesign_Select_Base<COMMON_IN_DATA_DBKeyOnly>
 	{
-		public override string ProcedureName => "sp_ad_design_select_by_campaigndbkey";
+		public override string ProcedureName => "sp_ad_design_select_by_campaignid";
 	}
 }

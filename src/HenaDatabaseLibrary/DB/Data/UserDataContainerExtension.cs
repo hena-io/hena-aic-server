@@ -26,7 +26,7 @@ namespace Hena.Shared.Data
                 var UserData = new UserData();
                 UserData.BasicData = it;
                 item.Add(UserData);
-                tasks.Add(UserData.FromDBByUserDBKeyAsync(it.UserDBKey, false));
+                tasks.Add(UserData.FromDBByUserIdAsync(it.UserId, false));
             }
 
             await Task.WhenAll(tasks.ToArray());
@@ -49,7 +49,7 @@ namespace Hena.Shared.Data
                 var UserData = new UserData();
                 UserData.BasicData = it;
                 item.Add(UserData);
-                tasks.Add(UserData.FromDBByUserDBKeyAsync(it.UserDBKey, false));
+                tasks.Add(UserData.FromDBByUserIdAsync(it.UserId, false));
             }
 
             await Task.WhenAll(tasks.ToArray());

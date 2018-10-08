@@ -9,7 +9,7 @@ using Hena.DB;
 using Hena.Shared.Data;
 using HenaWebsite.Models;
 using HenaWebsite.Models.API;
-using HenaWebsite.Models.API.Users;
+using HenaWebsite.Models.API.User;
 using HenaWebsite.Models.User;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -25,7 +25,7 @@ namespace HenaWebsite.Controllers.API
 		// -------------------------------------------------------------------------------
 		// 회원가입 가능한 이메일인지 체크
 		[HttpPost]
-		public async Task<IActionResult> JoinVerifyEMail([FromBody] APIModels.JoinVerifyEMail.Request request)
+		public async Task<IActionResult> JoinVerifyEMail([FromBody] UserModels.JoinVerifyEMail.Request request)
 		{
 			// check format
 			if (request.EMail.IsValidEmailAddress() == false)
@@ -36,14 +36,14 @@ namespace HenaWebsite.Controllers.API
 			if (await basicData.FromDBByEmailAsync(request.EMail))
 				return APIResponse(ErrorCode.ExistEMail);
 
-			var response = new APIModels.JoinVerifyEMail.Response();
+			var response = new UserModels.JoinVerifyEMail.Response();
 			return Success(response);
 		}
 
 		// -------------------------------------------------------------------------------
 		// 회원가입 요청
 		[HttpPost]
-		public async Task<IActionResult> Join([FromBody] APIModels.Join.Request request)
+		public async Task<IActionResult> Join([FromBody] UserModels.Join.Request request)
 		{
 			// check format
 			if (request.EMail.IsValidEmailAddress() == false)
@@ -64,7 +64,7 @@ namespace HenaWebsite.Controllers.API
 			// insert database
 			DBQuery_User_Insert query = new DBQuery_User_Insert();
 			basicData = query.IN.BasicData;
-			basicData.UserDBKey = IDGenerator.NewUserId;
+			basicData.UserId = IDGenerator.NewUserId;
 			basicData.EMail = request.EMail;
 			basicData.CreateTime = DateTime.UtcNow;
 			basicData.Password = PasswordUtility.HashPassword(request.Password);
@@ -73,7 +73,7 @@ namespace HenaWebsite.Controllers.API
 				return APIResponse(ErrorCode.DatabaseError);
 
 			// response
-			var response = new APIModels.Join.Response();
+			var response = new UserModels.Join.Response();
 			response.EMail = request.EMail;
 			response.CreateTime = basicData.CreateTime;
 
@@ -83,10 +83,10 @@ namespace HenaWebsite.Controllers.API
 		// -------------------------------------------------------------------------------
 		// 이메일 인증코드 체크
 		[HttpPost]
-		public IActionResult IsValidEMailVerifyCode([FromBody] APIModels.IsValidEMailVerifyCode.Request request)
+		public IActionResult IsValidEMailVerifyCode([FromBody] UserModels.IsValidEMailVerifyCode.Request request)
 		{
 			var errorCode = CheckEMailVerifyCode(request.EMail, request.VerifyCode, true);
-			var response = new APIModels.IsValidEMailVerifyCode.Response();
+			var response = new UserModels.IsValidEMailVerifyCode.Response();
 			if (errorCode == ErrorCode.Success)
 			{
 				return APIResponse(errorCode, string.Empty, response);
@@ -97,7 +97,7 @@ namespace HenaWebsite.Controllers.API
 		// -------------------------------------------------------------------------------
 		// 이메일 인증 요청
 		[HttpPost]
-		public async Task<IActionResult> SendVerifyEMail([FromBody] APIModels.SendVerifyEMail.Request request)
+		public async Task<IActionResult> SendVerifyEMail([FromBody] UserModels.SendVerifyEMail.Request request)
 		{
 			// check account
 			UserBasicData basicData = new UserBasicData();
@@ -121,7 +121,7 @@ namespace HenaWebsite.Controllers.API
 			await WebServiceUtility.SendEMailAsync("[Hena Platform] Signup verification code.", msg.ToString(), false, request.EMail);
 
 			// response
-			var response = new APIModels.SendVerifyEMail.Response();
+			var response = new UserModels.SendVerifyEMail.Response();
 			response.EMail = request.EMail;
 			response.SendTime = DateTime.UtcNow;
 
@@ -131,7 +131,7 @@ namespace HenaWebsite.Controllers.API
 		// -------------------------------------------------------------------------------
 		// 비밀번호 리셋
 		[HttpPost]
-		public async Task<IActionResult> ResetPassword([FromBody] APIModels.ResetPassword.Request request)
+		public async Task<IActionResult> ResetPassword([FromBody] UserModels.ResetPassword.Request request)
 		{
 			// check account
 			UserBasicData basicData = new UserBasicData();
@@ -142,7 +142,7 @@ namespace HenaWebsite.Controllers.API
 			basicData.Password = PasswordUtility.HashPassword(newPassword);
 
 			var query = new DBQuery_User_Update_Password();
-			query.IN.UserDBKey = basicData.UserDBKey;
+			query.IN.UserId = basicData.UserId;
 			query.IN.Password = basicData.Password;
 
 			if (await DBThread.Instance.ReqQueryAsync(query) == false)
@@ -158,7 +158,7 @@ namespace HenaWebsite.Controllers.API
 
 			await WebServiceUtility.SendEMailAsync("[Hena Platform] Reseted your password.", msg.ToString(), false, request.EMail);
 
-			var response = new APIModels.ResetPassword.Response();
+			var response = new UserModels.ResetPassword.Response();
 			return Success(response);
 		}
 		#endregion // API
@@ -173,7 +173,7 @@ namespace HenaWebsite.Controllers.API
 			if (verifyData == null)
 				return ErrorCode.InvalidVerifyCode;
 
-			var verifyEMail = verifyData.UserData as APIModels.SendVerifyEMail.Request;
+			var verifyEMail = verifyData.UserData as UserModels.SendVerifyEMail.Request;
 			if (verifyEMail == null)
 				return ErrorCode.InvalidVerifyCode;
 

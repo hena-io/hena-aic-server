@@ -10,14 +10,14 @@ namespace Hena.Shared.Data
 	public class CampaignDataContainer
 		: ListDataContainer<CampaignDataContainer, CampaignData>
 	{
-        public CampaignData FindByUserDBKey(DBKey userDBKey)
+        public CampaignData FindByUserId(DBKey userId)
 		{
-			return Find(item => item.UserDBKey == userDBKey);
+			return Find(item => item.UserId == userId);
 		}
 
-		public CampaignData FindByCampaignDBKey(DBKey campaignDBKey)
+		public CampaignData FindByCampaignId(DBKey campaignId)
 		{
-			return Find(item => item.CampaignDBKey == campaignDBKey);
+			return Find(item => item.CampaignId == campaignId);
 		}
 	}
 }

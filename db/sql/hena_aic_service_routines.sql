@@ -53,6 +53,29 @@ SET character_set_client = @saved_cs_client;
 --
 -- Dumping routines for database 'hena_aic_service'
 --
+/*!50003 DROP PROCEDURE IF EXISTS `sp_ad_design_delete` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_design_delete`(IN in_AdDesignId BIGINT
+)
+BEGIN
+
+	DELETE FROM `tbl_ad_design`
+    WHERE `AdDesignId` = in_AdDesignId;
+        
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `sp_ad_design_insert` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -63,9 +86,9 @@ SET character_set_client = @saved_cs_client;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_design_insert`(IN in_UserDBKey BIGINT
-, IN in_CampaignDBKey BIGINT
-, IN in_AdDesignDBKey BIGINT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_design_insert`(IN in_UserId BIGINT
+, IN in_CampaignId BIGINT
+, IN in_AdDesignId BIGINT
 
 , IN in_Name VARCHAR(80)
 , IN in_AdDesignType VARCHAR(15)
@@ -74,17 +97,17 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_design_insert`(IN in_UserDBKe
 )
 BEGIN
 
-	INSERT INTO `tbl_ad_design`(`UserDBKey`
-		, `CampaignDBKey`
-		, `AdDesignDBKey`
+	INSERT INTO `tbl_ad_design`(`UserId`
+		, `CampaignId`
+		, `AdDesignId`
 		
 		, `Name`
 		, `AdDesignType`
 		, `ResourceName`
 		, `DestinationUrl`
-	) VALUES (in_UserDBKey
-		, in_CampaignDBKey
-		, in_AdDesignDBKey
+	) VALUES (in_UserId
+		, in_CampaignId
+		, in_AdDesignId
 		
 		, in_Name
 		, in_AdDesignType
@@ -109,12 +132,12 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_design_select`(IN in_AdDesignDBKey BIGINT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_design_select`(IN in_AdDesignId BIGINT
 )
 BEGIN
 
 	SELECT * FROM `tbl_ad_design`
-    WHERE `AdDesignDBKey` = in_AdDesignDBKey;
+    WHERE `AdDesignId` = in_AdDesignId;
         
 END ;;
 DELIMITER ;
@@ -122,7 +145,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `sp_ad_design_select_by_campaigndbkey` */;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_ad_design_select_by_campaignid` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -132,12 +155,12 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_design_select_by_campaigndbkey`(IN in_CampaignDBKey BIGINT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_design_select_by_campaignid`(IN in_CampaignId BIGINT
 )
 BEGIN
 
 	SELECT * FROM `tbl_ad_design`
-    WHERE `CampaignDBKey` = in_CampaignDBKey;
+    WHERE `CampaignId` = in_CampaignId;
         
 END ;;
 DELIMITER ;
@@ -145,7 +168,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `sp_ad_design_select_by_userdbkey` */;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_ad_design_select_by_userid` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -155,12 +178,12 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_design_select_by_userdbkey`(IN in_UserDBKey BIGINT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_design_select_by_userid`(IN in_UserId BIGINT
 )
 BEGIN
 
 	SELECT * FROM `tbl_ad_design`
-    WHERE `UserDBKey` = in_UserDBKey;
+    WHERE `UserId` = in_UserId;
         
 END ;;
 DELIMITER ;
@@ -178,7 +201,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_design_update`(IN in_AdDesignDBKey BIGINT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_design_update`(IN in_AdDesignId BIGINT
 , IN in_Name VARCHAR(80)
 , IN in_AdDesignType VARCHAR(15)
 , IN in_ResourceName VARCHAR(10)
@@ -191,7 +214,30 @@ BEGIN
     , `AdDesignType` = in_AdDesignType
     , `ResourceName` = in_ResourceName
     , `DestinationUrl` = in_DestinationUrl
-    WHERE `AdDesignDBKey` = in_AdDesignDBKey;
+    WHERE `AdDesignId` = in_AdDesignId;
+        
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_ad_unit_delete` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_unit_delete`(IN in_AdUnitId BIGINT
+)
+BEGIN
+
+	DELETE FROM `tbl_ad_unit`
+    WHERE `AdUnitId` = in_AdUnitId;
         
 END ;;
 DELIMITER ;
@@ -209,24 +255,24 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_unit_insert`(IN in_UserDBKey BIGINT
-, IN in_AppDBKey BIGINT
-, IN in_AdUnitDBKey BIGINT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_unit_insert`(IN in_UserId BIGINT
+, IN in_AppId BIGINT
+, IN in_AdUnitId BIGINT
 
 , IN in_Name VARCHAR(80)
 , IN in_AdDesignType VARCHAR(15)
 )
 BEGIN
 
-	INSERT INTO `tbl_ad_design`(`UserDBKey`
-		, `AppDBKey`
-		, `AdUnitDBKey`
+	INSERT INTO `tbl_ad_design`(`UserId`
+		, `AppId`
+		, `AdUnitId`
 		
 		, `Name`
 		, `AdDesignType`
-	) VALUES (in_UserDBKey
-		, in_AppDBKey
-		, in_AdUnitDBKey
+	) VALUES (in_UserId
+		, in_AppId
+		, in_AdUnitId
 		
 		, in_Name
 		, in_AdDesignType
@@ -249,12 +295,12 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_unit_select`(IN in_AdUnitDBKey BIGINT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_unit_select`(IN in_AdUnitId BIGINT
 )
 BEGIN
 
 	SELECT * FROM `tbl_ad_unit`
-    WHERE `AdUnitDBKey` = in_AdUnitDBKey;
+    WHERE `AdUnitId` = in_AdUnitId;
         
 END ;;
 DELIMITER ;
@@ -262,7 +308,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `sp_ad_unit_select_by_appdbkey` */;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_ad_unit_select_by_appid` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -272,12 +318,12 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_unit_select_by_appdbkey`(IN in_AppDBKey BIGINT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_unit_select_by_appid`(IN in_AppId BIGINT
 )
 BEGIN
 
 	SELECT * FROM `tbl_ad_unit`
-    WHERE `AppDBKey` = in_AppDBKey;
+    WHERE `AppId` = in_AppId;
         
 END ;;
 DELIMITER ;
@@ -285,7 +331,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `sp_ad_unit_select_by_userdbkey` */;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_ad_unit_select_by_userid` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -295,12 +341,12 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_unit_select_by_userdbkey`(IN in_UserDBKey BIGINT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_unit_select_by_userid`(IN in_UserId BIGINT
 )
 BEGIN
 
 	SELECT * FROM `tbl_ad_unit`
-    WHERE `UserDBKey` = in_UserDBKey;
+    WHERE `UserId` = in_UserId;
         
 END ;;
 DELIMITER ;
@@ -318,14 +364,37 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_unit_update`(IN in_AdUnitDBKey BIGINT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_unit_update`(IN in_AdUnitId BIGINT
 , IN in_Name VARCHAR(80)
 )
 BEGIN
 
 	UPDATE `tbl_ad_unit`
     SET `Name` = in_Name
-    WHERE `AdUnitDBKey` = in_AdUnitDBKey;
+    WHERE `AdUnitId` = in_AdUnitId;
+        
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_app_delete` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_app_delete`(IN in_AppId BIGINT
+)
+BEGIN
+
+	DELETE FROM `tbl_app`
+    WHERE `AppId` = in_AppId;
         
 END ;;
 DELIMITER ;
@@ -343,19 +412,19 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_app_insert`(IN in_UserDBKey BIGINT
-, IN in_AppDBKey BIGINT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_app_insert`(IN in_UserId BIGINT
+, IN in_AppId BIGINT
 , IN in_Name VARCHAR(80)
 , IN in_AppMarketType VARCHAR(20)
 )
 BEGIN
 
-	INSERT INTO `tbl_app`(`UserDBKey`
-		, `AppDBKey`
+	INSERT INTO `tbl_app`(`UserId`
+		, `AppId`
 		, `Name`
 		, `AppMarketType`
-	) VALUES (in_UserDBKey
-		, in_AppDBKey
+	) VALUES (in_UserId
+		, in_AppId
 		, in_Name
 		, in_AppMarketType
 	);
@@ -367,7 +436,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `sp_app_select_by_appdbkey` */;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_app_select_by_appid` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -377,12 +446,12 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_app_select_by_appdbkey`(IN in_AppDBKey BIGINT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_app_select_by_appid`(IN in_AppId BIGINT
 )
 BEGIN
 
 	SELECT * FROM `tbl_app`
-    WHERE `AppDBKey` = in_AppDBKey;
+    WHERE `AppId` = in_AppId;
         
 END ;;
 DELIMITER ;
@@ -390,7 +459,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `sp_app_select_by_userdbkey` */;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_app_select_by_userid` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -400,12 +469,12 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_app_select_by_userdbkey`(IN in_UserDBKey BIGINT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_app_select_by_userid`(IN in_UserId BIGINT
 )
 BEGIN
 
 	SELECT * FROM `tbl_app`
-    WHERE `UserDBKey` = in_UserDBKey;
+    WHERE `UserId` = in_UserId;
         
 END ;;
 DELIMITER ;
@@ -423,14 +492,14 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_app_update`(IN in_AppDBKey BIGINT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_app_update`(IN in_AppId BIGINT
 , IN in_Name VARCHAR(80)
 )
 BEGIN
 
 	UPDATE `tbl_app`
     SET `Name` = in_Name
-    WHERE `AppDBKey` = in_AppDBKey;
+    WHERE `AppId` = in_AppId;
 
 END ;;
 DELIMITER ;
@@ -448,12 +517,12 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_campaign_delete`(IN in_CampaignDBKey BIGINT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_campaign_delete`(IN in_CampaignId BIGINT
 )
 BEGIN
 
 	DELETE FROM `tbl_campaign`
-    WHERE `CampaignDBKey` = in_CampaignDBKey;
+    WHERE `CampaignId` = in_CampaignId;
         
 END ;;
 DELIMITER ;
@@ -471,8 +540,8 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_campaign_insert`(IN in_UserDBKey BIGINT
-, IN in_CampaignDBKey BIGINT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_campaign_insert`(IN in_UserId BIGINT
+, IN in_CampaignId BIGINT
 , IN in_Name VARCHAR(80)
 , IN in_CampaignType VARCHAR(10)
 , IN in_TargetValue BIGINT
@@ -482,16 +551,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_campaign_insert`(IN in_UserDBKey
 )
 BEGIN
 
-	INSERT INTO `tbl_campaign`(`UserDBKey`
-		, `CampaignDBKey`
+	INSERT INTO `tbl_campaign`(`UserId`
+		, `CampaignId`
 		, `Name`
 		, `CampaignType`
         , `TargetValue`
 		, `Cost`
 		, `BeginTime`
 		, `EndTime`
-	) VALUES (in_UserDBKey
-		, in_CampaignDBKey
+	) VALUES (in_UserId
+		, in_CampaignId
 		, in_Name
 		, in_CampaignType
         , in_TargetValue
@@ -517,12 +586,12 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_campaign_select`(IN in_CampaignDBKey BIGINT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_campaign_select`(IN in_CampaignId BIGINT
 )
 BEGIN
 
 	SELECT * FROM `tbl_campaign`
-    WHERE `CampaignDBKey` = in_CampaignDBKey;
+    WHERE `CampaignId` = in_CampaignId;
         
 END ;;
 DELIMITER ;
@@ -530,7 +599,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `sp_campaign_select_by_userdbkey` */;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_campaign_select_by_userid` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -540,12 +609,12 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_campaign_select_by_userdbkey`(IN in_UserDBKey BIGINT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_campaign_select_by_userid`(IN in_UserId BIGINT
 )
 BEGIN
 
 	SELECT * FROM `tbl_campaign`
-    WHERE `UserDBKey` = in_UserDBKey;
+    WHERE `UserId` = in_UserId;
         
 END ;;
 DELIMITER ;
@@ -563,7 +632,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_campaign_update`(IN in_CampaignDBKey BIGINT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_campaign_update`(IN in_CampaignId BIGINT
 , IN in_Name VARCHAR(80)
 , IN in_CampaignType VARCHAR(10)
 , IN in_TargetValue BIGINT
@@ -580,8 +649,66 @@ BEGIN
     , `Cost` = in_Cost
     , `BeginTime` = in_BeginTime
     , `EndTime` = in_EndTime
-    WHERE `CampaignDBKey` = in_CampaignDBKey;
+    WHERE `CampaignId` = in_CampaignId;
 
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_db_setup` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_db_setup`()
+BEGIN
+
+	set global time_zone='UTC';
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_select_machine` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_machine`(IN in_MacAddress VARCHAR(128)
+, IN in_Port INT
+)
+BEGIN
+
+	IF (SELECT 1 = 1 FROM tbl_machine 
+		WHERE `MacAddress` = in_MacAddress AND `Port` = in_Port) THEN
+	
+		SELECT * FROM tbl_machine 
+        WHERE `MacAddress` = in_MacAddress AND `Port` = in_Port;
+	
+	ELSE
+	
+		INSERT INTO tbl_machine (`MacAddress`, `Port`) 
+        VALUES(in_MacAddress, in_Port);
+		
+        SELECT * FROM tbl_machine
+        WHERE `MachineId` = LAST_INSERT_ID();
+	
+	END IF;
+    
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -623,18 +750,18 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_user_insert`(IN in_UserDBKey BIGINT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_user_insert`(IN in_UserId BIGINT
 , IN in_EMail VARCHAR(64)
 , IN in_Password VARCHAR(255)
 )
 BEGIN
 
 	# 계정 추가
-	INSERT INTO `tbl_user` (`UserDBKey`
+	INSERT INTO `tbl_user` (`UserId`
 	, `EMail`
 	, `Password`
     )
-	VALUES(in_UserDBKey
+	VALUES(in_UserId
 	, in_EMail
 	, in_Password
     );
@@ -655,13 +782,13 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_user_permission_delete`(IN in_UserDBKey BIGINT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_user_permission_delete`(IN in_UserId BIGINT
 , IN in_PermissionType VARCHAR(45)
 )
 BEGIN
 
 	DELETE FROM `tbl_user_permission`
-    WHERE `UserDBKey` = in_UserDBKey AND `PermissionType` = in_PermissionType;
+    WHERE `UserId` = in_UserId AND `PermissionType` = in_PermissionType;
 
 END ;;
 DELIMITER ;
@@ -679,21 +806,21 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_user_permission_insert`(IN in_UserDBKey BIGINT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_user_permission_insert`(IN in_UserId BIGINT
 , IN in_PermissionType VARCHAR(45)
 , IN in_Level SMALLINT
 , IN in_RegisterTime DATETIME
 )
 BEGIN
 
-	IF NOT EXISTS(SELECT 1 = 1 FROM `tbl_user_permission` WHERE `UserDBKey` = in_UserDBKey AND `PermissionType` = in_PermissionType) THEN
+	IF NOT EXISTS(SELECT 1 = 1 FROM `tbl_user_permission` WHERE `UserId` = in_UserId AND `PermissionType` = in_PermissionType) THEN
 	
-		INSERT INTO `tbl_user_permission` (`UserDBKey`
+		INSERT INTO `tbl_user_permission` (`UserId`
 		, `PermissionType`
 		, `Level`
 		, `RegisterTime`
 		)
-		VALUES(in_UserDBKey
+		VALUES(in_UserId
 		, in_PermissionType
 		, in_Level
 		, in_RegisterTime
@@ -718,7 +845,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_user_permission_level_update`(IN in_UserDBKey BIGINT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_user_permission_level_update`(IN in_UserId BIGINT
 , IN in_PermissionType VARCHAR(45)
 , IN in_Level SMALLINT
 )
@@ -726,7 +853,7 @@ BEGIN
 
 	UPDATE `tbl_user_permission`
     SET `Level` = in_Level
-    WHERE `UserDBKey` = in_UserDBKey AND `PermissionType` = in_PermissionType;
+    WHERE `UserId` = in_UserId AND `PermissionType` = in_PermissionType;
 
 END ;;
 DELIMITER ;
@@ -744,13 +871,13 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_user_permission_select`(IN in_UserDBKey BIGINT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_user_permission_select`(IN in_UserId BIGINT
 , IN in_PermissionType VARCHAR(45)
 )
 BEGIN
 
 	SELECT * FROM `tbl_user_permission` 
-    WHERE `UserDBKey`=in_UserDBKey
+    WHERE `UserId`=in_UserId
     AND `PermissionType`=in_PermissionType;
 
 
@@ -784,7 +911,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `sp_user_permission_select_by_userdbkey` */;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_user_permission_select_by_userid` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -794,12 +921,12 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_user_permission_select_by_userdbkey`(IN in_UserDBKey BIGINT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_user_permission_select_by_userid`(IN in_UserId BIGINT
 )
 BEGIN
 
 	SELECT * FROM `tbl_user_permission` 
-    WHERE `UserDBKey`=in_UserDBKey;
+    WHERE `UserId`=in_UserId;
 
 
 END ;;
@@ -818,12 +945,12 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_user_select`(IN in_UserDBKey BIGINT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_user_select`(IN in_UserId BIGINT
 )
 BEGIN
 
 	SELECT * FROM `tbl_user` 
-    WHERE `UserDBKey`=in_UserDBKey;
+    WHERE `UserId`=in_UserId;
 
 
 END ;;
@@ -1024,14 +1151,14 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_user_update_password`(IN in_UserDBKey BIGINT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_user_update_password`(IN in_UserId BIGINT
 , IN in_Password VARCHAR(256)
 )
 BEGIN
 
 	UPDATE `tbl_user`
     SET `Password` = in_Password
-    WHERE `UserDBKey` = in_UserDBKey;
+    WHERE `UserId` = in_UserId;
 
 END ;;
 DELIMITER ;
@@ -1049,4 +1176,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-05 18:15:34
+-- Dump completed on 2018-10-08 12:54:09

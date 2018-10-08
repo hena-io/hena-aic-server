@@ -24,8 +24,8 @@ DROP TABLE IF EXISTS `tbl_campaign`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_campaign` (
   `Idx` bigint(20) NOT NULL AUTO_INCREMENT,
-  `UserDBKey` bigint(20) NOT NULL,
-  `CampaignDBKey` bigint(20) NOT NULL,
+  `UserId` bigint(20) NOT NULL,
+  `CampaignId` bigint(20) NOT NULL,
   `Name` varchar(80) NOT NULL COMMENT 'display campaign name',
   `CampaignType` varchar(10) NOT NULL COMMENT 'ex) CPM, CPC',
   `Cost` decimal(20,10) NOT NULL DEFAULT '0.0000000000',
@@ -37,10 +37,10 @@ CREATE TABLE `tbl_campaign` (
   `DeletedTime` datetime DEFAULT NULL,
   `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `LastUpdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`UserDBKey`,`CampaignDBKey`),
-  UNIQUE KEY `CampaignDBKey_UNIQUE` (`CampaignDBKey`),
+  PRIMARY KEY (`UserId`,`CampaignId`),
+  UNIQUE KEY `CampaignId_UNIQUE` (`CampaignId`),
   UNIQUE KEY `Idx_UNIQUE` (`Idx`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +52,4 @@ CREATE TABLE `tbl_campaign` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-05 18:15:34
+-- Dump completed on 2018-10-08 12:54:09

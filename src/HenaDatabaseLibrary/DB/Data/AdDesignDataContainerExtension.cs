@@ -11,20 +11,20 @@ namespace Hena.Shared.Data
 {
     public static class AdDesignDataContainerExtension
 	{
-		public static async Task<int> FromDBByUserDBKeyAsync(this AdDesignDataContainer item, DBKey userDBKey)
+		public static async Task<int> FromDBByUserIdAsync(this AdDesignDataContainer item, DBKey userId)
 		{
-			var query = new DBQuery_AdDesign_Select_By_UserDBKey();
-			query.IN.DBKey = userDBKey;
+			var query = new DBQuery_AdDesign_Select_By_UserId();
+			query.IN.DBKey = userId;
 
 			bool result = await DBThread.Instance.ReqQueryAsync(query);
 			query.OUT.Items.CopyTo(ref item);
 			return item.Count;
 		}
 
-		public static async Task<int> FromDBByCampaignDBKeyAsync(this AdDesignDataContainer item, DBKey campaignDBKey)
+		public static async Task<int> FromDBByCampaignIdAsync(this AdDesignDataContainer item, DBKey campaignId)
 		{
-			var query = new DBQuery_AdDesign_Select_By_CampaignDBKey();
-			query.IN.DBKey = campaignDBKey;
+			var query = new DBQuery_AdDesign_Select_By_CampaignId();
+			query.IN.DBKey = campaignId;
 
 			bool result = await DBThread.Instance.ReqQueryAsync(query);
 			query.OUT.Items.CopyTo(ref item);

@@ -23,8 +23,8 @@ namespace Hena.DB
 
 			public override void FillParameters(List<object> parameters)
 			{
-				parameters.Add(Item.UserDBKey);
-				parameters.Add(Item.AppDBKey);
+				parameters.Add(Item.UserId);
+				parameters.Add(Item.AppId);
 				parameters.Add(Item.Name);
 				parameters.Add(Item.AppMarketType);
 			}
@@ -45,11 +45,18 @@ namespace Hena.DB
 
 			public override void FillParameters(List<object> parameters)
 			{
-				parameters.Add(Item.AppDBKey);
+				parameters.Add(Item.AppId);
 				parameters.Add(Item.Name);
 			}
 		}
 		#endregion // IN / OUT
+	}
+
+	// 앱 삭제
+	public class DBQuery_App_Delete : DBQuery<COMMON_IN_DATA_DBKeyOnly>
+	{
+		public override DBType DBType => DBType.Hena_AIC_Service;
+		public override string ProcedureName => "sp_app_delete";
 	}
 
 	// 앱 정보 조회( OUT 선 정의 )
@@ -87,15 +94,15 @@ namespace Hena.DB
 		#endregion // IN / OUT
 	}
 
-	// 앱 조회( AppDBKey )
+	// 앱 조회( AppId )
 	public class DBQuery_App_Select : DBQuery_App_Select_Base<COMMON_IN_DATA_DBKeyOnly>
 	{
 		public override string ProcedureName => "sp_app_select";
 	}
 
-	// 앱 조회( UserDBKey )
-	public class DBQuery_App_Select_By_UserDBKey : DBQuery_App_Select_Base<COMMON_IN_DATA_DBKeyOnly>
+	// 앱 조회( UserId )
+	public class DBQuery_App_Select_By_UserId : DBQuery_App_Select_Base<COMMON_IN_DATA_DBKeyOnly>
 	{
-		public override string ProcedureName => "sp_app_select_by_userdbkey";
+		public override string ProcedureName => "sp_app_select_by_userid";
 	}
 }

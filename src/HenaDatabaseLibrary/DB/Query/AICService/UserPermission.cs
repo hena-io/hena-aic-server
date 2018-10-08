@@ -23,7 +23,7 @@ namespace Hena.DB
 
 			public override void FillParameters(List<object> parameters)
 			{
-				parameters.Add(PermissionData.UserDBKey);
+				parameters.Add(PermissionData.UserId);
 				parameters.Add(PermissionData.PermissionType);
 				parameters.Add(PermissionData.Level);
 				parameters.Add(PermissionData.RegisterTime);
@@ -79,22 +79,22 @@ namespace Hena.DB
         #region IN / OUT
         public class IN_DATA : IN_BASE
         {
-            public DBKey UserDBKey = GlobalDefine.INVALID_DBKEY;
+            public DBKey UserId = GlobalDefine.INVALID_DBKEY;
             public UserPermissionTypes PermissionType = UserPermissionTypes.None;
 
             public override void FillParameters(List<object> parameters)
             {
-                parameters.Add(UserDBKey);
+                parameters.Add(UserId);
                 parameters.Add(PermissionType);
             }
         }
         #endregion // IN / OUT
     }
 
-    // 유저권한 조회( UserDBKey )
-    public class DBQuery_User_Permission_Select_By_UserDBKey : DBQuery_User_Permission_Select_Base<COMMON_IN_DATA_DBKeyOnly>
+    // 유저권한 조회( UserId )
+    public class DBQuery_User_Permission_Select_By_UserId : DBQuery_User_Permission_Select_Base<COMMON_IN_DATA_DBKeyOnly>
 	{
-		public override string ProcedureName => "sp_user_permission_select_by_userdbkey";
+		public override string ProcedureName => "sp_user_permission_select_by_userid";
 	}
 
 	// 유저권한 조회( PermissionType )
@@ -165,7 +165,7 @@ namespace Hena.DB
 
 			public override void FillParameters(List<object> parameters)
 			{
-				parameters.Add(PermissionData.UserDBKey);
+				parameters.Add(PermissionData.UserId);
 				parameters.Add(PermissionData.PermissionType);
 				parameters.Add(PermissionData.Level);
 			}
@@ -183,14 +183,14 @@ namespace Hena.DB
 		public class IN_DATA : IN_BASE
 		{
 			// 유저 DB키
-			public DBKey UserDBKey = GlobalDefine.INVALID_DBKEY;
+			public DBKey UserId = GlobalDefine.INVALID_DBKEY;
 
 			// 권한 타입
 			public UserPermissionTypes PermissionType = UserPermissionTypes.None;
 
 			public override void FillParameters(List<object> parameters)
 			{
-				parameters.Add(UserDBKey);
+				parameters.Add(UserId);
 				parameters.Add(PermissionType);
 			}
 		}

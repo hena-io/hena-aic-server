@@ -16,9 +16,9 @@ namespace Hena.Shared.Data
 			if (row == null)
 				return false;
 
-			DBUtility.AsValue(row, "UserDBKey", out item.UserDBKey, AdDesignData.Default.UserDBKey);
-			DBUtility.AsValue(row, "CampaignDBKey", out item.CampaignDBKey, AdDesignData.Default.CampaignDBKey);
-			DBUtility.AsValue(row, "AdDesignDBKey", out item.AdDesignDBKey, AdDesignData.Default.AdDesignDBKey);
+			DBUtility.AsValue(row, "UserId", out item.UserId, AdDesignData.Default.UserId);
+			DBUtility.AsValue(row, "CampaignId", out item.CampaignId, AdDesignData.Default.CampaignId);
+			DBUtility.AsValue(row, "AdDesignId", out item.AdDesignId, AdDesignData.Default.AdDesignId);
 			DBUtility.AsValue(row, "Name", out item.Name, AdDesignData.Default.Name);
 			DBUtility.AsValue(row, "AdDesignType", out item.AdDesignType, AdDesignData.Default.AdDesignType);
 			DBUtility.AsValue(row, "ResourceName", out item.ResourceName, AdDesignData.Default.ResourceName);
@@ -31,10 +31,10 @@ namespace Hena.Shared.Data
 			return true;
 		}
 		
-        public static async Task<bool> FromDBAsync(this AdDesignData item, DBKey adDesignDBKey)
+        public static async Task<bool> FromDBAsync(this AdDesignData item, DBKey adDesignId)
         {
             var query = new DBQuery_AdDesign_Select();
-            query.IN.DBKey = adDesignDBKey;
+            query.IN.DBKey = adDesignId;
 
             await DBThread.Instance.ReqQueryAsync(query);
             if (query.OUT.FirstItem == null)

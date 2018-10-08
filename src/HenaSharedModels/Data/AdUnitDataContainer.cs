@@ -10,19 +10,19 @@ namespace Hena.Shared.Data
 	public class AdUnitDataContainer
 		: ListDataContainer<AdUnitDataContainer, AdUnitData>
 	{
-        public AdUnitData FindByUserDBKey(DBKey userDBKey)
+        public AdUnitData FindByUserId(DBKey userId)
 		{
-			return Find(item => item.UserDBKey == userDBKey);
+			return Find(item => item.UserId == userId);
 		}
 
-		public AdUnitData FindByAppDBKey(DBKey appDBKey)
+		public AdUnitData FindByAppId(DBKey appId)
 		{
-			return Find(item => item.AppDBKey == appDBKey);
+			return Find(item => item.AppId == appId);
 		}
 
-		public AdUnitData FindByAdUnitDBKey(DBKey adUnitDBKey)
+		public AdUnitData FindByAdUnitId(DBKey adUnitId)
 		{
-			return Find(item => item.AdUnitDBKey == adUnitDBKey);
+			return Find(item => item.AdUnitId == adUnitId);
 		}
 	}
 }

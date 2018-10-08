@@ -15,7 +15,7 @@ namespace Hena.Shared.Data
 		public readonly static UserBasicData Default = new UserBasicData();
 
 		// 유저 DBKey
-		public DBKey UserDBKey = GlobalDefine.INVALID_DBKEY;
+		public DBKey UserId = GlobalDefine.INVALID_DBKEY;
 		
 		// 이메일
 		public string EMail = string.Empty;
@@ -112,7 +112,7 @@ namespace Hena.Shared.Data
 
 		public void CopyTo(ref UserBasicData target)
 		{
-			target.UserDBKey = UserDBKey;
+			target.UserId = UserId;
 			target.EMail = EMail;
 			target.Password = Password;
 			target.Language = Language;
@@ -132,7 +132,7 @@ namespace Hena.Shared.Data
 		#region IJSONSerializable
 		public bool FromJSON(JToken token)
 		{
-			UserDBKey = JSONUtility.GetValue(token, "UserDBKey", Default.UserDBKey);
+			UserId = JSONUtility.GetValue(token, "UserId", Default.UserId);
 			EMail = JSONUtility.GetValue(token, "EMail", Default.EMail);
 			Password = JSONUtility.GetValue(token, "Password", Default.Password);
 			Language = JSONUtility.GetValue(token, "Language", Default.Language);
@@ -153,7 +153,7 @@ namespace Hena.Shared.Data
 		public JToken ToJSON()
 		{
 			var jObject = new JObject();
-			jObject["UserDBKey"] = UserDBKey;
+			jObject["UserId"] = UserId;
 			jObject["EMail"] = EMail;
 			jObject["Password"] = Password;
 			jObject["Language"] = Language;

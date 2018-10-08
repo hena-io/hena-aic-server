@@ -15,10 +15,10 @@ namespace Hena.Shared.Data
 		public readonly static AppData Default = new AppData();
 
 		// 유저 DBKey
-		public DBKey UserDBKey = GlobalDefine.INVALID_DBKEY;
+		public DBKey UserId = GlobalDefine.INVALID_DBKEY;
 
 		// 앱 DBKey
-		public DBKey AppDBKey = GlobalDefine.INVALID_DBKEY;
+		public DBKey AppId = GlobalDefine.INVALID_DBKEY;
 
 		// 앱 이름( Max 80 )
 		public string Name = string.Empty;
@@ -46,8 +46,8 @@ namespace Hena.Shared.Data
 
 		public void CopyTo(ref AppData target)
 		{
-			target.UserDBKey = UserDBKey;
-			target.AppDBKey = AppDBKey;
+			target.UserId = UserId;
+			target.AppId = AppId;
 			target.Name = Name;
 			target.AppMarketType = AppMarketType;
 			target.IsDeleted = IsDeleted;
@@ -60,8 +60,8 @@ namespace Hena.Shared.Data
 		#region IJSONSerializable
 		public bool FromJSON(JToken token)
 		{
-			UserDBKey = JSONUtility.GetValue(token, "UserDBKey", Default.UserDBKey);
-			AppDBKey = JSONUtility.GetValue(token, "CampaignDBKey", Default.AppDBKey);
+			UserId = JSONUtility.GetValue(token, "UserId", Default.UserId);
+			AppId = JSONUtility.GetValue(token, "CampaignId", Default.AppId);
 			Name = JSONUtility.GetValue(token, "Name", Default.Name);
 			AppMarketType = JSONUtility.GetValue(token, "AppMarketType", Default.AppMarketType);
 			IsDeleted = JSONUtility.GetValue(token, "IsDeleted", Default.IsDeleted);
@@ -74,8 +74,8 @@ namespace Hena.Shared.Data
 		public JToken ToJSON()
 		{
 			var jObject = new JObject();
-			jObject["UserDBKey"] = UserDBKey;
-			jObject["CampaignDBKey"] = AppDBKey;
+			jObject["UserId"] = UserId;
+			jObject["CampaignId"] = AppId;
 			jObject["Name"] = Name;
 			jObject["AppMarketType"] = AppMarketType.ToString();
 			jObject["IsDeleted"] = IsDeleted;

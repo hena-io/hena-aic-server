@@ -16,7 +16,7 @@ namespace HenaWebsite.Controllers.API
 	[Produces("application/json")]
 	[Route("api/[controller]/[action]")]
 	[Authorize]
-	public class Campaigns : BaseApi
+	public class AdUnits : BaseApi
 	{
 		#region API
 		// -------------------------------------------------------------------------------

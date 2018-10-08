@@ -11,10 +11,10 @@ namespace Hena.Shared.Data
 {
     public static class AdUnitDataContainerExtension
 	{
-		public static async Task<int> FromDBByUserDBKeyAsync(this AdUnitDataContainer item, DBKey userDBKey)
+		public static async Task<int> FromDBByUserIdAsync(this AdUnitDataContainer item, DBKey userId)
 		{
-			var query = new DBQuery_AdUnit_Select_By_UserDBKey();
-			query.IN.DBKey = userDBKey;
+			var query = new DBQuery_AdUnit_Select_By_UserId();
+			query.IN.DBKey = userId;
 
 			bool result = await DBThread.Instance.ReqQueryAsync(query);
 			query.OUT.Items.CopyTo(ref item);

@@ -24,12 +24,12 @@ DROP TABLE IF EXISTS `tbl_balance`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_balance` (
   `Idx` bigint(20) NOT NULL AUTO_INCREMENT,
-  `UserDBKey` bigint(20) NOT NULL,
+  `UserId` bigint(20) NOT NULL,
   `CurrencyName` varchar(10) NOT NULL,
   `Balance` decimal(20,10) NOT NULL DEFAULT '0.0000000000',
   `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `LastUpdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`UserDBKey`,`CurrencyName`),
+  PRIMARY KEY (`UserId`,`CurrencyName`),
   UNIQUE KEY `Idx_UNIQUE` (`Idx`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -43,4 +43,4 @@ CREATE TABLE `tbl_balance` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-05 18:15:33
+-- Dump completed on 2018-10-08 12:54:08

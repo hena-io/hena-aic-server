@@ -15,13 +15,13 @@ namespace Hena.Shared.Data
 		public readonly static AdDesignData Default = new AdDesignData();
 
 		// 유저 DBKey
-		public DBKey UserDBKey = GlobalDefine.INVALID_DBKEY;
+		public DBKey UserId = GlobalDefine.INVALID_DBKEY;
 
 		// 캠페인 DBKey
-		public DBKey CampaignDBKey = GlobalDefine.INVALID_DBKEY;
+		public DBKey CampaignId = GlobalDefine.INVALID_DBKEY;
 
 		// 광고 디자인 DBKey
-		public DBKey AdDesignDBKey = GlobalDefine.INVALID_DBKEY;
+		public DBKey AdDesignId = GlobalDefine.INVALID_DBKEY;
 
 		// 디자인 이름( Max 80 )
 		public string Name = string.Empty;
@@ -58,9 +58,9 @@ namespace Hena.Shared.Data
 
 		public void CopyTo(ref AdDesignData target)
 		{
-			target.UserDBKey = UserDBKey;
-			target.CampaignDBKey = CampaignDBKey;
-			target.AdDesignDBKey = AdDesignDBKey;
+			target.UserId = UserId;
+			target.CampaignId = CampaignId;
+			target.AdDesignId = AdDesignId;
 			target.Name = Name;
 			target.AdDesignType = AdDesignType;
 			target.ResourceName = ResourceName;
@@ -76,9 +76,9 @@ namespace Hena.Shared.Data
 		#region IJSONSerializable
 		public bool FromJSON(JToken token)
 		{
-			UserDBKey = JSONUtility.GetValue(token, "UserDBKey", Default.UserDBKey);
-			CampaignDBKey = JSONUtility.GetValue(token, "CampaignDBKey", Default.CampaignDBKey);
-			AdDesignDBKey = JSONUtility.GetValue(token, "AdDesignDBKey", Default.AdDesignDBKey);
+			UserId = JSONUtility.GetValue(token, "UserId", Default.UserId);
+			CampaignId = JSONUtility.GetValue(token, "CampaignId", Default.CampaignId);
+			AdDesignId = JSONUtility.GetValue(token, "AdDesignId", Default.AdDesignId);
 			Name = JSONUtility.GetValue(token, "Name", Default.Name);
 			AdDesignType = JSONUtility.GetValue(token, "AdDesignType", Default.AdDesignType);
 			ResourceName = JSONUtility.GetValue(token, "ResourceName", Default.ResourceName);
@@ -94,9 +94,9 @@ namespace Hena.Shared.Data
 		public JToken ToJSON()
 		{
 			var jObject = new JObject();
-			jObject["UserDBKey"] = UserDBKey;
-			jObject["CampaignDBKey"] = CampaignDBKey;
-			jObject["AdDesignDBKey"] = AdDesignDBKey;
+			jObject["UserId"] = UserId;
+			jObject["CampaignId"] = CampaignId;
+			jObject["AdDesignId"] = AdDesignId;
 			jObject["Name"] = Name;
 			jObject["AdDesignType"] = AdDesignType.ToString();
 			jObject["ResourceName"] = ResourceName;

@@ -10,9 +10,9 @@ namespace Hena.Shared.Data
 	public class UserBasicDataContainer
 		: ListDataContainer<UserBasicDataContainer, UserBasicData>
 	{
-        public UserBasicData FindByUserDBKey(DBKey userDBKey)
+        public UserBasicData FindByUserId(DBKey userId)
 		{
-			return Find(item => item.UserDBKey == userDBKey);
+			return Find(item => item.UserId == userId);
 		}
 	}
 }

@@ -13,10 +13,10 @@ namespace Hena.Shared.Data
 	{
         
         #region UserPermissionDataContainer
-        public static async Task<int> FromDBByUserDBKeyAsync(this UserPermissionDataContainer item, DBKey userDBKey)
+        public static async Task<int> FromDBByUserIdAsync(this UserPermissionDataContainer item, DBKey userId)
 		{
-			var query = new DBQuery_User_Permission_Select_By_UserDBKey();
-			query.IN.DBKey = userDBKey;
+			var query = new DBQuery_User_Permission_Select_By_UserId();
+			query.IN.DBKey = userId;
 			var result = await DBThread.Instance.ReqQueryAsync(query);
 			query.OUT.Items.CopyTo(ref item);
 			return item.Count;

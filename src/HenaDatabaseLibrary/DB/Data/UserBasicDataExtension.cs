@@ -16,7 +16,7 @@ namespace Hena.Shared.Data
 			if (row == null)
 				return false;
 
-			DBUtility.AsValue(row, "UserDBKey", out item.UserDBKey, UserBasicData.Default.UserDBKey);
+			DBUtility.AsValue(row, "UserId", out item.UserId, UserBasicData.Default.UserId);
 			DBUtility.AsValue(row, "EMail", out item.EMail, UserBasicData.Default.EMail);
 			DBUtility.AsValue(row, "Password", out item.Password, UserBasicData.Default.Password);
 			DBUtility.AsValue(row, "Language", out item.Language, UserBasicData.Default.Language);
@@ -33,10 +33,10 @@ namespace Hena.Shared.Data
 			return true;
 		}
 		
-        public static async Task<bool> FromDBAsync(this UserBasicData userBasicData, DBKey userDBKey)
+        public static async Task<bool> FromDBAsync(this UserBasicData userBasicData, DBKey userId)
         {
             var query = new DBQuery_User_Select();
-            query.IN.DBKey = userDBKey;
+            query.IN.DBKey = userId;
 
             await DBThread.Instance.ReqQueryAsync(query);
             if (query.OUT.FirstItem == null)

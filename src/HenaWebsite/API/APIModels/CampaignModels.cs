@@ -8,9 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HenaWebsite.Models.API.Campaigns
+namespace HenaWebsite.Models.API.Campaign
 {
-	public static partial class APIModels
+	public static class CampaignModels
 	{
 		// 캠페인 생성
 		public static class Create
@@ -46,12 +46,12 @@ namespace HenaWebsite.Models.API.Campaigns
 					target.EndTime = EndTime;
 				}
 
-				public virtual CampaignData ToCampaignData(DBKey userDBKey, DBKey campaignDBKey)
+				public virtual CampaignData ToCampaignData(DBKey userId, DBKey campaignId)
 				{
 					var item = new CampaignData();
 					Fill(item);
-					item.UserDBKey = userDBKey;
-					item.CampaignDBKey = campaignDBKey;
+					item.UserId = userId;
+					item.CampaignId = campaignId;
 					return item;
 				}
 
@@ -100,7 +100,7 @@ namespace HenaWebsite.Models.API.Campaigns
 
 				public void From(CampaignData item)
 				{
-					Id = item.CampaignDBKey.ToString();
+					Id = item.CampaignId.ToString();
 					Name = item.Name;
 					Type = item.CampaignType;
 					TargetValue = item.TargetValue;

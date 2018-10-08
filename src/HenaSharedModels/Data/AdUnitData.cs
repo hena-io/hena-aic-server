@@ -15,13 +15,13 @@ namespace Hena.Shared.Data
 		public readonly static AdUnitData Default = new AdUnitData();
 
 		// 유저 DBKey
-		public DBKey UserDBKey = GlobalDefine.INVALID_DBKEY;
+		public DBKey UserId = GlobalDefine.INVALID_DBKEY;
 
 		// 앱 DBKey
-		public DBKey AppDBKey = GlobalDefine.INVALID_DBKEY;
+		public DBKey AppId = GlobalDefine.INVALID_DBKEY;
 		
 		// 광고유닛 DBKey
-		public DBKey AdUnitDBKey = GlobalDefine.INVALID_DBKEY;
+		public DBKey AdUnitId = GlobalDefine.INVALID_DBKEY;
 
 		// 광고유닛 이름( Max 80 )
 		public string Name = string.Empty;
@@ -43,8 +43,8 @@ namespace Hena.Shared.Data
 
 		public void CopyTo(ref AdUnitData target)
 		{
-			target.UserDBKey = UserDBKey;
-			target.AppDBKey = AppDBKey;
+			target.UserId = UserId;
+			target.AppId = AppId;
 			target.Name = Name;
 			target.AdDesignType = AdDesignType;
 			target.CreateTime = CreateTime;
@@ -55,8 +55,8 @@ namespace Hena.Shared.Data
 		#region IJSONSerializable
 		public bool FromJSON(JToken token)
 		{
-			UserDBKey = JSONUtility.GetValue(token, "UserDBKey", Default.UserDBKey);
-			AppDBKey = JSONUtility.GetValue(token, "AppDBKey", Default.AppDBKey);
+			UserId = JSONUtility.GetValue(token, "UserId", Default.UserId);
+			AppId = JSONUtility.GetValue(token, "AppId", Default.AppId);
 			Name = JSONUtility.GetValue(token, "Name", Default.Name);
 			AdDesignType = JSONUtility.GetValue(token, "AdDesignType", Default.AdDesignType);
 			CreateTime = JSONUtility.GetValue(token, "CreateTime", Default.CreateTime);
@@ -67,8 +67,8 @@ namespace Hena.Shared.Data
 		public JToken ToJSON()
 		{
 			var jObject = new JObject();
-			jObject["UserDBKey"] = UserDBKey;
-			jObject["AppDBKey"] = AppDBKey;
+			jObject["UserId"] = UserId;
+			jObject["AppId"] = AppId;
 			jObject["Name"] = Name;
 			jObject["AdDesignType"] = AdDesignType.ToString();
 			jObject["CreateTime"] = CreateTime;

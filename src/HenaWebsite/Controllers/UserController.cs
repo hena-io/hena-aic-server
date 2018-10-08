@@ -63,7 +63,7 @@ namespace HenaWebsite.Controllers
 				return ErrorCode.InvalidPassword;
 
 			var claims = new List<Claim>();
-			claims.Add(new Claim(HenaClaimTypes.SerialNumber, basicData.UserDBKey.ToString()));
+			claims.Add(new Claim(HenaClaimTypes.SerialNumber, basicData.UserId.ToString()));
 			claims.Add(new Claim(HenaClaimTypes.GivenName, basicData.GivenName));
 			claims.Add(new Claim(HenaClaimTypes.Surname, basicData.SurName));
 			claims.Add(new Claim(HenaClaimTypes.Email, basicData.EMail));

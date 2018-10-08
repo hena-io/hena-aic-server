@@ -16,8 +16,8 @@ namespace Hena.Shared.Data
 			if (row == null)
 				return false;
 
-			DBUtility.AsValue(row, "UserDBKey", out item.UserDBKey, AppData.Default.UserDBKey);
-			DBUtility.AsValue(row, "AppDBKey", out item.AppDBKey, AppData.Default.AppDBKey);
+			DBUtility.AsValue(row, "UserId", out item.UserId, AppData.Default.UserId);
+			DBUtility.AsValue(row, "AppId", out item.AppId, AppData.Default.AppId);
 			DBUtility.AsValue(row, "Name", out item.Name, AppData.Default.Name);
 			DBUtility.AsValue(row, "AppMarketType", out item.AppMarketType, AppData.Default.AppMarketType);
 			DBUtility.AsValue(row, "IsDeleted", out item.IsDeleted, AppData.Default.IsDeleted);
@@ -27,10 +27,10 @@ namespace Hena.Shared.Data
 			return true;
 		}
 		
-        public static async Task<bool> FromDBAsync(this AppData item, DBKey AppDBKey)
+        public static async Task<bool> FromDBAsync(this AppData item, DBKey AppId)
         {
             var query = new DBQuery_App_Select();
-            query.IN.DBKey = AppDBKey;
+            query.IN.DBKey = AppId;
 
             await DBThread.Instance.ReqQueryAsync(query);
             if (query.OUT.FirstItem == null)

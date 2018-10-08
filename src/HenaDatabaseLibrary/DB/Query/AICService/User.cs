@@ -23,7 +23,7 @@ namespace Hena.DB
 
 			public override void FillParameters(List<object> parameters)
 			{
-				parameters.Add(BasicData.UserDBKey);
+				parameters.Add(BasicData.UserId);
 				parameters.Add(BasicData.EMail);
 				parameters.Add(BasicData.Password);
 			}
@@ -41,14 +41,14 @@ namespace Hena.DB
         public class IN_DATA : IN_BASE
         {
             // 유저 DB키
-            public DBKey UserDBKey = GlobalDefine.INVALID_DBKEY;
+            public DBKey UserId = GlobalDefine.INVALID_DBKEY;
 
             // 이메일 알림 서비스 이용여부
             public string Password = string.Empty;
 
             public override void FillParameters(List<object> parameters)
             {
-                parameters.Add(UserDBKey);
+                parameters.Add(UserId);
                 parameters.Add(Password);
             }
         }
@@ -90,7 +90,7 @@ namespace Hena.DB
 		#endregion // IN / OUT
 	}
 
-	// 유저정보 조회( UserDBKey )
+	// 유저정보 조회( UserId )
 	public class DBQuery_User_Select : DBQuery_User_Select_Base<COMMON_IN_DATA_DBKeyOnly>
 	{
 		public override string ProcedureName => "sp_user_select";

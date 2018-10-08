@@ -10,14 +10,14 @@ namespace Hena.Shared.Data
 	public class AppDataContainer
 		: ListDataContainer<AppDataContainer, AppData>
 	{
-        public AppData FindByUserDBKey(DBKey userDBKey)
+        public AppData FindByUserId(DBKey userId)
 		{
-			return Find(item => item.UserDBKey == userDBKey);
+			return Find(item => item.UserId == userId);
 		}
 
-		public AppData FindByAppDBKey(DBKey campaignDBKey)
+		public AppData FindByAppId(DBKey campaignId)
 		{
-			return Find(item => item.AppDBKey == campaignDBKey);
+			return Find(item => item.AppId == campaignId);
 		}
 	}
 }

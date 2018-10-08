@@ -9,7 +9,7 @@ namespace HenaWebsite.Controllers
     {
 		#region Properties
 		protected bool IsAuthenticated { get => User.Identity.IsAuthenticated; }
-		protected DBKey UserDBKey { get => GetClaimValueSafe(HenaClaimTypes.SerialNumber, GlobalDefine.INVALID_DBKEY); }
+		protected DBKey UserId { get => GetClaimValueSafe(HenaClaimTypes.SerialNumber, GlobalDefine.INVALID_DBKEY); }
 		protected string EMail { get => GetClaimValueSafe(HenaClaimTypes.Email, string.Empty); }
 		#endregion // Properties
 

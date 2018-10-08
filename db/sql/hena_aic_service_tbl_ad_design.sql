@@ -24,9 +24,9 @@ DROP TABLE IF EXISTS `tbl_ad_design`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_ad_design` (
   `Idx` bigint(20) NOT NULL AUTO_INCREMENT,
-  `UserDBKey` bigint(20) NOT NULL,
-  `CampaignDBKey` bigint(20) NOT NULL,
-  `AdDesignDBKey` bigint(20) NOT NULL,
+  `UserId` bigint(20) NOT NULL,
+  `CampaignId` bigint(20) NOT NULL,
+  `AdDesignId` bigint(20) NOT NULL,
   `Name` varchar(80) NOT NULL,
   `AdDesignType` varchar(15) NOT NULL DEFAULT 'None' COMMENT 'None, Banner, Interstitial, Video',
   `ResourceName` varchar(64) NOT NULL,
@@ -36,9 +36,9 @@ CREATE TABLE `tbl_ad_design` (
   `DeletedTime` datetime DEFAULT NULL,
   `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `LastUpdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`UserDBKey`,`CampaignDBKey`,`AdDesignDBKey`),
+  PRIMARY KEY (`UserId`,`CampaignId`,`AdDesignId`),
   UNIQUE KEY `Idx_UNIQUE` (`Idx`),
-  UNIQUE KEY `CampaignDesignDBKey_UNIQUE` (`AdDesignDBKey`)
+  UNIQUE KEY `CampaignDesignId_UNIQUE` (`AdDesignId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ CREATE TABLE `tbl_ad_design` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-05 18:15:33
+-- Dump completed on 2018-10-08 12:54:08

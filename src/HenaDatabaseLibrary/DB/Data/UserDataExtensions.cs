@@ -12,14 +12,14 @@ namespace Hena.Shared.Data
     public static class UserDataExtension
 	{
 		#region UserData
-		public static async Task<bool> FromDBByUserDBKeyAsync(this UserData item, DBKey userDBKey, bool takeBasicData)
+		public static async Task<bool> FromDBByUserIdAsync(this UserData item, DBKey userId, bool takeBasicData)
 		{
 			List<Task> tasks = new List<Task>();
             if(takeBasicData)
             {
-                tasks.Add(item.BasicData.FromDBByEmailAsync(userDBKey));
+                tasks.Add(item.BasicData.FromDBByEmailAsync(userId));
             }
-			tasks.Add(item.Permissions.FromDBByUserDBKeyAsync(userDBKey));
+			tasks.Add(item.Permissions.FromDBByUserIdAsync(userId));
 
 			await Task.WhenAll(tasks.ToArray());
 			return Array.TrueForAll(tasks.ToArray(), (Task t) => { return t is Task<bool> ? ((Task<bool>)t).Result : true; });
@@ -30,7 +30,7 @@ namespace Hena.Shared.Data
 			if (await item.BasicData.FromDBByEmailAsync(email) == false)
 				return false;
 
-			return await item.FromDBByUserDBKeyAsync(item.BasicData.UserDBKey, false);
+			return await item.FromDBByUserIdAsync(item.BasicData.UserId, false);
 		}
         #endregion // UserData
     }

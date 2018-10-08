@@ -14,7 +14,7 @@ namespace Hena.Shared.Data
 		private readonly static UserPermissionData Default = new UserPermissionData();
 
 		// 계정 DB키
-		public DBKey UserDBKey = GlobalDefine.INVALID_DBKEY;
+		public DBKey UserId = GlobalDefine.INVALID_DBKEY;
 
 		// 권한 타입
 		public UserPermissionTypes PermissionType = UserPermissionTypes.None;
@@ -39,7 +39,7 @@ namespace Hena.Shared.Data
 
 		public void CopyTo(ref UserPermissionData target)
 		{
-			target.UserDBKey = UserDBKey;
+			target.UserId = UserId;
 			target.PermissionType = PermissionType;
 			target.Level = Level;
 			target.RegisterTime = RegisterTime;
@@ -49,7 +49,7 @@ namespace Hena.Shared.Data
 		#region IJSONSerializable
 		public bool FromJSON(JToken token)
 		{
-			UserDBKey = JSONUtility.GetValue(token, "UserDBKey", Default.UserDBKey);
+			UserId = JSONUtility.GetValue(token, "UserId", Default.UserId);
 			PermissionType = JSONUtility.GetValueEnum(token, "PermissionType", Default.PermissionType);
 			Level = JSONUtility.GetValue(token, "Level", Default.Level);
 			RegisterTime = JSONUtility.GetValue(token, "RegisterTime", Default.RegisterTime);
@@ -59,7 +59,7 @@ namespace Hena.Shared.Data
 		public JToken ToJSON()
 		{
 			var jObject = new JObject();
-			jObject["UserDBKey"] = UserDBKey;
+			jObject["UserId"] = UserId;
 			jObject["PermissionType"] = PermissionType.ToString();
 			jObject["Level"] = Level;
 			jObject["RegisterTime"] = RegisterTime;

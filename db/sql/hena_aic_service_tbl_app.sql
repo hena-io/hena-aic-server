@@ -24,17 +24,17 @@ DROP TABLE IF EXISTS `tbl_app`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_app` (
   `Idx` bigint(20) NOT NULL AUTO_INCREMENT,
-  `UserDBKey` bigint(20) NOT NULL,
-  `AppDBKey` bigint(20) NOT NULL,
+  `UserId` bigint(20) NOT NULL,
+  `AppId` bigint(20) NOT NULL,
   `Name` varchar(80) NOT NULL,
   `AppMarketType` varchar(20) NOT NULL DEFAULT 'None',
   `IsDeleted` tinyint(4) NOT NULL DEFAULT '0',
   `DeletedTime` datetime DEFAULT NULL,
   `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `LastUpdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`UserDBKey`,`AppDBKey`),
+  PRIMARY KEY (`UserId`,`AppId`),
   UNIQUE KEY `Idx_UNIQUE` (`Idx`),
-  UNIQUE KEY `AppDBKey_UNIQUE` (`AppDBKey`) /*!80000 INVISIBLE */,
+  UNIQUE KEY `AppId_UNIQUE` (`AppId`) /*!80000 INVISIBLE */,
   KEY `Idx_AppName` (`Name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -48,4 +48,4 @@ CREATE TABLE `tbl_app` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-05 18:15:33
+-- Dump completed on 2018-10-08 12:54:08

@@ -15,10 +15,10 @@ namespace Hena.Shared.Data
 		public readonly static CampaignData Default = new CampaignData();
 
 		// 유저 DBKey
-		public DBKey UserDBKey = GlobalDefine.INVALID_DBKEY;
+		public DBKey UserId = GlobalDefine.INVALID_DBKEY;
 
 		// 캠페인 DBKey
-		public DBKey CampaignDBKey = GlobalDefine.INVALID_DBKEY;
+		public DBKey CampaignId = GlobalDefine.INVALID_DBKEY;
 
 		// 캠페인 이름( Max 80 )
 		public string Name = string.Empty;
@@ -61,8 +61,8 @@ namespace Hena.Shared.Data
 
 		public void CopyTo(ref CampaignData target)
 		{
-			target.UserDBKey = UserDBKey;
-			target.CampaignDBKey = CampaignDBKey;
+			target.UserId = UserId;
+			target.CampaignId = CampaignId;
 			target.Name = Name;
 			target.CampaignType = CampaignType;
 			target.TargetValue = TargetValue;
@@ -80,8 +80,8 @@ namespace Hena.Shared.Data
 		#region IJSONSerializable
 		public bool FromJSON(JToken token)
 		{
-			UserDBKey = JSONUtility.GetValue(token, "UserDBKey", Default.UserDBKey);
-			CampaignDBKey = JSONUtility.GetValue(token, "CampaignDBKey", Default.CampaignDBKey);
+			UserId = JSONUtility.GetValue(token, "UserId", Default.UserId);
+			CampaignId = JSONUtility.GetValue(token, "CampaignId", Default.CampaignId);
 			Name = JSONUtility.GetValue(token, "Name", Default.Name);
 			CampaignType = JSONUtility.GetValue(token, "CampaignType", Default.CampaignType);
 			TargetValue = JSONUtility.GetValue(token, "TargetValue", Default.TargetValue);
@@ -103,8 +103,8 @@ namespace Hena.Shared.Data
 		public JToken ToJSON(SerializationMode serializationMode)
 		{
 			var jObject = new JObject();
-			jObject["UserDBKey"] = UserDBKey;
-			jObject["CampaignDBKey"] = CampaignDBKey;
+			jObject["UserId"] = UserId;
+			jObject["CampaignId"] = CampaignId;
 			jObject["Name"] = Name;
 			jObject["CampaignType"] = CampaignType.ToString();
 			jObject["TargetValue"] = TargetValue;

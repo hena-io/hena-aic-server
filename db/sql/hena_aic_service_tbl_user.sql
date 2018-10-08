@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `tbl_user`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_user` (
   `Idx` bigint(20) NOT NULL AUTO_INCREMENT,
-  `UserDBKey` bigint(20) NOT NULL,
+  `UserId` bigint(20) NOT NULL,
   `EMail` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'email, use to login',
   `Password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'password, use to login',
   `Language` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'ex) en-US, ko-KR, ja-JP',
@@ -38,9 +38,9 @@ CREATE TABLE `tbl_user` (
   `DeletedTime` datetime DEFAULT NULL COMMENT 'account deleted time',
   `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'account create time',
   `LastUpdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`UserDBKey`),
+  PRIMARY KEY (`UserId`),
   UNIQUE KEY `Idx_UNIQUE` (`Idx`),
-  UNIQUE KEY `UserDBKey_UNIQUE` (`UserDBKey`),
+  UNIQUE KEY `UserId_UNIQUE` (`UserId`),
   UNIQUE KEY `EMail_UNIQUE` (`EMail`),
   KEY `Idx_EMail` (`EMail`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -55,4 +55,4 @@ CREATE TABLE `tbl_user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-05 18:15:34
+-- Dump completed on 2018-10-08 12:54:09

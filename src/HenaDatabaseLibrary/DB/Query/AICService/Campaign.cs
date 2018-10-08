@@ -23,8 +23,8 @@ namespace Hena.DB
 
 			public override void FillParameters(List<object> parameters)
 			{
-				parameters.Add(Item.UserDBKey);
-				parameters.Add(Item.CampaignDBKey);
+				parameters.Add(Item.UserId);
+				parameters.Add(Item.CampaignId);
 				parameters.Add(Item.Name);
 				parameters.Add(Item.CampaignType);
 				parameters.Add(Item.TargetValue);
@@ -49,7 +49,7 @@ namespace Hena.DB
 
 			public override void FillParameters(List<object> parameters)
 			{
-				parameters.Add(Item.CampaignDBKey);
+				parameters.Add(Item.CampaignId);
 				parameters.Add(Item.Name);
 				parameters.Add(Item.CampaignType);
 				parameters.Add(Item.TargetValue);
@@ -103,15 +103,15 @@ namespace Hena.DB
 		#endregion // IN / OUT
 	}
 
-	// 캠페인 조회( CampaignDBKey )
+	// 캠페인 조회( CampaignId )
 	public class DBQuery_Campaign_Select : DBQuery_Campaign_Select_Base<COMMON_IN_DATA_DBKeyOnly>
 	{
 		public override string ProcedureName => "sp_campaign_select";
 	}
 
-	// 캠페인 조회( UserDBKey )
-	public class DBQuery_Campaign_Select_By_UserDBKey : DBQuery_Campaign_Select_Base<COMMON_IN_DATA_DBKeyOnly>
+	// 캠페인 조회( UserId )
+	public class DBQuery_Campaign_Select_By_UserId : DBQuery_Campaign_Select_Base<COMMON_IN_DATA_DBKeyOnly>
 	{
-		public override string ProcedureName => "sp_campaign_select_by_userdbkey";
+		public override string ProcedureName => "sp_campaign_select_by_userid";
 	}
 }

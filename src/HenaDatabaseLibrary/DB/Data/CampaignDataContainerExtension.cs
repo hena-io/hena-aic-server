@@ -11,10 +11,10 @@ namespace Hena.Shared.Data
 {
     public static class CampaignDataContainerExtension
 	{
-		public static async Task<int> FromDBByUserDBKeyAsync(this CampaignDataContainer item, DBKey userDBKey)
+		public static async Task<int> FromDBByUserIdAsync(this CampaignDataContainer item, DBKey userId)
 		{
-			var query = new DBQuery_Campaign_Select_By_UserDBKey();
-			query.IN.DBKey = userDBKey;
+			var query = new DBQuery_Campaign_Select_By_UserId();
+			query.IN.DBKey = userId;
 
 			bool result = await DBThread.Instance.ReqQueryAsync(query);
 			query.OUT.Items.CopyTo(ref item);
