@@ -9,52 +9,52 @@ using Newtonsoft.Json.Linq;
 namespace Hena.Shared.Data
 {
 	// 계정 기본 정보
-	public class UserBasicData : IJSONSerializable, ICloneable<UserBasicData>
+	public class UserBasicData
 	{
 		// 기본값
 		public readonly static UserBasicData Default = new UserBasicData();
 
-		// 유저 DBKey
-		public DBKey UserId = GlobalDefine.INVALID_DBKEY;
+		// 유저 Id
+		public DBKey UserId { get; set; } = GlobalDefine.INVALID_DBKEY;
 		
 		// 이메일
-		public string EMail = string.Empty;
+		public string EMail { get; set; } = string.Empty;
 
 		// 비밀번호
-		public string Password = string.Empty;
+		public string Password { get; set; } = string.Empty;
 
 		// 언어
-		public string Language = string.Empty;
+		public string Language { get; set; } = string.Empty;
 
 		// 타임존 ID
-		public string TimeZoneId = string.Empty;
+		public string TimeZoneId { get; set; } = string.Empty;
 
 		// 이름
-		public string GivenName = string.Empty;
+		public string GivenName { get; set; } = string.Empty;
 
 		// 성
-		public string SurName = string.Empty;
+		public string SurName { get; set; } = string.Empty;
 
         // 지역코드
-        public string RegionCodeForNumber = "";
+        public string RegionCodeForNumber { get; set; } = "";
 
         // 국가번호
-        public int CountryCode = 00;
+        public int CountryCode { get; set; } = 00;
 
         // 전화번호
-        public long NationalNumber = 0100000000;
+        public long NationalNumber { get; set; } = 0100000000;
 
 		// 계정 삭제여부
-		public bool IsDeleted = false;
+		public bool IsDeleted { get; set; } = false;
 
 		// 계정 삭제 시간
-		public DateTime DeletedTime = GlobalDefine.INVALID_DATETIME;
+		public DateTime DeletedTime { get; set; } = GlobalDefine.INVALID_DATETIME;
 
 		// 계정 생성 시간
-		public DateTime CreateTime = GlobalDefine.INVALID_DATETIME;
+		public DateTime CreateTime { get; set; } = GlobalDefine.INVALID_DATETIME;
 
 		// DB 마지막 업데이트 시간
-		public DateTime LastUpdate = GlobalDefine.INVALID_DATETIME;
+		public DateTime LastUpdate { get; set; } = GlobalDefine.INVALID_DATETIME;
 
 
 		// 전화번호
@@ -103,72 +103,5 @@ namespace Hena.Shared.Data
 
 			return matchCount >= minMatchCount;
         }
-
-		#region ICloneable
-		public UserBasicData Clone()
-		{
-			return this.Clone<UserBasicData>();
-		}
-
-		public void CopyTo(ref UserBasicData target)
-		{
-			target.UserId = UserId;
-			target.EMail = EMail;
-			target.Password = Password;
-			target.Language = Language;
-			target.TimeZoneId = TimeZoneId;
-			target.GivenName = GivenName;
-			target.SurName = SurName;
-			target.RegionCodeForNumber = RegionCodeForNumber;
-			target.CountryCode = CountryCode;
-			target.NationalNumber = NationalNumber;
-			target.IsDeleted = IsDeleted;
-			target.DeletedTime = DeletedTime;
-			target.CreateTime = CreateTime;
-			target.LastUpdate = LastUpdate;
-		}
-		#endregion // ICloneable
-
-		#region IJSONSerializable
-		public bool FromJSON(JToken token)
-		{
-			UserId = JSONUtility.GetValue(token, "UserId", Default.UserId);
-			EMail = JSONUtility.GetValue(token, "EMail", Default.EMail);
-			Password = JSONUtility.GetValue(token, "Password", Default.Password);
-			Language = JSONUtility.GetValue(token, "Language", Default.Language);
-			TimeZoneId = JSONUtility.GetValue(token, "TimeZoneId", Default.TimeZoneId);
-			GivenName = JSONUtility.GetValue(token, "GivenName", Default.GivenName);
-			SurName = JSONUtility.GetValue(token, "SurName", Default.SurName);
-			RegionCodeForNumber = JSONUtility.GetValue(token, "RegionCodeForNumber", Default.RegionCodeForNumber);
-			CountryCode = JSONUtility.GetValue(token, "CountryCode", Default.CountryCode);
-			NationalNumber = JSONUtility.GetValue(token, "NationalNumber", Default.NationalNumber);
-			IsDeleted = JSONUtility.GetValue(token, "IsDeleted", Default.IsDeleted);
-			DeletedTime = JSONUtility.GetValue(token, "DeletedTime", Default.DeletedTime);
-			CreateTime = JSONUtility.GetValue(token, "CreateTime", Default.CreateTime);
-			LastUpdate = JSONUtility.GetValue(token, "LastUpdate", Default.LastUpdate);
-
-			return true;
-		}
-
-		public JToken ToJSON()
-		{
-			var jObject = new JObject();
-			jObject["UserId"] = UserId;
-			jObject["EMail"] = EMail;
-			jObject["Password"] = Password;
-			jObject["Language"] = Language;
-			jObject["TimeZoneId"] = TimeZoneId;
-			jObject["GivenName"] = GivenName;
-			jObject["SurName"] = SurName;
-			jObject["RegionCodeForNumber"] = RegionCodeForNumber;
-			jObject["CountryCode"] = CountryCode;
-			jObject["NationalNumber"] = NationalNumber;
-			jObject["IsDeleted"] = IsDeleted;
-			jObject["DeletedTime"] = DeletedTime;
-			jObject["CreateTime"] = CreateTime;
-			jObject["LastUpdate"] = LastUpdate;
-			return jObject;
-		}
-		#endregion // IJSONSerializable
 	}
 }

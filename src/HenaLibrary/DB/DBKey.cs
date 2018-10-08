@@ -6,12 +6,38 @@ using System.Linq;
 
 namespace Hena
 {
-    // -------------------------------------------------------------------
-    // [WARNING]
-    // javascript에서 64bit 지원 안함( 53bit까지만 지원 ) 
-    // signalR통신시 누락되는 부분때문에 set Property는 함수로만 지원함.
-    // 절대로 Property를 통해 값이 세팅되게 하지 말것!!!!
-    // -------------------------------------------------------------------
+	//
+	// 요약:
+	//     Converts an System.Enum to and from its name string value.
+	public class DBKeyStringConverter : JsonConverter
+	{
+		public DBKeyStringConverter() { }
+		public override bool CanConvert(Type objectType)
+		{
+			return true;
+		}
+		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+		{
+			try
+			{
+				return new DBKey(reader.Value.ToString());
+			}
+			catch
+			{
+				return new DBKey(-1);
+			}
+		}
+		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+		{
+			if (value == null)
+			{
+				writer.WriteValue(-1);
+				return;
+			}
+			writer.WriteValue(value.ToString());
+		}
+	}
+	[JsonConverter(typeof(DBKeyStringConverter))]
     public struct DBKey : IJSONSerializable
 	{
 		public readonly static DBKey Default = new DBKey(-1);

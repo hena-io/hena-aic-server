@@ -1,4 +1,5 @@
 ﻿using Hena.DB;
+using Hena.Library.Extensions;
 using Hena.Shared.Data;
 using System;
 using System.Collections.Generic;
@@ -16,20 +17,7 @@ namespace Hena.Shared.Data
 			if (row == null)
 				return false;
 
-			DBUtility.AsValue(row, "UserId", out item.UserId, UserBasicData.Default.UserId);
-			DBUtility.AsValue(row, "EMail", out item.EMail, UserBasicData.Default.EMail);
-			DBUtility.AsValue(row, "Password", out item.Password, UserBasicData.Default.Password);
-			DBUtility.AsValue(row, "Language", out item.Language, UserBasicData.Default.Language);
-			DBUtility.AsValue(row, "TimeZoneId", out item.TimeZoneId, UserBasicData.Default.TimeZoneId);
-			DBUtility.AsValue(row, "GivenName", out item.GivenName, UserBasicData.Default.GivenName);
-			DBUtility.AsValue(row, "SurName", out item.SurName, UserBasicData.Default.SurName);
-			DBUtility.AsValue(row, "RegionCodeForNumber", out item.RegionCodeForNumber, UserBasicData.Default.RegionCodeForNumber);
-			DBUtility.AsValue(row, "CountryCode", out item.CountryCode, UserBasicData.Default.CountryCode);
-			DBUtility.AsValue(row, "NationalNumber", out item.NationalNumber, UserBasicData.Default.NationalNumber);
-			DBUtility.AsValue(row, "IsDeleted", out item.IsDeleted, UserBasicData.Default.IsDeleted);
-			DBUtility.AsValue(row, "DeletedTime", out item.DeletedTime, UserBasicData.Default.DeletedTime);
-			DBUtility.AsValue(row, "CreateTime", out item.CreateTime, UserBasicData.Default.CreateTime);
-			DBUtility.AsValue(row, "LastUpdate", out item.LastUpdate, UserBasicData.Default.LastUpdate);
+			row.Copy(item);
 			return true;
 		}
 		
@@ -42,7 +30,8 @@ namespace Hena.Shared.Data
             if (query.OUT.FirstItem == null)
                 return false;
 
-            query.OUT.FirstItem.CopyTo(ref userBasicData);
+
+            query.OUT.FirstItem.Copy(userBasicData);
             return true;
         }
 
@@ -55,7 +44,7 @@ namespace Hena.Shared.Data
 			if (query.OUT.FirstItem == null)
 				return false;
 
-			query.OUT.FirstItem.CopyTo(ref userBasicData);
+			query.OUT.FirstItem.Copy(userBasicData);
 			return true;
 		}
 	}

@@ -19,7 +19,7 @@ namespace Hena.DB
 		#region IN / OUT
 		public class IN_DATA : IN_BASE
 		{
-			public UserPermissionData PermissionData = new UserPermissionData();
+			public UserPermissionData PermissionData { get; private set; } = new UserPermissionData();
 
 			public override void FillParameters(List<object> parameters)
 			{
@@ -79,8 +79,8 @@ namespace Hena.DB
         #region IN / OUT
         public class IN_DATA : IN_BASE
         {
-            public DBKey UserId = GlobalDefine.INVALID_DBKEY;
-            public UserPermissionTypes PermissionType = UserPermissionTypes.None;
+            public DBKey UserId { get; set; } = GlobalDefine.INVALID_DBKEY;
+            public UserPermissionTypes PermissionType { get; set; } = UserPermissionTypes.None;
 
             public override void FillParameters(List<object> parameters)
             {
@@ -106,7 +106,7 @@ namespace Hena.DB
 		#region IN / OUT
 		public class IN_DATA : IN_BASE
 		{
-			public UserPermissionTypes PermissionType = UserPermissionTypes.None;
+			public UserPermissionTypes PermissionType { get; set; } = UserPermissionTypes.None;
 
 			public override void FillParameters(List<object> parameters)
 			{
@@ -161,7 +161,7 @@ namespace Hena.DB
 		#region IN / OUT
 		public class IN_DATA : IN_BASE
 		{
-			public UserPermissionData PermissionData = new UserPermissionData();
+			public UserPermissionData PermissionData { get; set; } = new UserPermissionData();
 
 			public override void FillParameters(List<object> parameters)
 			{
@@ -186,7 +186,7 @@ namespace Hena.DB
 			public DBKey UserId = GlobalDefine.INVALID_DBKEY;
 
 			// 권한 타입
-			public UserPermissionTypes PermissionType = UserPermissionTypes.None;
+			public UserPermissionTypes PermissionType { get; set; } = UserPermissionTypes.None;
 
 			public override void FillParameters(List<object> parameters)
 			{

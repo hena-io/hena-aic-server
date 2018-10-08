@@ -40,14 +40,11 @@ namespace HenaWebsite.Controllers.API
 			if (await DBThread.Instance.ReqQueryAsync(insertQuery) == false)
 				return APIResponse(ErrorCode.DatabaseError);
 
-			// Select from db
-			CampaignData campaignData = new CampaignData();
-			if (await campaignData.FromDBAsync(item.CampaignId) == false)
-				return APIResponse(ErrorCode.DatabaseError);
-
 			// Response
 			var response = new CampaignModels.Create.Response();
-			response.From(campaignData);
+			if (await response.FromDBAsync(item.CampaignId) == false)
+				return APIResponse(ErrorCode.DatabaseError);
+
 			return Success(response);
 		}
 
@@ -60,7 +57,7 @@ namespace HenaWebsite.Controllers.API
 			if (request.IsValidParameters() == false)
 				return APIResponse(ErrorCode.InvalidParameters);
 
-			DBKey campaignId = request.Id.ToLong();
+			DBKey campaignId = request.CampaignId;
 			CampaignData campaignData = new CampaignData();
 
 			// Check validation
@@ -74,18 +71,16 @@ namespace HenaWebsite.Controllers.API
 			var updateQuery = new DBQuery_Campaign_Update();
 			var item = updateQuery.IN.Item;
 			item.UserId = UserId;
-			item.CampaignId = request.Id.ToLong();
+			item.CampaignId = request.CampaignId;
 			request.Fill(updateQuery.IN.Item);
 			if (await DBThread.Instance.ReqQueryAsync(updateQuery) == false)
 				return APIResponse(ErrorCode.DatabaseError);
 
-			// Select from db
-			if (await campaignData.FromDBAsync(item.CampaignId) == false)
-				return APIResponse(ErrorCode.DatabaseError);
-
 			// Response
 			var response = new CampaignModels.Modify.Response();
-			response.From(campaignData);
+			if (await response.FromDBAsync(item.CampaignId) == false)
+				return APIResponse(ErrorCode.DatabaseError);
+
 			return Success(response);
 		}
 
@@ -98,7 +93,7 @@ namespace HenaWebsite.Controllers.API
 			if (request.IsValidParameters() == false)
 				return APIResponse(ErrorCode.InvalidParameters);
 
-			DBKey campaignId = request.Id.ToLong();
+			DBKey campaignId = request.CampaignId;
 			CampaignData campaignData = new CampaignData();
 
 			// Check validation
@@ -110,7 +105,7 @@ namespace HenaWebsite.Controllers.API
 
 			// Delete from db
 			var deleteQuery = new DBQuery_Campaign_Delete();
-			deleteQuery.IN.DBKey = request.Id.ToLong();
+			deleteQuery.IN.DBKey = request.CampaignId;
 			if (await DBThread.Instance.ReqQueryAsync(deleteQuery) == false)
 				return APIResponse(ErrorCode.DatabaseError);
 

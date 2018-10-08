@@ -1,4 +1,5 @@
 ﻿using Hena;
+using Hena.Library.Attributes;
 using Hena.Shared.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -15,31 +16,25 @@ namespace HenaWebsite.Models.API.Campaign
 		// 캠페인 생성
 		public static class Create
 		{
+			[Serializable]
+			[JsonConverter(typeof(TrimConverter<Request>))]
 			public class Request
 			{
-				[JsonProperty(PropertyName = "name")]
+				public DBKey UserId { get; set; } = GlobalDefine.INVALID_DBKEY;
+				[Trim]
 				public string Name { get; set; } = string.Empty;
-
-				[JsonProperty(PropertyName = "type")]
 				[JsonConverter(typeof(StringEnumConverter))]
-				public CampaignTypes Type { get; set; } = CampaignTypes.None;
-
-				[JsonProperty(PropertyName = "cost")]
+				public CampaignTypes CampaignType { get; set; } = CampaignTypes.None;
 				public decimal Cost { get; set; } = 0m;
-
-				[JsonProperty(PropertyName = "targetValue")]
 				public long TargetValue { get; set; } = 0;
-
-				[JsonProperty(PropertyName = "beginDate")]
 				public DateTime BeginTime { get; set; } = DateTime.MinValue;
-
-				[JsonProperty(PropertyName = "endDate")]
 				public DateTime EndTime { get; set; } = DateTime.MinValue;
 
 				public virtual void Fill(CampaignData target)
 				{
-					target.Name = Name.Trim();
-					target.CampaignType = Type;
+					target.UserId = UserId;
+					target.Name = Name;
+					target.CampaignType = CampaignType;
 					target.Cost = Cost;
 					target.TargetValue = TargetValue;
 					target.BeginTime = BeginTime;
@@ -65,52 +60,8 @@ namespace HenaWebsite.Models.API.Campaign
 				}
 			}
 
-			public class Response
+			public class Response : CampaignData
 			{
-				[JsonProperty(PropertyName = "id")]
-				public string Id { get; set; }
-
-				[JsonProperty(PropertyName = "name")]
-				public string Name = string.Empty;
-
-				[JsonProperty(PropertyName = "type")]
-				[JsonConverter(typeof(StringEnumConverter))]
-				public CampaignTypes Type = CampaignTypes.None;
-
-				[JsonProperty(PropertyName = "targetValue")]
-				public long TargetValue = 0;
-
-				[JsonProperty(PropertyName = "cost")]
-				public decimal Cost = 0m;
-
-				[JsonProperty(PropertyName = "beginDate")]
-				public DateTime BeginTime = DateTime.MinValue;
-
-				[JsonProperty(PropertyName = "endDate")]
-				public DateTime EndTime = DateTime.MinValue;
-
-				[JsonProperty(PropertyName = "isPause")]
-				public bool IsPause = false;
-
-				[JsonProperty(PropertyName = "createdAt")]
-				public DateTime CreateTime = DateTime.MinValue;
-
-				[JsonProperty(PropertyName = "updatedAt")]
-				public DateTime LastUpdate = DateTime.MinValue;
-
-				public void From(CampaignData item)
-				{
-					Id = item.CampaignId.ToString();
-					Name = item.Name;
-					Type = item.CampaignType;
-					TargetValue = item.TargetValue;
-					Cost = item.Cost;
-					BeginTime = item.BeginTime;
-					EndTime = item.EndTime;
-					IsPause = item.IsPause;
-					CreateTime = item.CreateTime;
-					LastUpdate = item.LastUpdate;
-				}
 			}
 		}
 
@@ -119,12 +70,11 @@ namespace HenaWebsite.Models.API.Campaign
 		{
 			public class Request : Create.Request
 			{
-				[JsonProperty(PropertyName = "id")]
-				public string Id { get; set; } = string.Empty;
+				public DBKey CampaignId { get; set; } = string.Empty;
 
 				public override bool IsValidParameters()
 				{
-					if (string.IsNullOrEmpty(Id) || Id.ToLong() <= 0)
+					if (CampaignId <= 0)
 						return false;
 
 					return base.IsValidParameters();
@@ -141,12 +91,11 @@ namespace HenaWebsite.Models.API.Campaign
 		{
 			public class Request
 			{
-				[JsonProperty(PropertyName = "id")]
-				public string Id { get; set; } = string.Empty;
+				public DBKey CampaignId { get; set; } = GlobalDefine.INVALID_DBKEY;
 
 				public virtual bool IsValidParameters()
 				{
-					if (string.IsNullOrEmpty(Id) || Id.ToLong() <= 0)
+					if (CampaignId <= 0)
 						return false;
 
 					return true;

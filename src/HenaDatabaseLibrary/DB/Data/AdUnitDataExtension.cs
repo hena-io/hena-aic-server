@@ -1,4 +1,5 @@
 ﻿using Hena.DB;
+using Hena.Library.Extensions;
 using Hena.Shared.Data;
 using System;
 using System.Collections.Generic;
@@ -16,13 +17,7 @@ namespace Hena.Shared.Data
 			if (row == null)
 				return false;
 
-			DBUtility.AsValue(row, "UserId", out item.UserId, AdUnitData.Default.UserId);
-			DBUtility.AsValue(row, "AppId", out item.AppId, AdUnitData.Default.AppId);
-			DBUtility.AsValue(row, "AdUnitId", out item.AdUnitId, AdUnitData.Default.AdUnitId);
-			DBUtility.AsValue(row, "Name", out item.Name, AdUnitData.Default.Name);
-			DBUtility.AsValue(row, "AdDesignType", out item.AdDesignType, AdUnitData.Default.AdDesignType);
-			DBUtility.AsValue(row, "CreateTime", out item.CreateTime, AdUnitData.Default.CreateTime);
-			DBUtility.AsValue(row, "LastUpdate", out item.LastUpdate, AdUnitData.Default.LastUpdate);
+			row.Copy(item);
 			return true;
 		}
 		
@@ -35,7 +30,7 @@ namespace Hena.Shared.Data
             if (query.OUT.FirstItem == null)
                 return false;
 
-            query.OUT.FirstItem.CopyTo(ref item);
+            query.OUT.FirstItem.Copy(item);
             return true;
         }
 	}

@@ -4,110 +4,53 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 
 namespace Hena.Shared.Data
 {
 	// 광고 디자인 데이터
-	public class AdDesignData : IJSONSerializable, ICloneable<AdDesignData>
+	public class AdDesignData
 	{
 		// 기본값
 		public readonly static AdDesignData Default = new AdDesignData();
 
-		// 유저 DBKey
-		public DBKey UserId = GlobalDefine.INVALID_DBKEY;
+		// 유저 Id
+		public DBKey UserId { get; set; } = GlobalDefine.INVALID_DBKEY;
 
-		// 캠페인 DBKey
-		public DBKey CampaignId = GlobalDefine.INVALID_DBKEY;
+		// 캠페인 Id
+		public DBKey CampaignId { get; set; } = GlobalDefine.INVALID_DBKEY;
 
-		// 광고 디자인 DBKey
-		public DBKey AdDesignId = GlobalDefine.INVALID_DBKEY;
+		// 광고 디자인 Id
+		public DBKey AdDesignId { get; set; } = GlobalDefine.INVALID_DBKEY;
 
 		// 디자인 이름( Max 80 )
-		public string Name = string.Empty;
+		public string Name { get; set; } = string.Empty;
 
 		// 광고 디자인 타입
-		public AdDesignTypes AdDesignType = AdDesignTypes.None;
+		[JsonConverter(typeof(StringEnumConverter))]
+		public AdDesignTypes AdDesignType { get; set; } = AdDesignTypes.None;
 
 		// 업로드된 리소스 이름
-		public string ResourceName = string.Empty;
+		public string ResourceName { get; set; } = string.Empty;
 
 		// 목적지 URL
-		public string DestinationUrl = string.Empty;
+		public string DestinationUrl { get; set; } = string.Empty;
 
 		// 캠페인 일시정지 상태
-		public bool IsPause = false;
+		public bool IsPause { get; set; } = false;
 
 		// 삭제상태 체크
-		public bool IsDeleted = false;
+		public bool IsDeleted { get; set; } = false;
 
 		// 삭제된 시간
-		public DateTime DeletedTime = DateTime.MinValue;
+		public DateTime DeletedTime { get; set; } = DateTime.MinValue;
 
 		// 생성된 시간
-		public DateTime CreateTime = DateTime.MinValue;
+		public DateTime CreateTime { get; set; } = DateTime.MinValue;
 
 		// 마지막 업데이트된 시간
-		public DateTime LastUpdate = DateTime.MinValue;
-		
-		#region ICloneable
-		public AdDesignData Clone()
-		{
-			return this.Clone<AdDesignData>();
-		}
-
-		public void CopyTo(ref AdDesignData target)
-		{
-			target.UserId = UserId;
-			target.CampaignId = CampaignId;
-			target.AdDesignId = AdDesignId;
-			target.Name = Name;
-			target.AdDesignType = AdDesignType;
-			target.ResourceName = ResourceName;
-			target.DestinationUrl = DestinationUrl;
-			target.IsPause = IsPause;
-			target.IsDeleted = IsDeleted;
-			target.DeletedTime = DeletedTime;
-			target.CreateTime = CreateTime;
-			target.LastUpdate = LastUpdate;
-		}
-		#endregion // ICloneable
-
-		#region IJSONSerializable
-		public bool FromJSON(JToken token)
-		{
-			UserId = JSONUtility.GetValue(token, "UserId", Default.UserId);
-			CampaignId = JSONUtility.GetValue(token, "CampaignId", Default.CampaignId);
-			AdDesignId = JSONUtility.GetValue(token, "AdDesignId", Default.AdDesignId);
-			Name = JSONUtility.GetValue(token, "Name", Default.Name);
-			AdDesignType = JSONUtility.GetValue(token, "AdDesignType", Default.AdDesignType);
-			ResourceName = JSONUtility.GetValue(token, "ResourceName", Default.ResourceName);
-			DestinationUrl = JSONUtility.GetValue(token, "DestinationUrl", Default.DestinationUrl);
-			IsPause = JSONUtility.GetValue(token, "IsPause", Default.IsPause);
-			IsDeleted = JSONUtility.GetValue(token, "IsDeleted", Default.IsDeleted);
-			DeletedTime = JSONUtility.GetValue(token, "DeletedTime", Default.DeletedTime);
-			CreateTime = JSONUtility.GetValue(token, "CreateTime", Default.CreateTime);
-			LastUpdate = JSONUtility.GetValue(token, "LastUpdate", Default.LastUpdate);
-			return true;
-		}
-
-		public JToken ToJSON()
-		{
-			var jObject = new JObject();
-			jObject["UserId"] = UserId;
-			jObject["CampaignId"] = CampaignId;
-			jObject["AdDesignId"] = AdDesignId;
-			jObject["Name"] = Name;
-			jObject["AdDesignType"] = AdDesignType.ToString();
-			jObject["ResourceName"] = ResourceName;
-			jObject["DestinationUrl"] = DestinationUrl;
-			jObject["IsPause"] = IsPause;
-			jObject["IsDeleted"] = IsDeleted;
-			jObject["DeletedTime"] = DeletedTime;
-			jObject["CreateTime"] = CreateTime;
-			jObject["LastUpdate"] = LastUpdate;
-			return jObject;
-		}
-		#endregion // IJSONSerializable
+		public DateTime LastUpdate { get; set; } = DateTime.MinValue;
 	}
 }

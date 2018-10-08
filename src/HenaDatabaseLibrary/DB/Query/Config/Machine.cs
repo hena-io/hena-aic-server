@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Xml;
 using Hena;
+using Hena.Library.Extensions;
 using Hena.Shared;
 using Hena.Shared.Data;
 using MySql.Data.MySqlClient;
@@ -19,8 +20,8 @@ namespace Hena.DB
 		#region IN / OUT
 		public class IN_DATA : IN_BASE
 		{
-			public string MacAddress = string.Empty;
-			public int Port = 0;
+			public string MacAddress { get; set; } = string.Empty;
+			public int Port { get; set; } = 0;
 			public override void FillParameters(List<object> parameters)
 			{
 				parameters.Add(MacAddress);
@@ -30,9 +31,9 @@ namespace Hena.DB
 
 		public class OUT_DATA : IOUT
 		{
-			public short MachineId = GlobalDefine.INVALID_MACHINE_ID;
-			public string MacAddress = string.Empty;
-			public int Port = 0;
+			public short MachineId { get; set; } = GlobalDefine.INVALID_MACHINE_ID;
+			public string MacAddress { get; set; } = string.Empty;
+			public int Port { get; set; } = 0;
 
 			public bool FromDataTable(DataTable table)
 			{
@@ -42,10 +43,8 @@ namespace Hena.DB
 						return false;
 
 					var row = table.Rows[0];
-
-					DBUtility.AsValue(row, "MachineId", out MachineId);
-					DBUtility.AsValue(row, "MacAddress", out MacAddress);
-					DBUtility.AsValue(row, "Port", out Port);
+					row.Copy(this);
+					
 					return true;
 				}
 				catch

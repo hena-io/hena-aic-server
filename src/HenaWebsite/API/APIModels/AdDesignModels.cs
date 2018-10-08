@@ -1,162 +1,104 @@
-﻿//using Hena;
-//using Hena.Shared.Data;
-//using Newtonsoft.Json;
-//using Newtonsoft.Json.Converters;
-//using Newtonsoft.Json.Linq;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Threading.Tasks;
+﻿using Hena;
+using Hena.Shared.Data;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-//namespace HenaWebsite.Models.API.AdDesign
-//{
-//	public static class AdDesignModels
-//	{
-//		// 광고 디자인 생성
-//		public static class Create
-//		{
-//			public class Request
-//			{
-//				[JsonProperty(PropertyName = "name")]
-//				public string Name { get; set; } = string.Empty;
+namespace HenaWebsite.Models.API.AdDesign
+{
+	public static class AdDesignModels
+	{
+		// 광고 디자인 생성
+		public static class Create
+		{
+			public class Request
+			{
+				public DBKey UserId { get; set; } = GlobalDefine.INVALID_DBKEY;
+				public DBKey CampaignId { get; set; } = GlobalDefine.INVALID_DBKEY;
+				public string Name { get; set; } = string.Empty;
+				public AdDesignTypes AdDesignType { get; set; } = AdDesignTypes.None;
+				public string ResourceName { get; set; } = string.Empty;
+				public string DestinationUrl { get; set; } = string.Empty;
 
-//				[JsonProperty(PropertyName = "type")]
-//				[JsonConverter(typeof(StringEnumConverter))]
-//				public CampaignTypes Type { get; set; } = CampaignTypes.None;
+				public virtual void Fill(AdDesignData target)
+				{
+					target.UserId = UserId;
+					target.CampaignId = CampaignId;
+					target.Name = Name;
+					target.AdDesignType = AdDesignType;
+					target.ResourceName = ResourceName;
+					target.DestinationUrl = DestinationUrl;
+				}
 
-//				[JsonProperty(PropertyName = "cost")]
-//				public decimal Cost { get; set; } = 0m;
+				public virtual AdDesignData ToAdDesignData(DBKey adDesignId)
+				{
+					var item = new AdDesignData();
+					Fill(item);
+					item.AdDesignId = adDesignId;
+					return item;
+				}
 
-//				[JsonProperty(PropertyName = "targetValue")]
-//				public long TargetValue { get; set; } = 0;
+				public virtual bool IsValidParameters()
+				{
+					//var name = AdDesignName.Trim();
+					//if (string.IsNullOrEmpty(name) || name.Length < 2)
+					//	return false;
 
-//				[JsonProperty(PropertyName = "beginDate")]
-//				public DateTime BeginTime { get; set; } = DateTime.MinValue;
+					return true;
+				}
+			}
 
-//				[JsonProperty(PropertyName = "endDate")]
-//				public DateTime EndTime { get; set; } = DateTime.MinValue;
+			public class Response : AdDesignData
+			{
+			}
+		}
 
-//				//public virtual void Fill(AdDesignData target)
-//				//{
-//				//	target.Name = Name.Trim();
-//				//	target.CampaignType = Type;
-//				//	target.Cost = Cost;
-//				//	target.TargetValue = TargetValue;
-//				//	target.BeginTime = BeginTime;
-//				//	target.EndTime = EndTime;
-//				//}
+		// 광고 디자인 수정
+		public static class Modify
+		{
+			public class Request : Create.Request
+			{
+				[JsonProperty(PropertyName = "id")]
+				public string Id { get; set; } = string.Empty;
 
-//				public virtual AdDesignData ToAdDesignData(DBKey userId, DBKey campaignId)
-//				{
-//					var item = new AdDesignData();
-//					//Fill(item);
-//					item.UserId = userId;
-//					item.CampaignId = campaignId;
-//					return item;
-//				}
+				public override bool IsValidParameters()
+				{
+					if (string.IsNullOrEmpty(Id) || Id.ToLong() <= 0)
+						return false;
 
-//				public virtual bool IsValidParameters()
-//				{
-//					var name = Name.Trim();
-//					if (string.IsNullOrEmpty(name) || name.Length < 2)
-//						return false;
+					return base.IsValidParameters();
+				}
+			}
 
-//					return true;
-//				}
-//			}
+			public class Response : Create.Response
+			{
+			}
+		}
 
-//			public class Response
-//			{
-//				[JsonProperty(PropertyName = "id")]
-//				public string Id { get; set; }
+		// 광고 디자인 삭제
+		public static class Delete
+		{
+			public class Request
+			{
+				public string Id { get; set; } = string.Empty;
 
-//				[JsonProperty(PropertyName = "name")]
-//				public string Name = string.Empty;
+				public virtual bool IsValidParameters()
+				{
+					if (string.IsNullOrEmpty(Id) || Id.ToLong() <= 0)
+						return false;
 
-//				[JsonProperty(PropertyName = "type")]
-//				[JsonConverter(typeof(StringEnumConverter))]
-//				public CampaignTypes Type = CampaignTypes.None;
+					return true;
+				}
+			}
 
-//				[JsonProperty(PropertyName = "targetValue")]
-//				public long TargetValue = 0;
+			public class Response
+			{
+			}
+		}
 
-//				[JsonProperty(PropertyName = "cost")]
-//				public decimal Cost = 0m;
-
-//				[JsonProperty(PropertyName = "beginDate")]
-//				public DateTime BeginTime = DateTime.MinValue;
-
-//				[JsonProperty(PropertyName = "endDate")]
-//				public DateTime EndTime = DateTime.MinValue;
-
-//				[JsonProperty(PropertyName = "isPause")]
-//				public bool IsPause = false;
-
-//				[JsonProperty(PropertyName = "createdAt")]
-//				public DateTime CreateTime = DateTime.MinValue;
-
-//				[JsonProperty(PropertyName = "updatedAt")]
-//				public DateTime LastUpdate = DateTime.MinValue;
-
-//				public void From(AdDesignData item)
-//				{
-//					Id = item.CampaignId.ToString();
-//					Name = item.Name;
-//					Type = item.CampaignType;
-//					TargetValue = item.TargetValue;
-//					Cost = item.Cost;
-//					BeginTime = item.BeginTime;
-//					EndTime = item.EndTime;
-//					IsPause = item.IsPause;
-//					CreateTime = item.CreateTime;
-//					LastUpdate = item.LastUpdate;
-//				}
-//			}
-//		}
-
-//		// 광고 디자인 수정
-//		public static class Modify
-//		{
-//			public class Request : Create.Request
-//			{
-//				[JsonProperty(PropertyName = "id")]
-//				public string Id { get; set; } = string.Empty;
-
-//				public override bool IsValidParameters()
-//				{
-//					if (string.IsNullOrEmpty(Id) || Id.ToLong() <= 0)
-//						return false;
-
-//					return base.IsValidParameters();
-//				}
-//			}
-
-//			public class Response : Create.Response
-//			{
-//			}
-//		}
-
-//		// 광고 디자인 삭제
-//		public static class Delete
-//		{
-//			public class Request
-//			{
-//				[JsonProperty(PropertyName = "id")]
-//				public string Id { get; set; } = string.Empty;
-
-//				public virtual bool IsValidParameters()
-//				{
-//					if (string.IsNullOrEmpty(Id) || Id.ToLong() <= 0)
-//						return false;
-
-//					return true;
-//				}
-//			}
-
-//			public class Response
-//			{
-//			}
-//		}
-
-//	}
-//}
+	}
+}

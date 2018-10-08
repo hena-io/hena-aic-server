@@ -1,4 +1,5 @@
 ﻿using Hena.DB;
+using Hena.Library.Extensions;
 using Hena.Shared.Data;
 using System;
 using System.Collections.Generic;
@@ -17,10 +18,7 @@ namespace Hena.Shared.Data
 			if (row == null)
 				return false;
 
-			DBUtility.AsValue(row, "UserId", out item.UserId);
-			DBUtility.AsValueEnum(row, "PermissionType", out item.PermissionType);
-			DBUtility.AsValue(row, "Level", out item.Level);
-			DBUtility.AsValue(row, "RegisterTime", out item.RegisterTime);
+			row.Copy(item);
 			return true;
 		}
 
@@ -34,7 +32,7 @@ namespace Hena.Shared.Data
             var permissionData = query.OUT.Items.Find(permissionType);
             if(permissionData != null)
             {
-                permissionData.CopyTo(ref item);
+                permissionData.Copy(item);
                 return true;
             }
             return false;

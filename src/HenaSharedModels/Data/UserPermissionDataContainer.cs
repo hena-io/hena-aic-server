@@ -36,15 +36,5 @@ namespace Hena.Shared.Data
 			}
 			return true;
 		}
-
-		protected override bool FromJSON_Key(JToken token, out UserPermissionTypes outKey)
-		{
-			return token.AsEnum(out outKey, true);
-		}
-
-		protected override JToken ToJSON_Key(UserPermissionTypes key)
-		{
-			return new JValue(key.ToString());
-		}
 	}
 }

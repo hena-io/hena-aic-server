@@ -14,16 +14,16 @@
 			contentType: "application/json; charset=utf-8",
 			dataType: "json",
 			data: JSON.stringify({
-				name: '테스트',
-				type: 'CPC',
+				Name: '테스트',
+				campaignType: 'CPC',
 				cost: '1000',
 				targetValue: '10000',
-				beginDate: '2018-10-05 00:00:00',
-				endDate: '2018-10-05 00:00:00'
+				beginTime: '2018-10-05 00:00:00',
+				endTime: '2018-10-05 00:00:00'
 			}),
 			success: function (response) {
 				console.log('response : ', response);
-				if (response.result == "Success") {
+				if (response.result === "Success") {
 					lastCampaignId = response.data.id;
 				}
 			},
@@ -42,13 +42,13 @@
 			contentType: "application/json; charset=utf-8",
 			dataType: "json",
 			data: JSON.stringify({
-				id: lastCampaignId,
-				name: 'Modified Name',
-				type: 'CPM',
+				campaignId: lastCampaignId,
+				Name: 'Modified Name',
+				campaignType: 'CPM',
 				cost: '10001',
 				targetValue: '100001',
-				beginDate: moment.utc().format('YYYY-MM-DD HH:mm:ss'),
-				endDate: moment.utc().add(7, 'd').format('YYYY-MM-DD HH:mm:ss')
+				beginTime: moment.utc().format('YYYY-MM-DD HH:mm:ss'),
+				endTime: moment.utc().add(7, 'd').format('YYYY-MM-DD HH:mm:ss')
 			}),
 			success: function (response) {
 				console.log('response : ', response);
@@ -68,11 +68,11 @@
 			contentType: "application/json; charset=utf-8",
 			dataType: "json",
 			data: JSON.stringify({
-				id: lastCampaignId,
+				id: lastCampaignId
 			}),
 			success: function (response) {
 				console.log('response : ', response);
-				if (response.result == "Success") {
+				if (response.result === "Success") {
 					lastCampaignId = '-1';
 				}
 			},

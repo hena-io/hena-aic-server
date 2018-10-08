@@ -1,4 +1,5 @@
 ﻿using Hena.DB;
+using Hena.Library.Extensions;
 using Hena.Shared.Data;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace Hena.Shared.Data
 			var query = new DBQuery_User_Permission_Select_By_UserId();
 			query.IN.DBKey = userId;
 			var result = await DBThread.Instance.ReqQueryAsync(query);
-			query.OUT.Items.CopyTo(ref item);
+			query.OUT.Items.Copy(item);
 			return item.Count;
 		}
 		#endregion // UserPermissionDataContainer

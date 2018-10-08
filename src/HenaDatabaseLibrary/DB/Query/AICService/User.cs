@@ -19,7 +19,7 @@ namespace Hena.DB
 		#region IN / OUT
 		public class IN_DATA : IN_BASE
 		{
-			public UserBasicData BasicData = new UserBasicData();
+			public UserBasicData BasicData { get; private set; } = new UserBasicData();
 
 			public override void FillParameters(List<object> parameters)
 			{
@@ -41,10 +41,10 @@ namespace Hena.DB
         public class IN_DATA : IN_BASE
         {
             // 유저 DB키
-            public DBKey UserId = GlobalDefine.INVALID_DBKEY;
+            public DBKey UserId { get; set; } = GlobalDefine.INVALID_DBKEY;
 
             // 이메일 알림 서비스 이용여부
-            public string Password = string.Empty;
+            public string Password { get; set; } = string.Empty;
 
             public override void FillParameters(List<object> parameters)
             {
