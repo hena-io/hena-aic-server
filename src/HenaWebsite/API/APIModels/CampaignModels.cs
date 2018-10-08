@@ -23,7 +23,6 @@ namespace HenaWebsite.Models.API.Campaign
 				public DBKey UserId { get; set; } = GlobalDefine.INVALID_DBKEY;
 				[Trim]
 				public string Name { get; set; } = string.Empty;
-				[JsonConverter(typeof(StringEnumConverter))]
 				public CampaignTypes CampaignType { get; set; } = CampaignTypes.None;
 				public decimal Cost { get; set; } = 0m;
 				public long TargetValue { get; set; } = 0;

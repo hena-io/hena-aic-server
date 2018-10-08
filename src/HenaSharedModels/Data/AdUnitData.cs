@@ -29,7 +29,6 @@ namespace Hena.Shared.Data
 		public string Name { get; set; } = string.Empty;
 
 		// 광고 디자인 타입
-		[JsonConverter(typeof(StringEnumConverter))]
 		public AdDesignTypes AdDesignType { get; set; } = AdDesignTypes.None;
 
 		// 생성된 시간

@@ -26,7 +26,6 @@ namespace Hena.Shared.Data
 		public string Name { get; set; } = string.Empty;
 
 		// 캠페인 타입
-		[JsonConverter(typeof(StringEnumConverter))]
 		public CampaignTypes CampaignType { get; set; } = CampaignTypes.None;
 
 		// 캠표인 목표( CPC -> 목표 클릭 수, CPM -> 노출 목표 수 )

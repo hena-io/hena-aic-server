@@ -19,7 +19,6 @@ namespace Hena.Shared.Data
 		public DBKey UserId { get; set; } = GlobalDefine.INVALID_DBKEY;
 
 		// 권한 타입
-		[JsonConverter(typeof(StringEnumConverter))]
 		public UserPermissionTypes PermissionType { get; set; } = UserPermissionTypes.None;
 
 		// 권한 레벨

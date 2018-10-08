@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Hena.Shared.Data
 {
+	[JsonConverter(typeof(StringEnumConverter))]
 	public enum SerializationMode
 	{
 		Normal,
@@ -15,6 +18,7 @@ namespace Hena.Shared.Data
 	}
 
 	// 캠페인 타입
+	[JsonConverter(typeof(StringEnumConverter))]
 	public enum CampaignTypes
 	{
 		None,
@@ -23,6 +27,7 @@ namespace Hena.Shared.Data
 	}
 
 	// 광고 디자인 타입
+	[JsonConverter(typeof(StringEnumConverter))]
 	public enum AdDesignTypes
 	{
 		None,
@@ -32,6 +37,7 @@ namespace Hena.Shared.Data
 	}
 
 	// 유저 권한
+	[JsonConverter(typeof(StringEnumConverter))]
 	public enum UserPermissionTypes
 	{
 		None,
@@ -39,6 +45,7 @@ namespace Hena.Shared.Data
 	}
 
 	// 앱 마켓타입
+	[JsonConverter(typeof(StringEnumConverter))]
 	public enum AppMarketTypes
 	{
 		None,

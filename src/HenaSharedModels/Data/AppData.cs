@@ -26,7 +26,6 @@ namespace Hena.Shared.Data
 		public string Name { get; set; } = string.Empty;
 
 		// 앱 마켓 타입
-		[JsonConverter(typeof(StringEnumConverter))]
 		public AppMarketTypes AppMarketType { get; set; } = AppMarketTypes.None;
 
 		// 삭제상태 체크

@@ -20,7 +20,6 @@ namespace HenaWebsite.Controllers.API
 		protected class __APIResponse
 		{
 			// 결과
-			[JsonConverter(typeof(StringEnumConverter))]
 			public ErrorCode Result { get; set; }
 
 			// 메시지
