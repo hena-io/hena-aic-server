@@ -34,8 +34,9 @@ namespace HenaWebsite.Controllers.API
 			// Insert to db
 			var insertQuery = new DBQuery_Campaign_Insert();
 			var item = insertQuery.IN.Item;
+			request.Copy(item);
+			item.UserId = UserId;
 			item.CampaignId = IDGenerator.NewCampaignId;
-			request.Fill(insertQuery.IN.Item);
 			if (await DBThread.Instance.ReqQueryAsync(insertQuery) == false)
 				return APIResponse(ErrorCode.DatabaseError);
 
@@ -69,9 +70,8 @@ namespace HenaWebsite.Controllers.API
 			// Update to db
 			var updateQuery = new DBQuery_Campaign_Update();
 			var item = updateQuery.IN.Item;
+			request.Copy(item);
 			item.UserId = UserId;
-			item.CampaignId = request.CampaignId;
-			request.Fill(updateQuery.IN.Item);
 			if (await DBThread.Instance.ReqQueryAsync(updateQuery) == false)
 				return APIResponse(ErrorCode.DatabaseError);
 
@@ -109,7 +109,20 @@ namespace HenaWebsite.Controllers.API
 				return APIResponse(ErrorCode.DatabaseError);
 
 			// Response
-			var response = new CampaignModels.Delete.Response();
+			return Success();
+		}
+
+		// -------------------------------------------------------------------------------
+		// 캠페인 목록
+		[HttpPost]
+		public async Task<IActionResult> List()
+		{
+			CampaignDataContainer container = new CampaignDataContainer();
+			await container.FromDBByUserIdAsync(UserId);
+
+			// Response
+			var response = new CampaignModels.List.Response();
+			response.Campaigns = container.ToArray();
 			return Success(response);
 		}
 		#endregion // API

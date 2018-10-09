@@ -8,13 +8,13 @@ namespace HenaWebsite.Controllers
     public class BaseController : Controller
     {
 		#region Properties
-		protected bool IsAuthenticated { get => User.Identity.IsAuthenticated; }
-		protected DBKey UserId { get => GetClaimValueSafe(HenaClaimTypes.SerialNumber, GlobalDefine.INVALID_DBKEY); }
-		protected string EMail { get => GetClaimValueSafe(HenaClaimTypes.Email, string.Empty); }
+		public bool IsAuthenticated { get => User.Identity.IsAuthenticated; }
+		public DBKey UserId { get => GetClaimValueSafe(HenaClaimTypes.UserId, GlobalDefine.INVALID_DBKEY); }
+		public string EMail { get => GetClaimValueSafe(HenaClaimTypes.Email, string.Empty); }
 		#endregion // Properties
 
 		#region Utility
-		protected virtual string GetClaimValueSafe(string type, string defaultValue = "")
+		public virtual string GetClaimValueSafe(string type, string defaultValue = "")
 		{
 			try
 			{

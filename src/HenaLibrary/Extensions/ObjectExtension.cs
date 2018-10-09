@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Reflection;
 using System.Text;
 
 namespace Hena.Library.Extensions
@@ -15,16 +16,21 @@ namespace Hena.Library.Extensions
 
 			foreach (var sourceProperty in sourceProperties)
 			{
-				foreach (var targetProperty in targetProperties)
+				var targetProperty = Array.Find(targetProperties, (item) => item.Name == sourceProperty.Name && sourceProperty.PropertyType == item.PropertyType);
+				if( targetProperty != null && targetProperty.CanWrite)
 				{
-					if (sourceProperty.Name == targetProperty.Name && sourceProperty.PropertyType == targetProperty.PropertyType)
-					{
-						targetProperty.SetValue(target, sourceProperty.GetValue(source));
-						break;
-					}
+					targetProperty.SetValue(target, sourceProperty.GetValue(source));
 				}
 			}
 		}
+
+		public static TTarget Clone<TTarget>(this object source) where TTarget : class, new()
+		{
+			var target = new TTarget();
+			source.Copy(target);
+			return target;
+		}
+
 
 		public static void Copy<TTarget>(this DataRow source, TTarget target)
 		{
@@ -33,7 +39,7 @@ namespace Hena.Library.Extensions
 			foreach (DataColumn it in columns)
 			{
 				var targetProperty = Array.Find(targetProperties, (item) => item.Name == it.ColumnName);
-				if (targetProperty != null)
+				if (targetProperty != null && targetProperty.CanWrite)
 				{
 					var value = source[it];
 					var targetType = targetProperty.PropertyType;
@@ -50,7 +56,14 @@ namespace Hena.Library.Extensions
 						}
 						else if(value.GetType() == typeof(DBNull))
 						{
-							convertedValue = Activator.CreateInstance(targetType);
+							try
+							{
+								convertedValue = System.Convert.ChangeType(string.Empty, targetType);
+							}
+							catch
+							{
+								convertedValue = Activator.CreateInstance(targetType);
+							}
 						}
 						else
 						{

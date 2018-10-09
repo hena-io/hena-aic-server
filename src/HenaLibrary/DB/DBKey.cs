@@ -1,42 +1,10 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System;
 using System.Linq;
 
 namespace Hena
 {
-	//
-	// 요약:
-	//     Converts an System.Enum to and from its name string value.
-	public class DBKeyStringConverter : JsonConverter
-	{
-		public DBKeyStringConverter() { }
-		public override bool CanConvert(Type objectType)
-		{
-			return true;
-		}
-		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-		{
-			try
-			{
-				return new DBKey(reader.Value.ToString());
-			}
-			catch
-			{
-				return new DBKey(-1);
-			}
-		}
-		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-		{
-			if (value == null)
-			{
-				writer.WriteValue(-1);
-				return;
-			}
-			writer.WriteValue(value.ToString());
-		}
-	}
 	[JsonConverter(typeof(DBKeyStringConverter))]
     public struct DBKey : IJSONSerializable
 	{
@@ -171,6 +139,11 @@ namespace Hena
             long.TryParse(value, out outValue);
             Long2DoubleInt(outValue, out _high, out _low);
         }
+
+		public bool IsValid()
+		{
+			return Value > 0;
+		}
 
         #region IJSONSerializable
         public JToken ToJSON()

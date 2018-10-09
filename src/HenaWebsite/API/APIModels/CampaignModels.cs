@@ -1,5 +1,5 @@
 ﻿using Hena;
-using Hena.Library.Attributes;
+using Hena.Library.Extensions;
 using Hena.Shared.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -11,43 +11,20 @@ using System.Threading.Tasks;
 
 namespace HenaWebsite.Models.API.Campaign
 {
-	public static class CampaignModels
+	[Serializable]
+	public class CampaignModels
 	{
 		// 캠페인 생성
 		public static class Create
 		{
-			[Serializable]
-			[JsonConverter(typeof(TrimConverter<Request>))]
 			public class Request
 			{
-				public DBKey UserId { get; set; } = GlobalDefine.INVALID_DBKEY;
-				[Trim]
 				public string Name { get; set; } = string.Empty;
 				public CampaignTypes CampaignType { get; set; } = CampaignTypes.None;
 				public decimal Cost { get; set; } = 0m;
 				public long TargetValue { get; set; } = 0;
 				public DateTime BeginTime { get; set; } = DateTime.MinValue;
 				public DateTime EndTime { get; set; } = DateTime.MinValue;
-
-				public virtual void Fill(CampaignData target)
-				{
-					target.UserId = UserId;
-					target.Name = Name;
-					target.CampaignType = CampaignType;
-					target.Cost = Cost;
-					target.TargetValue = TargetValue;
-					target.BeginTime = BeginTime;
-					target.EndTime = EndTime;
-				}
-
-				public virtual CampaignData ToCampaignData(DBKey userId, DBKey campaignId)
-				{
-					var item = new CampaignData();
-					Fill(item);
-					item.UserId = userId;
-					item.CampaignId = campaignId;
-					return item;
-				}
 
 				public virtual bool IsValidParameters()
 				{
@@ -69,11 +46,11 @@ namespace HenaWebsite.Models.API.Campaign
 		{
 			public class Request : Create.Request
 			{
-				public DBKey CampaignId { get; set; } = string.Empty;
+				public DBKey CampaignId { get; set; } = GlobalDefine.INVALID_DBKEY;
 
 				public override bool IsValidParameters()
 				{
-					if (CampaignId <= 0)
+					if (CampaignId.IsValid() == false)
 						return false;
 
 					return base.IsValidParameters();
@@ -100,9 +77,14 @@ namespace HenaWebsite.Models.API.Campaign
 					return true;
 				}
 			}
+		}
 
+		// 캠페인 목록
+		public static class List
+		{
 			public class Response
 			{
+				public CampaignData[] Campaigns { get; set; }
 			}
 		}
 

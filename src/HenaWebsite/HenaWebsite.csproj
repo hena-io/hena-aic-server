@@ -46,6 +46,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\hena\js\NewFolder\" />
     <Folder Include="wwwroot\hena\js\pages\landing\" />
   </ItemGroup>
 

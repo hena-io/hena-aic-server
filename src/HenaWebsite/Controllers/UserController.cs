@@ -63,7 +63,7 @@ namespace HenaWebsite.Controllers
 				return ErrorCode.InvalidPassword;
 
 			var claims = new List<Claim>();
-			claims.Add(new Claim(HenaClaimTypes.SerialNumber, basicData.UserId.ToString()));
+			claims.Add(new Claim(HenaClaimTypes.UserId, basicData.UserId.ToString()));
 			claims.Add(new Claim(HenaClaimTypes.GivenName, basicData.GivenName));
 			claims.Add(new Claim(HenaClaimTypes.Surname, basicData.SurName));
 			claims.Add(new Claim(HenaClaimTypes.Email, basicData.EMail));
@@ -75,6 +75,10 @@ namespace HenaWebsite.Controllers
 
 			ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
 			await HttpContext.SignInAsync(principal);
+
+			Response.Cookies.Delete(HenaClaimTypes.UserId);
+			Response.Cookies.Append(HenaClaimTypes.UserId, basicData.UserId.ToString());
+
 
 			return ErrorCode.Success;
 		}

@@ -1,4 +1,5 @@
 ﻿using Hena;
+using Hena.Library.Extensions;
 using Hena.Shared.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -17,36 +18,19 @@ namespace HenaWebsite.Models.API.AdDesign
 		{
 			public class Request
 			{
-				public DBKey UserId { get; set; } = GlobalDefine.INVALID_DBKEY;
 				public DBKey CampaignId { get; set; } = GlobalDefine.INVALID_DBKEY;
 				public string Name { get; set; } = string.Empty;
 				public AdDesignTypes AdDesignType { get; set; } = AdDesignTypes.None;
 				public string ResourceName { get; set; } = string.Empty;
 				public string DestinationUrl { get; set; } = string.Empty;
 
-				public virtual void Fill(AdDesignData target)
-				{
-					target.UserId = UserId;
-					target.CampaignId = CampaignId;
-					target.Name = Name;
-					target.AdDesignType = AdDesignType;
-					target.ResourceName = ResourceName;
-					target.DestinationUrl = DestinationUrl;
-				}
-
-				public virtual AdDesignData ToAdDesignData(DBKey adDesignId)
-				{
-					var item = new AdDesignData();
-					Fill(item);
-					item.AdDesignId = adDesignId;
-					return item;
-				}
-
 				public virtual bool IsValidParameters()
 				{
-					//var name = AdDesignName.Trim();
-					//if (string.IsNullOrEmpty(name) || name.Length < 2)
-					//	return false;
+					if (CampaignId.IsValid() == false)
+						return false;
+
+					if (string.IsNullOrEmpty(Name) || Name.Length < 2)
+						return false;
 
 					return true;
 				}
@@ -60,21 +44,27 @@ namespace HenaWebsite.Models.API.AdDesign
 		// 광고 디자인 수정
 		public static class Modify
 		{
-			public class Request : Create.Request
+			public class Request
 			{
-				[JsonProperty(PropertyName = "id")]
-				public string Id { get; set; } = string.Empty;
+				public DBKey AdDesignId { get; set; } = GlobalDefine.INVALID_DBKEY;
+				public string Name { get; set; } = string.Empty;
+				public AdDesignTypes AdDesignType { get; set; } = AdDesignTypes.None;
+				public string ResourceName { get; set; } = string.Empty;
+				public string DestinationUrl { get; set; } = string.Empty;
 
-				public override bool IsValidParameters()
+				public virtual bool IsValidParameters()
 				{
-					if (string.IsNullOrEmpty(Id) || Id.ToLong() <= 0)
+					if (AdDesignId.IsValid() == false)
 						return false;
 
-					return base.IsValidParameters();
+					if (string.IsNullOrEmpty(Name) || Name.Length < 2)
+						return false;
+
+					return true;
 				}
 			}
 
-			public class Response : Create.Response
+			public class Response : AdDesignData
 			{
 			}
 		}
@@ -84,11 +74,28 @@ namespace HenaWebsite.Models.API.AdDesign
 		{
 			public class Request
 			{
-				public string Id { get; set; } = string.Empty;
+				public DBKey AdDesignId { get; set; } = GlobalDefine.INVALID_DBKEY;
 
 				public virtual bool IsValidParameters()
 				{
-					if (string.IsNullOrEmpty(Id) || Id.ToLong() <= 0)
+					if (AdDesignId.IsValid() == false)
+						return false;
+
+					return true;
+				}
+			}
+		}
+
+		// 광고 디자인 목록
+		public static class List
+		{
+			public class Request
+			{
+				public DBKey CampaignId { get; set; } = GlobalDefine.INVALID_DBKEY;
+
+				public virtual bool IsValidParameters()
+				{
+					if (CampaignId.IsValid() == false)
 						return false;
 
 					return true;
@@ -97,8 +104,8 @@ namespace HenaWebsite.Models.API.AdDesign
 
 			public class Response
 			{
+				public AdDesignData[] AdDesigns { get; set; }
 			}
 		}
-
 	}
 }

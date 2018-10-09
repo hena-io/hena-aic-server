@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Hena;
 using Hena.DB;
+using Hena.Library.Extensions;
 using Hena.Security.Claims;
 using Hena.Shared.Data;
 using HenaWebsite.Models;
@@ -33,10 +34,9 @@ namespace HenaWebsite.Controllers.API
 			// Insert to db
 			var insertQuery = new DBQuery_Campaign_Insert();
 			var item = insertQuery.IN.Item;
-			item.UserId = UserId;
+			request.Copy(item);
 			item.CampaignId = IDGenerator.NewCampaignId;
 			item.CreateTime = DateTime.UtcNow;
-			request.Fill(insertQuery.IN.Item);
 			if (await DBThread.Instance.ReqQueryAsync(insertQuery) == false)
 				return APIResponse(ErrorCode.DatabaseError);
 
@@ -70,9 +70,8 @@ namespace HenaWebsite.Controllers.API
 			// Update to db
 			var updateQuery = new DBQuery_Campaign_Update();
 			var item = updateQuery.IN.Item;
+			request.Copy(item);
 			item.UserId = UserId;
-			item.CampaignId = request.CampaignId;
-			request.Fill(updateQuery.IN.Item);
 			if (await DBThread.Instance.ReqQueryAsync(updateQuery) == false)
 				return APIResponse(ErrorCode.DatabaseError);
 
@@ -110,8 +109,7 @@ namespace HenaWebsite.Controllers.API
 				return APIResponse(ErrorCode.DatabaseError);
 
 			// Response
-			var response = new CampaignModels.Delete.Response();
-			return Success(response);
+			return Success();
 		}
 		#endregion // API
 

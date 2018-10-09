@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Hena;
 using Hena.DB;
+using Hena.Library.Extensions;
 using Hena.Security.Claims;
 using Hena.Shared.Data;
 using HenaWebsite.Models;
@@ -25,18 +26,23 @@ namespace HenaWebsite.Controllers.API
 		public async Task<IActionResult> Create([FromBody] AdDesignModels.Create.Request request)
 		{
 			// Check valid parameters
-			if (request.IsValidParameters() == false)
+			if (request == null || request.IsValidParameters() == false)
 				return APIResponse(ErrorCode.InvalidParameters);
 
 			// Check validation
+			CampaignData campaignData = new CampaignData();
+			if (await campaignData.FromDBAsync(request.CampaignId) == false)
+				return APIResponse(ErrorCode.InvalidParameters);
+
+			if (campaignData.UserId != UserId)
+				return APIResponse(ErrorCode.BadRequest);
 
 			// Insert to db
 			var insertQuery = new DBQuery_AdDesign_Insert();
 			var item = insertQuery.IN.Item;
+			request.Copy(item);
 			item.UserId = UserId;
 			item.AdDesignId = IDGenerator.NewAdDesignId;
-			item.CreateTime = DateTime.UtcNow;
-			request.Fill(insertQuery.IN.Item);
 			if (await DBThread.Instance.ReqQueryAsync(insertQuery) == false)
 				return APIResponse(ErrorCode.DatabaseError);
 
@@ -54,15 +60,15 @@ namespace HenaWebsite.Controllers.API
 		public async Task<IActionResult> Modify([FromBody] AdDesignModels.Modify.Request request)
 		{
 			// Check valid parameters
-			if (request.IsValidParameters() == false)
+			if (request == null || request.IsValidParameters() == false)
 				return APIResponse(ErrorCode.InvalidParameters);
 
-			DBKey adDesignId = request.Id.ToLong();
+			DBKey adDesignId = request.AdDesignId;
 			AdDesignData adDesignData = new AdDesignData();
 
 			// Check validation
 			if (await adDesignData.FromDBAsync(adDesignId) == false)
-				return APIResponse(ErrorCode.DatabaseError);
+				return APIResponse(ErrorCode.InvalidParameters);
 
 			if (UserId != adDesignData.UserId)
 				return APIResponse(ErrorCode.BadRequest);
@@ -70,9 +76,8 @@ namespace HenaWebsite.Controllers.API
 			// Update to db
 			var updateQuery = new DBQuery_AdDesign_Update();
 			var item = updateQuery.IN.Item;
+			request.Copy(item);
 			item.UserId = UserId;
-			item.AdDesignId = request.Id.ToLong();
-			request.Fill(updateQuery.IN.Item);
 			if (await DBThread.Instance.ReqQueryAsync(updateQuery) == false)
 				return APIResponse(ErrorCode.DatabaseError);
 
@@ -90,10 +95,10 @@ namespace HenaWebsite.Controllers.API
 		public async Task<IActionResult> Delete([FromBody] AdDesignModels.Delete.Request request)
 		{
 			// Check valid parameters
-			if (request.IsValidParameters() == false)
+			if (request == null || request.IsValidParameters() == false)
 				return APIResponse(ErrorCode.InvalidParameters);
 
-			DBKey adDesignId = request.Id.ToLong();
+			DBKey adDesignId = request.AdDesignId;
 			AdDesignData adDesignData = new AdDesignData();
 
 			// Check validation
@@ -105,12 +110,29 @@ namespace HenaWebsite.Controllers.API
 
 			// Delete from db
 			var deleteQuery = new DBQuery_AdDesign_Delete();
-			deleteQuery.IN.DBKey = request.Id.ToLong();
+			deleteQuery.IN.DBKey = request.AdDesignId;
 			if (await DBThread.Instance.ReqQueryAsync(deleteQuery) == false)
 				return APIResponse(ErrorCode.DatabaseError);
 
 			// Response
-			var response = new AdDesignModels.Delete.Response();
+			return Success();
+		}
+
+		// -------------------------------------------------------------------------------
+		// 광고 디자인 목록
+		[HttpPost]
+		public async Task<IActionResult> List([FromBody] AdDesignModels.List.Request request)
+		{
+			// Check valid parameters
+			if (request == null || request.IsValidParameters() == false)
+				return APIResponse(ErrorCode.InvalidParameters);
+
+			AdDesignDataContainer container = new AdDesignDataContainer();
+			await container.FromDBByCampaignIdAsync(request.CampaignId);
+
+			// Response
+			var response = new AdDesignModels.List.Response();
+			response.AdDesigns = container.ToArray();
 			return Success(response);
 		}
 		#endregion // API
