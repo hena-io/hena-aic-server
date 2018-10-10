@@ -73,7 +73,7 @@ var HenaApi = {};
 
 		// campaignId:1234567890
 		list: function (data, callback) {
-			post("/api/addesigns/list", null, callback);
+			post("/api/addesigns/list", data, callback);
 		}
 	};
 

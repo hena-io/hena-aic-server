@@ -1,8 +1,10 @@
-﻿(function ($) {
+﻿
+(function ($) {
 	"use strict";
 
-	var lastCampaignId = '-1';
-
+	// -----------------------------------------------------
+	// 캠페인 컨테이너
+	// -----------------------------------------------------
 	var campaignContainer = {
 
 		items: [],
@@ -32,39 +34,83 @@
 				if (item.campaignId == campaignId)
 					return item;
 			}
+		},
+		clear: function () {
+			this.items = [];
 		}
 	};
 
-	console.log(campaignContainer.find);
+	// -----------------------------------------------------
+	// 광고 디자인 컨테이너
+	// -----------------------------------------------------
+	var adDesignContainer = {
 
-	$("form-campaign").submit((e) => {
-		e.stopPropagation();
-		e.preventDefault();
-	});
+		items: [],
+		add: function (newItem) {
+			this.items.push(newItem);
+		},
+		remove: function (adDesignId) {
+			for (var idx in this.items) {
+				var item = this.items[idx];
+				if (item.adDesignId == adDesignId) {
+					this.items.splice(idx, 1);
+				}
+			}
+		},
+		replace: function (adDesignId, newItem) {
+			for (var idx in this.items) {
+				var item = this.items[idx];
+				if (item.adDesignId == adDesignId) {
+					this.items[idx] = newItem;
+					break;
+				}
+			}
+		},
+		find: function (adDesignId) {
+			for (var idx in this.items) {
+				var item = this.items[idx];
+				if (item.adDesignId == adDesignId)
+					return item;
+			}
+		},
+		clear: function () {
+			this.items = [];
+		}
+	};
 
+	// -----------------------------------------------------
+	// 캠페인 관련 함수
+	// -----------------------------------------------------
 
-	function bindRowClickEvent() {
-		$('#table-campaigns tbody tr').click((e) => {
-
-			var target = $(e.currentTarget);
-			target.find("input[name=campaigns]");
-			var radio = $(e.currentTarget).find('input[name=campaigns]');
-			radio.prop('checked', true);
-			var campaignId = radio.data("campaign-id");
-
-			setCampaignFormValues(campaignContainer.find(campaignId));
-		})
+	// 캠페인 목록 갱신
+	function refreshCampaigns() {
+		HenaApi.campaigns.list((response) => {
+			if (response.result === "Success") {
+				campaignContainer.items = response.data.campaigns;
+				drawCampaignTable(campaignContainer.items);
+			}
+		});
 	}
 
-	$('input[type=radio][name=campaigns]').change(function () {
-		console.log($(this).data("campaign-id"));
+	// 캠페인 테이블 Row 클릭 이벤트 할당
+	function bindCampaignTableRowClickEvent() {
+		$('#table-campaigns tbody tr').click((e) => {
+			selectCampaignRow(e.currentTarget);
+		});
+	}
 
-		var campaignId = $(this).data("campaign-id");
-		var campaign = campaignContainer.find(campaignId);
+	// 캠페인 Row 선택
+	function selectCampaignRow(row) {
+		var target = $(row);
+		var radio = target.find('input[name=campaigns]');
+		radio.prop('checked', true);
+		var campaignId = radio.data("campaign-id");
+		setCampaignFormValues(campaignContainer.find(campaignId));
 
-		setCampaignFormValues(campaign);
-	});
+		refreshAdDesigns(campaignId);
+	}
 
+	// 캠페인 폼에 값 세팅
 	function setCampaignFormValues(campaign) {
 		if (campaign == null) {
 			$("#form-campaign")[0].reset();
@@ -76,29 +122,22 @@
 			var elem = form.find("input[name=" + it + "]");
 			if (it == 'beginTime' || it == 'endTime') {
 				var localTime = moment.utc(campaign[it]).local().format("YYYY-MM-DDTHH:mm:ss");
-				console.log(localTime, campaign[it]);
 				elem.val(localTime);
 			} else {
 				elem.val(campaign[it]);
 			}
 		}
-
 	}
 
-	// 캠페인 폼 초기화
-	$("#btn-campaign-form-reset").click(() => {
-		$("#form-campaign")[0].reset();
-	});
-
-	// 캠페인 테이블 아이템 모두 삭제
-	function clearCampaignTableItems() {
+	// 캠페인 테이블 초기화
+	function clearCampaignTable() {
 		$("#table-campaigns tbody").empty();
 	}
 
-	// 캠페인 테이블 아이템 갱신
-	function refreshCampaignTableItems(campaigns) {
+	// 캠페인 테이블 그리기
+	function drawCampaignTable(campaigns) {
 
-		clearCampaignTableItems();
+		clearCampaignTable();
 
 		var tbodyValue = "";
 		for (var it in campaigns) {
@@ -118,16 +157,22 @@
 
 		$("#table-campaigns tbody").append(tbodyValue);
 
-		bindRowClickEvent();
+		bindCampaignTableRowClickEvent();
 	}
 
-	// 캠페인 목록 조회
-	HenaApi.campaigns.list((response) => {
-		console.log(response);
-		if (response.result === "Success") {
-			campaignContainer.items = response.data.campaigns;
-			refreshCampaignTableItems(campaignContainer.items);
-		}
+
+	// -----------------------------------------------------
+	// 캠페인 이벤트 처리
+	// -----------------------------------------------------
+	// 캠페인 폼 submit 이벤트 무시
+	$("#form-campaign").submit((e) => {
+		e.stopPropagation();
+		e.preventDefault();
+	});
+
+	// 캠페인 폼 초기화
+	$("#btn-campaign-form-reset").click(() => {
+		$("#form-campaign")[0].reset();
 	});
 
 	// 캠페인 생성
@@ -139,7 +184,7 @@
 		HenaApi.campaigns.create(data, (response) => {
 			if (response.result === "Success") {
 				campaignContainer.add(response.data);
-				refreshCampaignTableItems(campaignContainer.items);
+				drawCampaignTable(campaignContainer.items);
 			}
 		});
 	});
@@ -153,7 +198,7 @@
 		HenaApi.campaigns.modify(data, (response) => {
 			if (response.result === "Success") {
 				campaignContainer.replace(data.campaignId, response.data);
-				refreshCampaignTableItems(campaignContainer.items);
+				drawCampaignTable(campaignContainer.items);
 			}
 		});
 	});
@@ -167,52 +212,167 @@
 		HenaApi.campaigns.delete({ campaignId: campaignId }, (response) => {
 			if (response.result === "Success") {
 				campaignContainer.remove(campaignId);
-				refreshCampaignTableItems(campaignContainer.items);
+				drawCampaignTable(campaignContainer.items);
 			}
 		});
-
 	});
 
-	function execute_campaign_delete() {
-		$.ajax({
-			url: "/api/campaigns/delete",
-			type: "POST",
-			contentType: "application/json; charset=utf-8",
-			dataType: "json",
-			data: JSON.stringify({
-				campaignId: lastCampaignId
-			}),
-			success: function (response) {
-				console.log('response : ', response);
-				if (response.result === "Success") {
-					lastCampaignId = '-1';
-				}
-			},
-			error: function (error) {
-				console.log(error);
+	// -----------------------------------------------------
+	// 광고 디자인 관련 함수
+	// -----------------------------------------------------
+	// 광고디자인 목록 갱신
+	function refreshAdDesigns(campaignId) {
+		HenaApi.adDesigns.list({ campaignId: campaignId }, (response) => {
+			if (response.result === "Success") {
+				adDesignContainer.items = response.data.adDesigns;
+				drawAdDesignTable(adDesignContainer.items);
+
+				adDesignFormReset();
 			}
 		});
 	}
+	// 광고 디자인 테이블 Row 클릭 이벤트 할당
+	function bindAdDesignTableRowClickEvent() {
+		$('#table-ad-designs tbody tr').click((e) => {
+			selectAdDesignRow(e.currentTarget);
+		})
+	}
 
-	$('#btn-campaign-list').click(() => {
-		execute_campaign_list();
+	// 광고 디자인 Row 선택
+	function selectAdDesignRow(row) {
+		var target = $(row);
+		var radio = target.find('input[name=ad-designs]');
+		radio.prop('checked', true);
+		var campaignId = radio.data("ad-design-id");
+		setAdDesignFormValues(adDesignContainer.find(campaignId));
+	}
+
+	// 광고 디자인 폼에 값 세팅
+	function setAdDesignFormValues(adDesign) {
+		if (adDesign == null) {
+			$("#form-ad-design")[0].reset();
+			return;
+		}
+		var form = $("#form-ad-design");
+		for (var it in adDesign) {
+
+			var elem = form.find("input[name=" + it + "]");
+			if (it == 'createTime' ) {
+				var localTime = moment.utc(adDesign[it]).local().format("YYYY-MM-DDTHH:mm:ss");
+				elem.val(localTime);
+			} else {
+				elem.val(adDesign[it]);
+			}
+		}
+	}
+
+	// 광고 디자인 테이블 초기화
+	function clearAdDesignTable() {
+		$("#table-ad-designs tbody").empty();
+	}
+
+	// 광고 디자인 테이블 그리기
+	function drawAdDesignTable(adDesigns) {
+
+		clearAdDesignTable();
+
+		var tbodyValue = "";
+		for (var it in adDesigns) {
+			var item = adDesigns[it];
+			tbodyValue += "<tr data-campaign-id='" + item.adDesignId + "'>";
+			tbodyValue += "	<td><input type='radio' name='ad-designs' data-ad-design-id='" + item.adDesignId + "' /></td>";
+			tbodyValue += "	<td>" + item.adDesignId + "</td>";
+			tbodyValue += "	<td>" + item.name + "</td>";
+			tbodyValue += "	<td>" + item.adDesignType + "</td>";
+			tbodyValue += "	<td>" + item.resourceName + "</td>";
+			tbodyValue += "	<td>" + item.destinationUrl + "</td>";
+			tbodyValue += "	<td>" + item.isPause + "</td>";
+			tbodyValue += "	<td>" + moment.utc(item.createTime).local().format('YYYY-MM-DD HH:mm:ss') + "</td>";
+			tbodyValue += "</tr>";
+		}
+
+		$("#table-ad-designs tbody").append(tbodyValue);
+
+		bindAdDesignTableRowClickEvent();
+	}
+
+	// 광고 디자인 폼 초기화
+	function adDesignFormReset() {
+		$("#form-ad-design")[0].reset();
+		var campaignId = $("#form-campaign input[name=campaignId]").val();
+		$("#form-ad-design input[name=campaignId]").val(campaignId);
+	}
+
+	// -----------------------------------------------------
+	// 광고 디자인 이벤트 처리
+	// -----------------------------------------------------
+	// 광고 디자인 폼 submit 이벤트 무시
+	$("#form-ad-design").submit((e) => {
+		e.stopPropagation();
+		e.preventDefault();
 	});
 
-	// 캠페인 목록 조회
-	function execute_campaign_list() {
-		$.ajax({
-			url: "/api/campaigns/list",
-			type: "POST",
-			contentType: "application/json; charset=utf-8",
-			dataType: "json",
-			data: "",
-			success: function (response) {
-				console.log('response : ', response);
-			},
-			error: function (error) {
-				console.log(error);
+	// 광고 디자인 폼 초기화
+	$("#btn-ad-design-form-reset").click(() => {
+		adDesignFormReset();
+	});
+
+	// 광고 디자인 생성
+	$('#btn-ad-design-create').click(() => {
+		var campaignId = $("#form-campaign input[name=campaignId]").val();
+		if (campaignId == "")
+			return;
+
+		var data = $('#form-ad-design').serializeObject();
+		data.beginTime = moment(data.beginTime).utc().format("YYYY-MM-DDTHH:mm:ss");
+		data.endTime = moment(data.endTime).utc().format("YYYY-MM-DDTHH:mm:ss");
+
+		HenaApi.adDesigns.create(data, (response) => {
+			if (response.result === "Success") {
+				adDesignContainer.add(response.data);
+				drawAdDesignTable(adDesignContainer.items);
 			}
 		});
-	}
+	});
+
+	// 광고 디자인 수정
+	$('#btn-ad-design-modify').click(() => {
+		var adDesignId = $("#form-adDesign input[name=adDesignId]").val();
+		if (adDesignId == "")
+			return;
+
+		var data = $('#form-ad-design').serializeObject();
+		data.beginTime = moment(data.beginTime).utc().format("YYYY-MM-DDTHH:mm:ss");
+		data.endTime = moment(data.endTime).utc().format("YYYY-MM-DDTHH:mm:ss");
+
+		HenaApi.adDesigns.modify(data, (response) => {
+			if (response.result === "Success") {
+				adDesignContainer.replace(data.adDesignId, response.data);
+				drawAdDesignTable(adDesignContainer.items);
+			}
+		});
+	});
+
+	// 광고 디자인 삭제
+	$('#btn-ad-design-delete').click(() => {
+		var adDesignId = $("#form-ad-design input[name=adDesignId]").val();
+		if (adDesignId == "")
+			return;
+
+		HenaApi.adDesigns.delete({ adDesignId: adDesignId }, (response) => {
+			if (response.result === "Success") {
+				adDesignContainer.remove(adDesignId);
+				drawAdDesignTable(adDesignContainer.items);
+			}
+		});
+	});
+
+
+	// -----------------------------------------------------
+	// 시작 코드
+	// -----------------------------------------------------
+	// 캠페인 목록 갱신
+	refreshCampaigns();
+
 
 })(jQuery);

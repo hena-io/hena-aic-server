@@ -5,6 +5,7 @@
     <RootNamespace>HenaWebsite</RootNamespace>
     <AssemblyName>HenaWebsite</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
+    <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
   </PropertyGroup>
 
   <ItemGroup>
