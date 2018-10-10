@@ -25,8 +25,8 @@ namespace Hena.Shared.Data
 		// 앱 이름( Max 80 )
 		public string Name { get; set; } = string.Empty;
 
-		// 앱 마켓 타입
-		public AppMarketTypes AppMarketType { get; set; } = AppMarketTypes.None;
+		// 마켓 타입
+		public MarketTypes MarketType { get; set; } = MarketTypes.None;
 
 		// 삭제상태 체크
 		public bool IsDeleted { get; set; } = false;

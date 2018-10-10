@@ -35,6 +35,15 @@
     <Content Update="Views\Campaigns\Reports.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Dashboard\_TestAppsPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Dashboard\_TestCampaignsPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Dashboard\Test.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Dashboard\Index_backup.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

@@ -110,6 +110,6 @@ namespace Hena.DB
 	// 광고 유닛 조회( AppId )
 	public class DBQuery_AdUnit_Select_By_AppId : DBQuery_AdUnit_Select_Base<COMMON_IN_DATA_DBKeyOnly>
 	{
-		public override string ProcedureName => "sp_ad_unit_select_by_appdbkey";
+		public override string ProcedureName => "sp_ad_unit_select_by_appid";
 	}
 }

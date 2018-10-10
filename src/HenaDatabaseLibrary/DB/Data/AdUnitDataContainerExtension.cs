@@ -20,5 +20,15 @@ namespace Hena.Shared.Data
 			query.OUT.Items.CopyTo(ref item);
 			return item.Count;
 		}
+
+		public static async Task<int> FromDBByAppIdAsync(this AdUnitDataContainer item, DBKey appId)
+		{
+			var query = new DBQuery_AdUnit_Select_By_AppId();
+			query.IN.DBKey = appId;
+
+			bool result = await DBThread.Instance.ReqQueryAsync(query);
+			query.OUT.Items.CopyTo(ref item);
+			return item.Count;
+		}
 	}
 }

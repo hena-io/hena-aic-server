@@ -8,7 +8,7 @@ using Hena.Library.Extensions;
 using Hena.Security.Claims;
 using Hena.Shared.Data;
 using HenaWebsite.Models;
-using HenaWebsite.Models.API.Campaign;
+using HenaWebsite.Models.API.App;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,9 +21,9 @@ namespace HenaWebsite.Controllers.API
 	{
 		#region API
 		// -------------------------------------------------------------------------------
-		// 캠페인 생성
+		// 앱 생성
 		[HttpPost]
-		public async Task<IActionResult> Create([FromBody] CampaignModels.Create.Request request)
+		public async Task<IActionResult> Create([FromBody] AppModels.Create.Request request)
 		{
 			// Check valid parameters
 			if (request.IsValidParameters() == false)
@@ -32,43 +32,43 @@ namespace HenaWebsite.Controllers.API
 			// Check validation
 
 			// Insert to db
-			var insertQuery = new DBQuery_Campaign_Insert();
+			var insertQuery = new DBQuery_App_Insert();
 			var item = insertQuery.IN.Item;
 			request.Copy(item);
-			item.CampaignId = IDGenerator.NewCampaignId;
-			item.CreateTime = DateTime.UtcNow;
+			item.UserId = UserId;
+			item.AppId = IDGenerator.NewAppId;
 			if (await DBThread.Instance.ReqQueryAsync(insertQuery) == false)
 				return APIResponse(ErrorCode.DatabaseError);
 
 			// Response
-			var response = new CampaignModels.Create.Response();
-			if (await response.FromDBAsync(item.CampaignId) == false)
+			var response = new AppModels.Create.Response();
+			if (await response.FromDBAsync(item.AppId) == false)
 				return APIResponse(ErrorCode.DatabaseError);
 
 			return Success(response);
 		}
 
 		// -------------------------------------------------------------------------------
-		// 캠페인 수정
+		// 앱 수정
 		[HttpPost]
-		public async Task<IActionResult> Modify([FromBody] CampaignModels.Modify.Request request)
+		public async Task<IActionResult> Modify([FromBody] AppModels.Modify.Request request)
 		{
 			// Check valid parameters
 			if (request.IsValidParameters() == false)
 				return APIResponse(ErrorCode.InvalidParameters);
 
-			DBKey campaignId = request.CampaignId;
-			CampaignData campaignData = new CampaignData();
+			DBKey appId = request.AppId;
+			AppData appData = new AppData();
 
 			// Check validation
-			if (await campaignData.FromDBAsync(campaignId) == false)
+			if (await appData.FromDBAsync(appId) == false)
 				return APIResponse(ErrorCode.DatabaseError);
 
-			if (UserId != campaignData.UserId)
+			if (UserId != appData.UserId)
 				return APIResponse(ErrorCode.BadRequest);
 
 			// Update to db
-			var updateQuery = new DBQuery_Campaign_Update();
+			var updateQuery = new DBQuery_App_Update();
 			var item = updateQuery.IN.Item;
 			request.Copy(item);
 			item.UserId = UserId;
@@ -76,40 +76,54 @@ namespace HenaWebsite.Controllers.API
 				return APIResponse(ErrorCode.DatabaseError);
 
 			// Response
-			var response = new CampaignModels.Modify.Response();
-			if (await response.FromDBAsync(item.CampaignId) == false)
+			var response = new AppModels.Modify.Response();
+			if (await response.FromDBAsync(item.AppId) == false)
 				return APIResponse(ErrorCode.DatabaseError);
 
 			return Success(response);
 		}
 
 		// -------------------------------------------------------------------------------
-		// 캠페인 삭제
+		// 앱 삭제
 		[HttpPost]
-		public async Task<IActionResult> Delete([FromBody] CampaignModels.Delete.Request request)
+		public async Task<IActionResult> Delete([FromBody] AppModels.Delete.Request request)
 		{
 			// Check valid parameters
 			if (request.IsValidParameters() == false)
 				return APIResponse(ErrorCode.InvalidParameters);
 
-			DBKey campaignId = request.CampaignId;
-			CampaignData campaignData = new CampaignData();
+			DBKey appId = request.AppId;
+			AppData appData = new AppData();
 
 			// Check validation
-			if (await campaignData.FromDBAsync(campaignId) == false)
+			if (await appData.FromDBAsync(appId) == false)
 				return APIResponse(ErrorCode.DatabaseError);
 
-			if (UserId != campaignData.UserId)
+			if (UserId != appData.UserId)
 				return APIResponse(ErrorCode.BadRequest);
 
 			// Delete from db
-			var deleteQuery = new DBQuery_Campaign_Delete();
-			deleteQuery.IN.DBKey = request.CampaignId;
+			var deleteQuery = new DBQuery_App_Delete();
+			deleteQuery.IN.DBKey = request.AppId;
 			if (await DBThread.Instance.ReqQueryAsync(deleteQuery) == false)
 				return APIResponse(ErrorCode.DatabaseError);
 
 			// Response
 			return Success();
+		}
+
+		// -------------------------------------------------------------------------------
+		// 앱 목록
+		[HttpPost]
+		public async Task<IActionResult> List()
+		{
+			AppDataContainer container = new AppDataContainer();
+			await container.FromDBByUserIdAsync(UserId);
+
+			// Response
+			var response = new AppModels.List.Response();
+			response.Apps = container.ToArray();
+			return Success(response);
 		}
 		#endregion // API
 

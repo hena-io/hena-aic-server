@@ -1,0 +1,37 @@
+﻿@using Hena;
+@using Hena.Shared.Data;
+@using Hena.Security.Claims;
+
+@{
+	Layout = "_LayoutDashboard";
+	ViewData["page-scripts"] = new string[] { "hena/js/pages/test/main.js", "hena/js/pages/test/campaigns.js", "hena/js/pages/test/apps.js" };
+	ViewData["page-id"] = "page-test";
+
+	//DBKey UserId = Context.User.FindFirst(HenaClaimTypes.UserId).Value;
+
+}
+
+<!--tab nav start-->
+<section class="panel">
+	<header class="panel-heading tab-bg-dark-navy-blue ">
+		<ul class="nav nav-tabs">
+			<li class="active">
+				<a data-toggle="tab" href="#tab-campaigns">Campaigns</a>
+			</li>
+			<li class="">
+				<a data-toggle="tab" href="#tab-apps">Apps</a>
+			</li>
+		</ul>
+	</header>
+	<div class="panel-body">
+		<div class="tab-content">
+			<div id="tab-campaigns" class="tab-pane active">
+				@Html.Partial("_TestCampaignsPartial")
+			</div>
+			<div id="tab-apps" class="tab-pane">
+				@Html.Partial("_TestAppsPartial")
+			</div>
+		</div>
+	</div>
+</section>
+<!--tab nav start-->

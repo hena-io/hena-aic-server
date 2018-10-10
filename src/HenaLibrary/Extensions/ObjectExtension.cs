@@ -58,7 +58,26 @@ namespace Hena.Library.Extensions
 						{
 							try
 							{
-								convertedValue = System.Convert.ChangeType(string.Empty, targetType);
+								if( targetType == typeof(DateTime))
+								{
+									convertedValue = DateTime.MinValue;
+								}
+								else if( targetType == typeof(TimeSpan))
+								{
+									convertedValue = TimeSpan.Zero;
+								}
+								else if( targetType == typeof(string))
+								{
+									convertedValue = string.Empty;
+								}
+								else if( targetType.IsClass)
+								{
+									convertedValue = Activator.CreateInstance(targetType);
+								}
+								else
+								{
+									convertedValue = System.Convert.ChangeType(0, targetType);
+								}
 							}
 							catch
 							{

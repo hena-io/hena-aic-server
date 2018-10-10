@@ -26,7 +26,7 @@ namespace Hena.DB
 				parameters.Add(Item.UserId);
 				parameters.Add(Item.AppId);
 				parameters.Add(Item.Name);
-				parameters.Add(Item.AppMarketType);
+				parameters.Add(Item.MarketType);
 			}
 		}
 		#endregion // IN / OUT
@@ -47,6 +47,7 @@ namespace Hena.DB
 			{
 				parameters.Add(Item.AppId);
 				parameters.Add(Item.Name);
+				parameters.Add(Item.MarketType);
 			}
 		}
 		#endregion // IN / OUT

@@ -44,9 +44,9 @@ namespace Hena.Shared.Data
 		Administrator,  // 관리자 권한
 	}
 
-	// 앱 마켓타입
+	// 마켓타입
 	[JsonConverter(typeof(StringEnumConverter))]
-	public enum AppMarketTypes
+	public enum MarketTypes
 	{
 		None,
 		GooglePlay,

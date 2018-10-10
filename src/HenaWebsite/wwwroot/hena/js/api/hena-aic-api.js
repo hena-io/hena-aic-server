@@ -77,6 +77,64 @@ var HenaApi = {};
 		}
 	};
 
+	// -----------------------------------------------------------
+	// Apps
+	// -----------------------------------------------------------
+	HenaApi.apps = {
+		// name: 'App Name'
+		// marketType: 'GooglePlay'				Ex ) {GooglePlay, AppleAppStore, WebSite}
+		create: function (data, callback) {
+			post("/api/apps/create", data, callback);
+		},
+
+		// appId:1234567890
+		// name: 'App Name'
+		// marketType: 'GooglePlay'				Ex ) {GooglePlay, AppleAppStore, WebSite}
+		modify: function (data, callback) {
+			post("/api/apps/modify", data, callback);
+		},
+
+		// appId:1234567890
+		delete: function (data, callback) {
+			post("/api/apps/delete", data, callback);
+		},
+
+		// no parameters
+		list: function (callback) {
+			post("/api/apps/list", null, callback);
+		}
+	};
+
+	// -----------------------------------------------------------
+	// Ad Units
+	// -----------------------------------------------------------
+	HenaApi.adUnits = {
+
+		// appId:1234567890
+		// name: 'Ad Unit Name'
+		// adDesignType: 'Banner'				Ex ) {Banner, Interstitial, Video}
+		create: function (data, callback) {
+			post("/api/adunits/create", data, callback);
+		},
+
+		// adUnitId:1234567890
+		// name: 'Ad Unit Name'
+		// adDesignType: 'Banner'				Ex ) {Banner, Interstitial, Video}
+		modify: function (data, callback) {
+			post("/api/adunits/modify", data, callback);
+		},
+
+		// adUnitId:1234567890
+		delete: function (data, callback) {
+			post("/api/adunits/delete", data, callback);
+		},
+
+		// appId:1234567890
+		list: function (data, callback) {
+			post("/api/adunits/list", data, callback);
+		}
+	};
+
 
 
 	// -----------------------------------------------------------
