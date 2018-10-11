@@ -13,7 +13,7 @@
 			<div class="col-lg-12">
 				<section class="panel p-t-20 p-b-20">
 					<div class="panel-body">
-						<form class="form-horizontal tasi-form" id="form-campaign" action="#">
+						<form class="form-horizontal tasi-form" id="form-campaign" action="#" enctype="multipart/form-data">
 
 							<div class="form-group col-sm-6">
 								<label class="col-sm-2 control-label">Campaign Id</label>
@@ -73,15 +73,16 @@
 								</div>
 							</div>
 
-							<div class="form-group col-sm-12">
-								<button id='btn-campaign-create' class="btn btn-primary" type="button">Create</button>
-								<button id='btn-campaign-modify' class="btn btn-primary" type="button">Modify</button>
-								<button id='btn-campaign-delete' class="btn btn-primary" type="button">Delete</button>
 
-								<button id='btn-campaign-form-reset' class="btn btn-primary" type="button">Form Reset</button>
-							</div>
+								<div class="form-group col-sm-12">
+									<button id='btn-campaign-create' class="btn btn-primary" type="button">Create</button>
+									<button id='btn-campaign-modify' class="btn btn-primary" type="button">Modify</button>
+									<button id='btn-campaign-delete' class="btn btn-primary" type="button">Delete</button>
 
-						</form>
+									<button id='btn-campaign-form-reset' class="btn btn-primary" type="button">Form Reset</button>
+								</div>
+
+</form>
 					</div>
 				</section>
 			</div>
@@ -147,7 +148,7 @@
 									<th>AdDesignId</th>
 									<th>Name</th>
 									<th>AdDesignType</th>
-									<th>ResourceName</th>
+									<th>ResourceId</th>
 									<th>DestinationUrl</th>
 									<th>IsPause</th>
 									<th>CreateTime</th>
@@ -176,6 +177,13 @@
 							</div>
 
 							<div class="form-group col-sm-6">
+								<label class="col-sm-2 control-label">Ad Resource Id</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" name="adResourceId" placeholder="" readonly>
+								</div>
+							</div>
+
+							<div class="form-group col-sm-6">
 								<label class="col-sm-2 control-label">Ad Design Name</label>
 								<div class="col-sm-10">
 									<input type="text" class="form-control" name="name" placeholder="">
@@ -199,18 +207,28 @@
 							</div>
 
 							<div class="form-group col-sm-6">
-								<label class="col-sm-2 control-label">Resource Name</label>
-								<div class="col-sm-10">
-									<input type="text" class="form-control" name="resourceName" placeholder="">
-								</div>
-							</div>
-
-							<div class="form-group col-sm-6">
 								<label class="col-sm-2 control-label">Destination Url</label>
 								<div class="col-sm-10">
 									<input type="text" class="form-control" name="destinationUrl" placeholder="">
 								</div>
 							</div>
+
+
+							<div class="form-group col-sm-6">
+								<div class="col-sm-2">
+									<span class="btn btn-success fileinput-button">
+										<i class="glyphicon glyphicon-plus"></i>
+										<span>Select file</span>
+										<input type="file" name="file">
+									</span>
+								</div>
+
+								<div class="col-sm-10">
+									<img src="http://hena.io/aic/resources/783380349351692948/787109823954977517" id="ad-resource-preview" />
+								</div>
+							</div>
+
+
 
 							<div class="form-group col-sm-12">
 								<button id='btn-ad-design-create' class="btn btn-primary" type="button">Create</button>

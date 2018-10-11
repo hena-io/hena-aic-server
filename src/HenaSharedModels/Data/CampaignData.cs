@@ -43,12 +43,6 @@ namespace Hena.Shared.Data
 		// 캠페인 일시정지 상태
 		public bool IsPause { get; set; } = false;
 
-		// 삭제상태 체크
-		public bool IsDeleted { get; set; } = false;
-
-		// 삭제된 시간
-		public DateTime DeletedTime { get; set; } = DateTime.MinValue;
-
 		// 생성된 시간
 		public DateTime CreateTime { get; set; } = DateTime.MinValue;
 

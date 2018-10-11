@@ -131,6 +131,10 @@ namespace HenaWebsite
 			app.UseCookiePolicy();
 			app.UseAuthentication();
 
+			//Accept All HTTP Request Methods from all origins
+			app.UseCors(builder =>
+				builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
+
 			app.UseMvc(routes =>
 			{
 				routes.MapRoute(

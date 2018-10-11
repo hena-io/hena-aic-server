@@ -87,8 +87,9 @@ namespace Hena
 					Console.WriteLine($"Upload File Complete, status {response.StatusDescription}");
 				}
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
+				Console.WriteLine(ex);
 				return false;
 			}
 

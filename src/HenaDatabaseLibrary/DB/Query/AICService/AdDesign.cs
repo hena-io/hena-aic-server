@@ -28,7 +28,7 @@ namespace Hena.DB
 				parameters.Add(Item.AdDesignId);
 				parameters.Add(Item.Name);
 				parameters.Add(Item.AdDesignType);
-				parameters.Add(Item.ResourceName);
+				parameters.Add(Item.AdResourceId);
 				parameters.Add(Item.DestinationUrl);
 			}
 		}
@@ -51,7 +51,7 @@ namespace Hena.DB
 				parameters.Add(Item.AdDesignId);
 				parameters.Add(Item.Name);
 				parameters.Add(Item.AdDesignType);
-				parameters.Add(Item.ResourceName);
+				parameters.Add(Item.AdResourceId);
 				parameters.Add(Item.DestinationUrl);
 			}
 		}

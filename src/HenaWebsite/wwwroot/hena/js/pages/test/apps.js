@@ -14,7 +14,7 @@
 		remove: function (appId) {
 			for (var idx in this.items) {
 				var item = this.items[idx];
-				if (item.appId == appId) {
+				if (item.appId === appId) {
 					this.items.splice(idx, 1);
 				}
 			}
@@ -22,7 +22,7 @@
 		replace: function (appId, newItem) {
 			for (var idx in this.items) {
 				var item = this.items[idx];
-				if (item.appId == appId) {
+				if (item.appId === appId) {
 					this.items[idx] = newItem;
 					break;
 				}
@@ -31,7 +31,7 @@
 		find: function (appId) {
 			for (var idx in this.items) {
 				var item = this.items[idx];
-				if (item.appId == appId)
+				if (item.appId === appId)
 					return item;
 			}
 		},
@@ -52,7 +52,7 @@
 		remove: function (adUnitId) {
 			for (var idx in this.items) {
 				var item = this.items[idx];
-				if (item.adUnitId == adUnitId) {
+				if (item.adUnitId === adUnitId) {
 					this.items.splice(idx, 1);
 				}
 			}
@@ -60,7 +60,7 @@
 		replace: function (adUnitId, newItem) {
 			for (var idx in this.items) {
 				var item = this.items[idx];
-				if (item.adUnitId == adUnitId) {
+				if (item.adUnitId === adUnitId) {
 					this.items[idx] = newItem;
 					break;
 				}
@@ -69,7 +69,7 @@
 		find: function (adUnitId) {
 			for (var idx in this.items) {
 				var item = this.items[idx];
-				if (item.adUnitId == adUnitId)
+				if (item.adUnitId === adUnitId)
 					return item;
 			}
 		},
@@ -112,7 +112,7 @@
 
 	// 앱 폼에 값 세팅
 	function setAppFormValues(app) {
-		if (app == null) {
+		if (app === null) {
 			$("#form-app")[0].reset();
 			return;
 		}
@@ -120,7 +120,7 @@
 		for (var it in app) {
 
 			var elem = form.find("input[name=" + it + "]");
-			if (it == 'beginTime' || it == 'endTime') {
+			if (it === 'beginTime' || it === 'endTime') {
 				var localTime = moment.utc(app[it]).local().format("YYYY-MM-DDTHH:mm:ss");
 				elem.val(localTime);
 			} else {
@@ -203,7 +203,7 @@
 	// 앱 삭제
 	$('#btn-app-delete').click(() => {
 		var appId = $("#form-app input[name=appId]").val();
-		if (appId == "")
+		if (appId === "")
 			return;
 
 		HenaApi.apps.delete({ appId: appId }, (response) => {
@@ -246,7 +246,7 @@
 
 	// 광고 유닛 폼에 값 세팅
 	function setAdUnitFormValues(adUnit) {
-		if (adUnit == null) {
+		if (adUnit === null) {
 			$("#form-ad-unit")[0].reset();
 			return;
 		}
@@ -254,7 +254,7 @@
 		for (var it in adUnit) {
 
 			var elem = form.find("input[name=" + it + "]");
-			if (it == 'createTime' ) {
+			if (it === 'createTime' ) {
 				var localTime = moment.utc(adUnit[it]).local().format("YYYY-MM-DDTHH:mm:ss");
 				elem.val(localTime);
 			} else {
@@ -316,7 +316,7 @@
 	// 광고 유닛 생성
 	$('#btn-ad-unit-create').click(() => {
 		var appId = $("#form-app input[name=appId]").val();
-		if (appId == "")
+		if (appId === "")
 			return;
 
 		var data = $('#form-ad-unit').serializeObject();
@@ -334,7 +334,7 @@
 	// 광고 유닛 수정
 	$('#btn-ad-unit-modify').click(() => {
 		var adUnitId = $("#form-adUnit input[name=adUnitId]").val();
-		if (adUnitId == "")
+		if (adUnitId === "")
 			return;
 
 		var data = $('#form-ad-unit').serializeObject();
@@ -352,7 +352,7 @@
 	// 광고 유닛 삭제
 	$('#btn-ad-unit-delete').click(() => {
 		var adUnitId = $("#form-ad-unit input[name=adUnitId]").val();
-		if (adUnitId == "")
+		if (adUnitId === "")
 			return;
 
 		HenaApi.adUnits.delete({ adUnitId: adUnitId }, (response) => {

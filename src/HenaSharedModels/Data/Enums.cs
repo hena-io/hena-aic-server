@@ -53,4 +53,13 @@ namespace Hena.Shared.Data
 		AppleAppStore,
 		WebSite,
 	}
+
+	// 광고 리소스 타입
+	[JsonConverter(typeof(StringEnumConverter))]
+	public enum AdResourceTypes
+	{
+		None,
+		Image,
+		Video,
+	}
 }

@@ -44,12 +44,6 @@ namespace Hena.Shared.Data
         // 전화번호
         public long NationalNumber { get; set; } = 0100000000;
 
-		// 계정 삭제여부
-		public bool IsDeleted { get; set; } = false;
-
-		// 계정 삭제 시간
-		public DateTime DeletedTime { get; set; } = GlobalDefine.INVALID_DATETIME;
-
 		// 계정 생성 시간
 		public DateTime CreateTime { get; set; } = GlobalDefine.INVALID_DATETIME;
 

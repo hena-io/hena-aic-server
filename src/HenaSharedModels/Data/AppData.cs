@@ -28,12 +28,6 @@ namespace Hena.Shared.Data
 		// 마켓 타입
 		public MarketTypes MarketType { get; set; } = MarketTypes.None;
 
-		// 삭제상태 체크
-		public bool IsDeleted { get; set; } = false;
-
-		// 삭제된 시간
-		public DateTime DeletedTime { get; set; } = DateTime.MinValue;
-
 		// 생성된 시간
 		public DateTime CreateTime { get; set; } = DateTime.MinValue;
 

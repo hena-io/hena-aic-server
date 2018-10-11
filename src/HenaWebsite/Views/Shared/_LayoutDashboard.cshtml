@@ -99,6 +99,11 @@
 	<link href="~/dashboard/css/style.css" rel="stylesheet">
 	<link href="~/dashboard/css/style-responsive.css" rel="stylesheet" />
 
+	<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+	<link rel="stylesheet" href="~/dashboard/assets/file-uploader/css/jquery.fileupload.css">
+	<link rel="stylesheet" href="~/dashboard/assets/file-uploader/css/jquery.fileupload-ui.css">
+
+
 	@foreach (var it in headCSS)
 	{
 		<link href="@it" rel="stylesheet" />
@@ -206,6 +211,8 @@
 	<script type="text/javascript" src="~/dashboard/assets/bootstrap-daterangepicker/moment.min.js"></script>
 	<script type="text/javascript" src="~/dashboard/assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
 
+	
+
 	<!--right slidebar-->
 	<script src="~/dashboard/js/slidebars.min.js"></script>
 
@@ -242,10 +249,10 @@
 			$('select.styled').customSelect();
 		});
 
-									//$(window).on("resize", function () {
-									//	var owl = $("#owl-demo").data("owlCarousel");
-									//	owl.reinit();
-									//});
+												//$(window).on("resize", function () {
+												//	var owl = $("#owl-demo").data("owlCarousel");
+												//	owl.reinit();
+												//});
 
 	</script>
 

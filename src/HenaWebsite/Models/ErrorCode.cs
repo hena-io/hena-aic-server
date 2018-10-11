@@ -20,8 +20,10 @@ namespace HenaWebsite.Models
 		InvalidEMail,			// 잘못된 이메일
 		InvalidPassword,		// 잘못된 비밀번호
 		InvalidFormat,			// 잘못된 포멧
-		ExistUserName,			// 이미 존재하는 유저명
+		InvalidResource,		// 잘못된 리소스
+		ExistUserName,          // 이미 존재하는 유저명
 		ExistEMail,				// 이미 존재하는 이메일
+		NotSupportFormat,		// 지원하지 않는 포멧
 		AlreadyLoggedin,		// 이미 로그인되어 있음.
 		DatabaseError,			// 데이터베이스 에러
 		UknownError,			// 알 수 없는 에러

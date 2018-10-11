@@ -145,6 +145,16 @@ namespace Hena
 			return Value > 0;
 		}
 
+		public static bool CheckValidations(params DBKey[] items)
+		{
+			foreach( var it in items )
+			{
+				if (it.IsValid() == false)
+					return false;
+			}
+			return true;
+		}
+
         #region IJSONSerializable
         public JToken ToJSON()
 		{

@@ -31,20 +31,17 @@ namespace Hena.Shared.Data
 		// 광고 디자인 타입
 		public AdDesignTypes AdDesignType { get; set; } = AdDesignTypes.None;
 
-		// 업로드된 리소스 이름
-		public string ResourceName { get; set; } = string.Empty;
+		// 업로드된 리소스 Id
+		public DBKey AdResourceId { get; set; } = GlobalDefine.INVALID_DBKEY;
+
+		// 업로드된 리소스 Url
+		public string AdResourceUrl { get { return $"http://hena.io/aic/resources/{UserId}/{AdResourceId}"; } }
 
 		// 목적지 URL
 		public string DestinationUrl { get; set; } = string.Empty;
 
 		// 캠페인 일시정지 상태
 		public bool IsPause { get; set; } = false;
-
-		// 삭제상태 체크
-		public bool IsDeleted { get; set; } = false;
-
-		// 삭제된 시간
-		public DateTime DeletedTime { get; set; } = DateTime.MinValue;
 
 		// 생성된 시간
 		public DateTime CreateTime { get; set; } = DateTime.MinValue;

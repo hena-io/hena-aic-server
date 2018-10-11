@@ -135,7 +135,33 @@ var HenaApi = {};
 		}
 	};
 
+	// -----------------------------------------------------------
+	// Ad Resource
+	// -----------------------------------------------------------
+	HenaApi.adResource = {
 
+		// need FormData
+		// adResourceId:1234567890
+		// file: FormFile
+		upload: function (data, callback) {
+			postFormData("/api/adresources/upload", data, callback);
+		},
+
+		// adResourceId:1234567890
+		delete: function (data, callback) {
+			post("/api/adresources/delete", data, callback);
+		},
+
+		// adResourceId:1234567890
+		info: function (data, callback) {
+			post("/api/adresources/info", data, callback);
+		},
+
+		// no parameters
+		list: function (callback) {
+			post("/api/adresources/list", null, callback);
+		}
+	};
 
 	// -----------------------------------------------------------
 	// utilities
@@ -150,12 +176,12 @@ var HenaApi = {};
 			dataType: "json",
 			data: data === null ? null : JSON.stringify(data),
 			success: function (response) {
-				if (callback != null) {
+				if (callback !== null) {
 					callback(response);
 				}
 			},
 			error: function (error) {
-				if (callback != null) {
+				if (callback !== null) {
 					callback({
 						result: 'Error'
 						, message: error
@@ -164,8 +190,32 @@ var HenaApi = {};
 			}
 		});
 	};
+
+	function postFormData(url, formData, callback) {
+		$.ajax({
+			url: url,
+			type: "POST",
+			contentType: false, // Not to set any content header  
+			processData: false, // Not to process data  
+			data: formData,
+			success: function (response) {
+				if (callback !== null) {
+					callback(response);
+				}
+			},
+			error: function (response) {
+				if (callback !== null) {
+					callback({
+						result: 'Error'
+						, message: error
+					});
+				}
+			}
+		});  
+	}
+
 	// -----------------------------------------------------------
 
 
-})(jQuery);
+}) (jQuery);
 

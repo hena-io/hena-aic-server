@@ -21,12 +21,12 @@ namespace HenaWebsite.Models.API.AdDesign
 				public DBKey CampaignId { get; set; } = GlobalDefine.INVALID_DBKEY;
 				public string Name { get; set; } = string.Empty;
 				public AdDesignTypes AdDesignType { get; set; } = AdDesignTypes.None;
-				public string ResourceName { get; set; } = string.Empty;
+				public DBKey AdResourceId { get; set; } = GlobalDefine.INVALID_DBKEY;
 				public string DestinationUrl { get; set; } = string.Empty;
 
 				public virtual bool IsValidParameters()
 				{
-					if (CampaignId.IsValid() == false)
+					if (DBKey.CheckValidations(CampaignId, AdResourceId) == false)
 						return false;
 
 					if (string.IsNullOrEmpty(Name) || Name.Length < 2)
@@ -49,12 +49,12 @@ namespace HenaWebsite.Models.API.AdDesign
 				public DBKey AdDesignId { get; set; } = GlobalDefine.INVALID_DBKEY;
 				public string Name { get; set; } = string.Empty;
 				public AdDesignTypes AdDesignType { get; set; } = AdDesignTypes.None;
-				public string ResourceName { get; set; } = string.Empty;
+				public DBKey AdResourceId { get; set; } = GlobalDefine.INVALID_DBKEY;
 				public string DestinationUrl { get; set; } = string.Empty;
 
 				public virtual bool IsValidParameters()
 				{
-					if (AdDesignId.IsValid() == false)
+					if (DBKey.CheckValidations(AdDesignId, AdResourceId) == false)
 						return false;
 
 					if (string.IsNullOrEmpty(Name) || Name.Length < 2)
