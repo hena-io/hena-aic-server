@@ -13,7 +13,7 @@ namespace HenaTestCode.HenaLibrary
 		{
 			//FtpClient ftpClient = new FtpClient("ftp://hena.io", "henacoin", "henacoin2");
 			//await ftpClient.UploadAsync("tttt/testfile.txt", "test12341231".ToBytes());
-			//await Task.Yield();
+			await Task.Yield();
 		}
 	}
 }

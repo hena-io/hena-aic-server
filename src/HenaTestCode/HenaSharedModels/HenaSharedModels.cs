@@ -9,6 +9,7 @@ namespace HenaTestCode.HenaSharedModels
 	{
 		public static async Task Run()
 		{
+
 			await Task.Yield();
 		}
 	}

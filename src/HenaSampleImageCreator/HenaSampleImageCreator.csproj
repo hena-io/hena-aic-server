@@ -3,7 +3,6 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <RootNamespace>HenaTestCode</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,7 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HenaDatabaseLibrary\HenaDatabaseLibrary.csproj" />
     <ProjectReference Include="..\HenaLibrary\HenaLibrary.csproj" />
     <ProjectReference Include="..\HenaSharedModels\HenaSharedModels.csproj" />
   </ItemGroup>
