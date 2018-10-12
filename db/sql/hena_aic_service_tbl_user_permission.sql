@@ -28,7 +28,7 @@ CREATE TABLE `tbl_user_permission` (
   `PermissionType` varchar(20) NOT NULL,
   `Level` tinyint(4) NOT NULL DEFAULT '0',
   `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `LastUpdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `LastUpdate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`UserId`,`PermissionType`),
   UNIQUE KEY `Idx_UNIQUE` (`Idx`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -43,4 +43,4 @@ CREATE TABLE `tbl_user_permission` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-08 12:54:08
+-- Dump completed on 2018-10-12  9:31:02

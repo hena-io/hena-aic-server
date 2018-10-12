@@ -16,28 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `tbl_ad_design`
+-- Table structure for table `tbl_ad_resource`
 --
 
-DROP TABLE IF EXISTS `tbl_ad_design`;
+DROP TABLE IF EXISTS `tbl_ad_resource`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `tbl_ad_design` (
+CREATE TABLE `tbl_ad_resource` (
   `Idx` bigint(20) NOT NULL AUTO_INCREMENT,
   `UserId` bigint(20) NOT NULL,
-  `CampaignId` bigint(20) NOT NULL,
-  `AdDesignId` bigint(20) NOT NULL,
-  `Name` varchar(80) NOT NULL,
   `AdResourceId` bigint(20) NOT NULL,
-  `AdDesignType` varchar(15) NOT NULL DEFAULT 'None' COMMENT 'None, Banner, Interstitial, Video',
-  `DestinationUrl` text NOT NULL,
-  `IsPause` tinyint(4) NOT NULL DEFAULT '0',
-  `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `LastUpdate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`UserId`,`CampaignId`,`AdDesignId`),
+  `AdResourceType` varchar(15) NOT NULL DEFAULT 'None' COMMENT 'None, Image, Video',
+  `ContentType` varchar(45) NOT NULL DEFAULT '' COMMENT 'image/png ...',
+  `Width` smallint(6) NOT NULL DEFAULT '0',
+  `Height` smallint(6) NOT NULL DEFAULT '0',
+  `CreateTime` datetime DEFAULT CURRENT_TIMESTAMP,
+  `LastUpdate` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`UserId`,`AdResourceId`),
+  UNIQUE KEY `ResourceId_UNIQUE` (`AdResourceId`),
   UNIQUE KEY `Idx_UNIQUE` (`Idx`),
-  UNIQUE KEY `CampaignDesignId_UNIQUE` (`AdDesignId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `Idx_UserId` (`UserId`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

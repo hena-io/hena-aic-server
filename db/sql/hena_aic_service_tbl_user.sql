@@ -34,8 +34,6 @@ CREATE TABLE `tbl_user` (
   `RegionCodeForNumber` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'for phone number',
   `CountryCode` int(11) DEFAULT NULL COMMENT 'for phone number',
   `NationalNumber` bigint(20) DEFAULT NULL COMMENT 'for phone number',
-  `IsDeleted` tinyint(4) NOT NULL DEFAULT '0',
-  `DeletedTime` datetime DEFAULT NULL COMMENT 'account deleted time',
   `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'account create time',
   `LastUpdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`UserId`),
@@ -55,4 +53,4 @@ CREATE TABLE `tbl_user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-08 12:54:09
+-- Dump completed on 2018-10-12  9:31:03

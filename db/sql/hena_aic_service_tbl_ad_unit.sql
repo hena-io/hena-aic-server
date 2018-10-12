@@ -30,11 +30,11 @@ CREATE TABLE `tbl_ad_unit` (
   `Name` varchar(80) NOT NULL COMMENT 'Display ',
   `AdDesignType` varchar(15) NOT NULL DEFAULT 'None' COMMENT 'None, Banner, Interstitial, Video',
   `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `LastUpdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `LastUpdate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`AdUnitId`,`UserId`,`AppId`),
   UNIQUE KEY `Idx_UNIQUE` (`Idx`),
   UNIQUE KEY `AdUnitId_UNIQUE` (`AdUnitId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -46,4 +46,4 @@ CREATE TABLE `tbl_ad_unit` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-08 12:54:09
+-- Dump completed on 2018-10-12  9:31:03

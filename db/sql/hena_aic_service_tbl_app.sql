@@ -27,16 +27,14 @@ CREATE TABLE `tbl_app` (
   `UserId` bigint(20) NOT NULL,
   `AppId` bigint(20) NOT NULL,
   `Name` varchar(80) NOT NULL,
-  `AppMarketType` varchar(20) NOT NULL DEFAULT 'None',
-  `IsDeleted` tinyint(4) NOT NULL DEFAULT '0',
-  `DeletedTime` datetime DEFAULT NULL,
+  `MarketType` varchar(20) NOT NULL DEFAULT 'None',
   `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `LastUpdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `LastUpdate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`UserId`,`AppId`),
   UNIQUE KEY `Idx_UNIQUE` (`Idx`),
   UNIQUE KEY `AppId_UNIQUE` (`AppId`) /*!80000 INVISIBLE */,
   KEY `Idx_AppName` (`Name`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +46,4 @@ CREATE TABLE `tbl_app` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-08 12:54:08
+-- Dump completed on 2018-10-12  9:31:02

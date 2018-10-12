@@ -92,7 +92,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_design_insert`(IN in_UserId B
 
 , IN in_Name VARCHAR(80)
 , IN in_AdDesignType VARCHAR(15)
-, IN in_ResourceName VARCHAR(10)
+, IN in_AdResourceId BIGINT
 , IN in_DestinationUrl TEXT
 )
 BEGIN
@@ -103,7 +103,7 @@ BEGIN
 		
 		, `Name`
 		, `AdDesignType`
-		, `ResourceName`
+		, `AdResourceId`
 		, `DestinationUrl`
 	) VALUES (in_UserId
 		, in_CampaignId
@@ -111,7 +111,7 @@ BEGIN
 		
 		, in_Name
 		, in_AdDesignType
-		, in_ResourceName
+		, in_AdResourceId
 		, in_DestinationUrl
 	);
 	
@@ -204,7 +204,7 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_design_update`(IN in_AdDesignId BIGINT
 , IN in_Name VARCHAR(80)
 , IN in_AdDesignType VARCHAR(15)
-, IN in_ResourceName VARCHAR(10)
+, IN in_AdResourceId BIGINT
 , IN in_DestinationUrl TEXT
 )
 BEGIN
@@ -212,10 +212,152 @@ BEGIN
 	UPDATE `tbl_ad_design`
     SET `Name` = in_Name
     , `AdDesignType` = in_AdDesignType
-    , `ResourceName` = in_ResourceName
+    , `AdResourceId` = in_AdResourceId
     , `DestinationUrl` = in_DestinationUrl
     WHERE `AdDesignId` = in_AdDesignId;
         
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_ad_resource_delete` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_resource_delete`(IN in_AdResourceId BIGINT
+)
+BEGIN
+
+	DELETE FROM `tbl_ad_resource`
+    WHERE `AdResourceId` = in_AdResourceId;
+        
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_ad_resource_insert` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_resource_insert`(IN in_UserId BIGINT
+, IN in_AdResourceId BIGINT
+, IN in_AdResourceType VARCHAR(15)
+, IN in_ContentType VARCHAR(45)
+, IN in_Width SMALLINT
+, IN in_Height SMALLINT
+)
+BEGIN
+
+	INSERT INTO `tbl_ad_resource`(`UserId`
+		, `AdResourceId`
+		, `AdResourceType`
+        , `ContentType`
+		
+		, `Width`
+		, `Height`
+	) VALUES (in_UserId
+		, in_AdResourceId
+		, in_AdResourceType
+        , in_ContentType
+		
+		, in_Width
+		, in_Height
+	);
+	
+    
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_ad_resource_select` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_resource_select`(IN in_AdResourceId BIGINT
+)
+BEGIN
+
+	SELECT * FROM `tbl_ad_resource`
+    WHERE `AdResourceId` = in_AdResourceId;
+    
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_ad_resource_select_by_userid` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_resource_select_by_userid`(IN in_UserId BIGINT
+)
+BEGIN
+
+	SELECT * FROM `tbl_ad_resource`
+    WHERE `UserId` = in_UserId;
+    
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_ad_resource_update` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_resource_update`(IN in_AdResourceId BIGINT
+, IN in_AdResourceType VARCHAR(15)
+, IN in_ContentType VARCHAR(45)
+, IN in_Width SMALLINT
+, IN in_Height SMALLINT
+)
+BEGIN
+
+	UPDATE `tbl_ad_resource`
+	SET `AdResourceType` = in_AdResourceType
+		, `ContentType` = in_ContentType
+		, `Width` = in_Width
+		, `Height` = in_Height
+	WHERE `AdResourceId` = in_AdResourceId;
+    
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -264,7 +406,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_unit_insert`(IN in_UserId BIG
 )
 BEGIN
 
-	INSERT INTO `tbl_ad_design`(`UserId`
+	INSERT INTO `tbl_ad_unit`(`UserId`
 		, `AppId`
 		, `AdUnitId`
 		
@@ -395,6 +537,9 @@ BEGIN
 
 	DELETE FROM `tbl_app`
     WHERE `AppId` = in_AppId;
+    
+    DELETE FROM `tbl_ad_unit`
+    WHERE `AppId` = in_AppId;
         
 END ;;
 DELIMITER ;
@@ -415,18 +560,18 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_app_insert`(IN in_UserId BIGINT
 , IN in_AppId BIGINT
 , IN in_Name VARCHAR(80)
-, IN in_AppMarketType VARCHAR(20)
+, IN in_MarketType VARCHAR(20)
 )
 BEGIN
 
 	INSERT INTO `tbl_app`(`UserId`
 		, `AppId`
 		, `Name`
-		, `AppMarketType`
+		, `MarketType`
 	) VALUES (in_UserId
 		, in_AppId
 		, in_Name
-		, in_AppMarketType
+		, in_MarketType
 	);
 	
     
@@ -436,7 +581,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `sp_app_select_by_appid` */;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_app_select` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -446,7 +591,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_app_select_by_appid`(IN in_AppId BIGINT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_app_select`(IN in_AppId BIGINT
 )
 BEGIN
 
@@ -494,11 +639,13 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_app_update`(IN in_AppId BIGINT
 , IN in_Name VARCHAR(80)
+, IN in_MarketType VARCHAR(20)
 )
 BEGIN
 
 	UPDATE `tbl_app`
     SET `Name` = in_Name
+		, `MarketType` = in_MarketType
     WHERE `AppId` = in_AppId;
 
 END ;;
@@ -523,6 +670,9 @@ BEGIN
 
 	DELETE FROM `tbl_campaign`
     WHERE `CampaignId` = in_CampaignId;
+    
+    DELETE FROM `tbl_ad_design`
+    WHERE `CampaignId` = in_CampaignId;    
         
 END ;;
 DELIMITER ;
@@ -657,7 +807,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `sp_db_setup` */;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_insert_resource` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -667,10 +817,23 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_db_setup`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_resource`(IN in_UserId BIGINT
+, IN in_ResourceId BIGINT
+, IN in_ResourceType VARCHAR(20)
+, IN in_ResourcePath VARCHAR(255)
+)
 BEGIN
 
-	set global time_zone='UTC';
+	INSERT INTO `tbl_resource`(`UserId`
+		, `ResourceId`
+		, `ResourceType`
+		, `ResourcePath`
+    ) VALUES ( in_UserId
+		, in_ResourceId
+		, in_ResourceType
+		, in_ResourcePath
+    );
+
 
 END ;;
 DELIMITER ;
@@ -678,7 +841,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `sp_select_machine` */;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_select_resource` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -688,27 +851,13 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_machine`(IN in_MacAddress VARCHAR(128)
-, IN in_Port INT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_resource`(IN in_ResourceId BIGINT
 )
 BEGIN
 
-	IF (SELECT 1 = 1 FROM tbl_machine 
-		WHERE `MacAddress` = in_MacAddress AND `Port` = in_Port) THEN
-	
-		SELECT * FROM tbl_machine 
-        WHERE `MacAddress` = in_MacAddress AND `Port` = in_Port;
-	
-	ELSE
-	
-		INSERT INTO tbl_machine (`MacAddress`, `Port`) 
-        VALUES(in_MacAddress, in_Port);
-		
-        SELECT * FROM tbl_machine
-        WHERE `MachineId` = LAST_INSERT_ID();
-	
-	END IF;
-    
+	SELECT * FROM `tbl_resource`
+    WHERE `ResourceId` = in_ResourceId;
+
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1176,4 +1325,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-08 12:54:09
+-- Dump completed on 2018-10-12  9:31:03

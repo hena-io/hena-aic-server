@@ -33,14 +33,12 @@ CREATE TABLE `tbl_campaign` (
   `BeginTime` datetime NOT NULL,
   `EndTime` datetime NOT NULL,
   `IsPause` tinyint(4) NOT NULL DEFAULT '0',
-  `IsDeleted` tinyint(4) NOT NULL DEFAULT '0',
-  `DeletedTime` datetime DEFAULT NULL,
   `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `LastUpdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `LastUpdate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`UserId`,`CampaignId`),
   UNIQUE KEY `CampaignId_UNIQUE` (`CampaignId`),
   UNIQUE KEY `Idx_UNIQUE` (`Idx`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +50,4 @@ CREATE TABLE `tbl_campaign` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-08 12:54:09
+-- Dump completed on 2018-10-12  9:31:03
