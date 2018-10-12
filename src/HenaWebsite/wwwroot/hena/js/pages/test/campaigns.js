@@ -280,7 +280,7 @@
 		var adDesign = adDesignContainer.find(campaignId);
 		setAdDesignFormValues(adDesign);
 		console.log(adDesign);
-		$("#ad-resource-preview").attr('src', adDesign.adResourceUrl);
+		setAdDesignPreviewUrl(adDesign.adResourceUrl);
 	}
 
 	// 광고 디자인 폼에 값 세팅
@@ -337,7 +337,7 @@
 		$("#form-ad-design")[0].reset();
 		var campaignId = $("#form-campaign input[name=campaignId]").val();
 		$("#form-ad-design input[name=campaignId]").val(campaignId);
-		$("#ad-resource-preview").attr('src', '');
+		setAdDesignPreviewUrl(null);
 		setAdDesignsErrorMessage(null);
 	}
 
@@ -357,6 +357,18 @@
 			setAdDesignsErrorMessage(null);
 		} else {
 			setAdDesignsErrorMessage(response.result);
+		}
+	}
+
+	// 광고 디자인 프리뷰 설정
+	function setAdDesignPreviewUrl(url) {
+		if (url == null || url == "") {
+			$('#ad-resource-preview').attr('src', '');
+			$('#ad-resource-preview-link').attr('href', '#');
+		}
+		else {
+			$('#ad-resource-preview').attr('src', url);
+			$('#ad-resource-preview-link').attr('href', url);
 		}
 	}
 
@@ -435,11 +447,11 @@
 			if (response.result === "Success") {
 				$('#form-ad-design input[name=adResourceId]').val(response.data.adResourceId);
 				$('#form-ad-design input[name=adDesignType]').val(response.data.adDesignType);
-				$('#ad-resource-preview').attr('src', response.data.url);
+				setAdDesignPreviewUrl(response.data.url);
 			} else {
 				$('#form-ad-design input[name=adResourceId]').val('');
 				$('#form-ad-design input[name=adDesignType]').val('');
-				$('#ad-resource-preview').attr('src', '');
+				setAdDesignPreviewUrl(null);
 			}
 			setAdDesignsErrorMessageByResponse(response);
 		});

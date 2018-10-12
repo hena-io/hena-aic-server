@@ -160,7 +160,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_design_select_by_campaignid`(
 BEGIN
 
 	SELECT * FROM `tbl_ad_design`
-    WHERE `CampaignId` = in_CampaignId;
+    WHERE `CampaignId` = in_CampaignId
+    ORDER BY `Idx` DESC;
         
 END ;;
 DELIMITER ;
@@ -183,7 +184,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_design_select_by_userid`(IN i
 BEGIN
 
 	SELECT * FROM `tbl_ad_design`
-    WHERE `UserId` = in_UserId;
+    WHERE `UserId` = in_UserId
+    ORDER BY `Idx` DESC;
         
 END ;;
 DELIMITER ;
@@ -325,7 +327,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_resource_select_by_userid`(IN
 BEGIN
 
 	SELECT * FROM `tbl_ad_resource`
-    WHERE `UserId` = in_UserId;
+    WHERE `UserId` = in_UserId
+    ORDER BY `Idx` DESC;
     
 END ;;
 DELIMITER ;
@@ -465,7 +468,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_unit_select_by_appid`(IN in_A
 BEGIN
 
 	SELECT * FROM `tbl_ad_unit`
-    WHERE `AppId` = in_AppId;
+    WHERE `AppId` = in_AppId
+    ORDER BY `Idx` DESC;
         
 END ;;
 DELIMITER ;
@@ -488,7 +492,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_unit_select_by_userid`(IN in_
 BEGIN
 
 	SELECT * FROM `tbl_ad_unit`
-    WHERE `UserId` = in_UserId;
+    WHERE `UserId` = in_UserId
+    ORDER BY `Idx` DESC;
         
 END ;;
 DELIMITER ;
@@ -619,7 +624,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_app_select_by_userid`(IN in_User
 BEGIN
 
 	SELECT * FROM `tbl_app`
-    WHERE `UserId` = in_UserId;
+    WHERE `UserId` = in_UserId
+    ORDER BY `Idx` DESC;
         
 END ;;
 DELIMITER ;
@@ -764,7 +770,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_campaign_select_by_userid`(IN in
 BEGIN
 
 	SELECT * FROM `tbl_campaign`
-    WHERE `UserId` = in_UserId;
+    WHERE `UserId` = in_UserId
+    ORDER BY `Idx` DESC;
         
 END ;;
 DELIMITER ;
@@ -1027,7 +1034,8 @@ BEGIN
 
 	SELECT * FROM `tbl_user_permission` 
     WHERE `UserId`=in_UserId
-    AND `PermissionType`=in_PermissionType;
+    AND `PermissionType`=in_PermissionType
+    ORDER BY `Idx` DESC;
 
 
 END ;;
@@ -1051,7 +1059,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_user_permission_select_by_permis
 BEGIN
 
 	SELECT * FROM `tbl_user_permission` 
-    WHERE `PermissionType`=in_PermissionType;
+    WHERE `PermissionType`=in_PermissionType
+    ORDER BY `Idx` DESC;
 
 
 END ;;
@@ -1075,7 +1084,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_user_permission_select_by_userid
 BEGIN
 
 	SELECT * FROM `tbl_user_permission` 
-    WHERE `UserId`=in_UserId;
+    WHERE `UserId`=in_UserId
+    ORDER BY `Idx` DESC;
 
 
 END ;;
@@ -1130,13 +1140,13 @@ BEGIN
 		SELECT * FROM `tbl_user` 
 		WHERE `CreateTime` >= in_BeginCreateTime
         AND `CreateTime` <= in_EndCreateTime
-		ORDER BY `CreateTime` DESC
+		ORDER BY `Idx` DESC
         LIMIT in_Offset, in_Limit;
     ELSE
 		SELECT * FROM `tbl_user` 
 		WHERE `CreateTime` >= in_BeginCreateTime
         AND `CreateTime` <= in_EndCreateTime
-        ORDER BY `CreateTime` ASC
+        ORDER BY `Idx` ASC
 		LIMIT in_Offset, in_Limit;
     END IF;
 	
@@ -1219,11 +1229,13 @@ BEGIN
 		WHERE `EMail` LIKE @searchParams
 		OR `Nickname` LIKE @searchParams
 		OR `NationalNumber` LIKE @searchParams
+        ORDER BY `Idx` DESC
 		LIMIT in_Offset, in_Limit;
 	ELSE
 		SELECT * FROM `tbl_user` 
 		WHERE `EMail` LIKE @searchParams
 		OR `Nickname` LIKE @searchParams
+        ORDER BY `Idx` DESC
 		LIMIT in_Offset, in_Limit;
 	END IF;
     
@@ -1325,4 +1337,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-12 15:41:04
+-- Dump completed on 2018-10-12 17:14:27
