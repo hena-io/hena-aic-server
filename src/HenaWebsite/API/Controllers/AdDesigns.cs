@@ -25,6 +25,10 @@ namespace HenaWebsite.Controllers.API
 		[HttpPost]
 		public async Task<IActionResult> Create([FromBody] AdDesignModels.Create.Request request)
 		{
+			// Check session validation
+			if (await CheckSessionValidationAndSignOutAsync() == false)
+				return APIResponse(ErrorCode.InvalidSession);
+
 			// Check valid parameters
 			if (request == null || request.IsValidParameters() == false)
 				return APIResponse(ErrorCode.InvalidParameters);
@@ -37,12 +41,18 @@ namespace HenaWebsite.Controllers.API
 			if (campaignData.UserId != UserId)
 				return APIResponse(ErrorCode.BadRequest);
 
+			AdResourceData adResourceData = new AdResourceData();
+			if( await adResourceData.FromDBAsync(request.AdResourceId) == false )
+				return APIResponse(ErrorCode.InvalidParameters);
+
 			// Insert to db
 			var insertQuery = new DBQuery_AdDesign_Insert();
 			var item = insertQuery.IN.Item;
 			request.Copy(item);
 			item.UserId = UserId;
 			item.AdDesignId = IDGenerator.NewAdDesignId;
+			item.AdDesignType = adResourceData.AdDesignType;
+
 			if (await DBThread.Instance.ReqQueryAsync(insertQuery) == false)
 				return APIResponse(ErrorCode.DatabaseError);
 
@@ -59,6 +69,10 @@ namespace HenaWebsite.Controllers.API
 		[HttpPost]
 		public async Task<IActionResult> Modify([FromBody] AdDesignModels.Modify.Request request)
 		{
+			// Check session validation
+			if (await CheckSessionValidationAndSignOutAsync() == false)
+				return APIResponse(ErrorCode.InvalidSession);
+
 			// Check valid parameters
 			if (request == null || request.IsValidParameters() == false)
 				return APIResponse(ErrorCode.InvalidParameters);
@@ -73,11 +87,16 @@ namespace HenaWebsite.Controllers.API
 			if (UserId != adDesignData.UserId)
 				return APIResponse(ErrorCode.BadRequest);
 
+			AdResourceData adResourceData = new AdResourceData();
+			if (await adResourceData.FromDBAsync(request.AdResourceId) == false)
+				return APIResponse(ErrorCode.InvalidParameters);
+
 			// Update to db
 			var updateQuery = new DBQuery_AdDesign_Update();
 			var item = updateQuery.IN.Item;
 			request.Copy(item);
 			item.UserId = UserId;
+			item.AdDesignType = adResourceData.AdDesignType;
 			if (await DBThread.Instance.ReqQueryAsync(updateQuery) == false)
 				return APIResponse(ErrorCode.DatabaseError);
 
@@ -94,6 +113,10 @@ namespace HenaWebsite.Controllers.API
 		[HttpPost]
 		public async Task<IActionResult> Delete([FromBody] AdDesignModels.Delete.Request request)
 		{
+			// Check session validation
+			if (await CheckSessionValidationAndSignOutAsync() == false)
+				return APIResponse(ErrorCode.InvalidSession);
+
 			// Check valid parameters
 			if (request == null || request.IsValidParameters() == false)
 				return APIResponse(ErrorCode.InvalidParameters);
@@ -123,6 +146,10 @@ namespace HenaWebsite.Controllers.API
 		[HttpPost]
 		public async Task<IActionResult> List([FromBody] AdDesignModels.List.Request request)
 		{
+			// Check session validation
+			if (await CheckSessionValidationAndSignOutAsync() == false)
+				return APIResponse(ErrorCode.InvalidSession);
+
 			// Check valid parameters
 			if (request == null || request.IsValidParameters() == false)
 				return APIResponse(ErrorCode.InvalidParameters);

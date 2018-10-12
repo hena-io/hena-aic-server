@@ -28,8 +28,8 @@ namespace Hena.Shared.Data
 		// 광고유닛 이름( Max 80 )
 		public string Name { get; set; } = string.Empty;
 
-		// 광고 디자인 타입
-		public AdDesignTypes AdDesignType { get; set; } = AdDesignTypes.None;
+		// 광고 시스템 타입
+		public AdSystemTypes AdSystemType { get; set; } = AdSystemTypes.None;
 
 		// 생성된 시간
 		public DateTime CreateTime { get; set; } = DateTime.MinValue;

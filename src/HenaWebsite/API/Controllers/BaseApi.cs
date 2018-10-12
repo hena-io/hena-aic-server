@@ -51,5 +51,16 @@ namespace HenaWebsite.Controllers.API
 			return Ok(responseData);
 		}
 		#endregion // Base API
+
+		// 세션 체크 및 잘못된 세션이면 로그아웃 처리
+		public async Task<bool> CheckSessionValidationAndSignOutAsync()
+		{
+			if (UserId == GlobalDefine.INVALID_DBKEY)
+			{
+				await SignOutAsync();
+				return false;
+			}
+			return true;
+		}
 	}
 }

@@ -121,7 +121,7 @@
 
 			var elem = form.find("input[name=" + it + "]");
 			if (it === 'beginTime' || it === 'endTime') {
-				var localTime = moment.utc(campaign[it]).local().format("YYYY-MM-DDTHH:mm:ss");
+				var localTime = moment.utc(campaign[it]).local().format("YYYY-MM-DD");
 				elem.val(localTime);
 			} else {
 				elem.val(campaign[it]);
@@ -160,6 +160,25 @@
 		bindCampaignTableRowClickEvent();
 	}
 
+	// 캠페인 에러 메시지 설정
+	function setCampaignsErrorMessage(message) {
+		var elem = $("#section-campaigns .alert");
+		if (message == null || message == "") {
+			elem.prop('hidden', true);
+		} else {
+			elem.text(message);
+			elem.prop('hidden', false);
+		}
+	}
+	// 캠페인 에러 메시지 설정 - Response 기준
+	function setCampaignsErrorMessageByResponse(response) {
+		if (response == null || response.result == 'Success') {
+			setCampaignsErrorMessage(null);
+		} else {
+			setCampaignsErrorMessage(response.result);
+		}
+	}
+
 
 	// -----------------------------------------------------
 	// 캠페인 이벤트 처리
@@ -173,33 +192,46 @@
 	// 캠페인 폼 초기화
 	$("#btn-campaign-form-reset").click(() => {
 		$("#form-campaign")[0].reset();
+		setCampaignsErrorMessage(null);
 	});
 
 	// 캠페인 생성
 	$('#btn-campaign-create').click(() => {
 		var data = $('#form-campaign').serializeObject();
-		data.beginTime = moment(data.beginTime).utc().format("YYYY-MM-DDTHH:mm:ss");
-		data.endTime = moment(data.endTime).utc().format("YYYY-MM-DDTHH:mm:ss");
+		data.beginTime = moment(data.beginTime).utc()
+			.hour(0).minute(0).second(0)
+			.format("YYYY-MM-DDTHH:mm:ss");
+
+		data.endTime = moment(data.endTime).utc()
+			.hour(23).minute(59).second(59)
+			.format("YYYY-MM-DDTHH:mm:ss");
 
 		HenaApi.campaigns.create(data, (response) => {
 			if (response.result === "Success") {
 				campaignContainer.add(response.data);
 				drawCampaignTable(campaignContainer.items);
 			}
+			setCampaignsErrorMessageByResponse(response);
 		});
 	});
 
 	// 캠페인 수정
 	$('#btn-campaign-modify').click(() => {
 		var data = $('#form-campaign').serializeObject();
-		data.beginTime = moment(data.beginTime).utc().format("YYYY-MM-DDTHH:mm:ss");
-		data.endTime = moment(data.endTime).utc().format("YYYY-MM-DDTHH:mm:ss");
+		data.beginTime = moment(data.beginTime).utc()
+			.hour(0).minute(0).second(0)
+			.format("YYYY-MM-DDTHH:mm:ss");
+
+		data.endTime = moment(data.endTime).utc()
+			.hour(23).minute(59).second(59)
+			.format("YYYY-MM-DDTHH:mm:ss");
 
 		HenaApi.campaigns.modify(data, (response) => {
 			if (response.result === "Success") {
 				campaignContainer.replace(data.campaignId, response.data);
 				drawCampaignTable(campaignContainer.items);
 			}
+			setCampaignsErrorMessageByResponse(response);
 		});
 	});
 
@@ -214,6 +246,7 @@
 				campaignContainer.remove(campaignId);
 				drawCampaignTable(campaignContainer.items);
 			}
+			setCampaignsErrorMessageByResponse(response);
 		});
 	});
 
@@ -287,7 +320,7 @@
 			tbodyValue += "	<td>" + item.adDesignId + "</td>";
 			tbodyValue += "	<td>" + item.name + "</td>";
 			tbodyValue += "	<td>" + item.adDesignType + "</td>";
-			tbodyValue += "	<td>" + item.resourceId + "</td>";
+			tbodyValue += "	<td>" + item.adResourceId + "</td>";
 			tbodyValue += "	<td>" + item.destinationUrl + "</td>";
 			tbodyValue += "	<td>" + item.isPause + "</td>";
 			tbodyValue += "	<td>" + moment.utc(item.createTime).local().format('YYYY-MM-DD HH:mm:ss') + "</td>";
@@ -305,6 +338,26 @@
 		var campaignId = $("#form-campaign input[name=campaignId]").val();
 		$("#form-ad-design input[name=campaignId]").val(campaignId);
 		$("#ad-resource-preview").attr('src', '');
+		setAdDesignsErrorMessage(null);
+	}
+
+	// 광고 디자인 에러 메시지 설정
+	function setAdDesignsErrorMessage(message) {
+		var elem = $("#section-ad-designs .alert");
+		if (message == null || message == "") {
+			elem.prop('hidden', true);
+		} else {
+			elem.text(message);
+			elem.prop('hidden', false);
+		}
+	}
+	// 광고 디자인 에러 메시지 설정 - Response 기준
+	function setAdDesignsErrorMessageByResponse(response) {
+		if (response == null || response.result == 'Success') {
+			setAdDesignsErrorMessage(null);
+		} else {
+			setAdDesignsErrorMessage(response.result);
+		}
 	}
 
 	// -----------------------------------------------------
@@ -328,14 +381,13 @@
 			return;
 
 		var data = $('#form-ad-design').serializeObject();
-		data.beginTime = moment(data.beginTime).utc().format("YYYY-MM-DDTHH:mm:ss");
-		data.endTime = moment(data.endTime).utc().format("YYYY-MM-DDTHH:mm:ss");
 
 		HenaApi.adDesigns.create(data, (response) => {
 			if (response.result === "Success") {
 				adDesignContainer.add(response.data);
 				drawAdDesignTable(adDesignContainer.items);
-			}
+			} 
+			setAdDesignsErrorMessageByResponse(response);
 		});
 	});
 
@@ -346,14 +398,13 @@
 			return;
 
 		var data = $('#form-ad-design').serializeObject();
-		data.beginTime = moment(data.beginTime).utc().format("YYYY-MM-DDTHH:mm:ss");
-		data.endTime = moment(data.endTime).utc().format("YYYY-MM-DDTHH:mm:ss");
 
 		HenaApi.adDesigns.modify(data, (response) => {
 			if (response.result === "Success") {
 				adDesignContainer.replace(data.adDesignId, response.data);
 				drawAdDesignTable(adDesignContainer.items);
 			}
+			setAdDesignsErrorMessageByResponse(response);
 		});
 	});
 
@@ -368,6 +419,7 @@
 				adDesignContainer.remove(adDesignId);
 				drawAdDesignTable(adDesignContainer.items);
 			}
+			setAdDesignsErrorMessageByResponse(response);
 		});
 	});
 
@@ -382,8 +434,14 @@
 		HenaApi.adResource.upload(formData, (response) => {
 			if (response.result === "Success") {
 				$('#form-ad-design input[name=adResourceId]').val(response.data.adResourceId);
+				$('#form-ad-design input[name=adDesignType]').val(response.data.adDesignType);
 				$('#ad-resource-preview').attr('src', response.data.url);
+			} else {
+				$('#form-ad-design input[name=adResourceId]').val('');
+				$('#form-ad-design input[name=adDesignType]').val('');
+				$('#ad-resource-preview').attr('src', '');
 			}
+			setAdDesignsErrorMessageByResponse(response);
 		});
 	});
 

@@ -112,14 +112,14 @@ var HenaApi = {};
 
 		// appId:1234567890
 		// name: 'Ad Unit Name'
-		// adDesignType: 'Banner'				Ex ) {Banner, Interstitial, Video}
+		// adSystemType: 'Banner'				Ex ) {Banner, Interstitial, Video}
 		create: function (data, callback) {
 			post("/api/adunits/create", data, callback);
 		},
 
 		// adUnitId:1234567890
 		// name: 'Ad Unit Name'
-		// adDesignType: 'Banner'				Ex ) {Banner, Interstitial, Video}
+		// adSystemType: 'Banner'				Ex ) {Banner, Interstitial, Video}
 		modify: function (data, callback) {
 			post("/api/adunits/modify", data, callback);
 		},

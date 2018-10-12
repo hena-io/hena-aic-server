@@ -20,7 +20,7 @@ namespace HenaWebsite.Models.API.AdUnit
 			{
 				public DBKey AppId { get; set; } = GlobalDefine.INVALID_DBKEY;
 				public string Name { get; set; } = string.Empty;
-				public AdDesignTypes AdDesignType { get; set; } = AdDesignTypes.None;
+				public AdSystemTypes AdSystemType { get; set; } = AdSystemTypes.None;
 
 				public virtual bool IsValidParameters()
 				{
@@ -46,7 +46,7 @@ namespace HenaWebsite.Models.API.AdUnit
 			{
 				public DBKey AdUnitId { get; set; } = GlobalDefine.INVALID_DBKEY;
 				public string Name { get; set; } = string.Empty;
-				public AdDesignTypes AdDesignType { get; set; } = AdDesignTypes.None;
+				public AdSystemTypes AdSystemType { get; set; } = AdSystemTypes.None;
 
 				public virtual bool IsValidParameters()
 				{

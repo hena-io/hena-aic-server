@@ -4,7 +4,7 @@
 
 <!--apps begin-->
 <div class="row">
-	<section class="panel">
+	<section class="panel" id="section-apps">
 		<header class="panel-heading">
 			<h3>Apps</h3>
 		</header>
@@ -44,7 +44,7 @@
 									</select>
 								</div>
 							</div>
-
+							<div class="alert alert-danger" hidden />
 							<div class="form-group col-sm-12">
 								<button id='btn-app-create' class="btn btn-primary" type="button">Create</button>
 								<button id='btn-app-modify' class="btn btn-primary" type="button">Modify</button>
@@ -86,7 +86,7 @@
 <!--apps end-->
 <!--ad-unit begin-->
 <div class="row">
-	<section class="panel">
+	<section class="panel" id="section-ad-units">
 		<header class="panel-heading">
 			<h3>Ad Units</h3>
 		</header>
@@ -135,13 +135,13 @@
 							</div>
 
 							<div class="form-group col-sm-6">
-								<label class="col-sm-2 control-label">Ad Design Type</label>
+								<label class="col-sm-2 control-label">Ad System Type</label>
 								<div class="col-sm-10">
-									<select class="form-control" name="adDesignType">
+									<select class="form-control" name="adSystemType">
 										@{
-											List<string> adDesignType = new List<string>(Enum.GetNames(typeof(AdDesignTypes)));
-											adDesignType.Remove(AdDesignTypes.None.ToString());
-											foreach (var it in adDesignType)
+											List<string> adSystemTypes = new List<string>(Enum.GetNames(typeof(AdSystemTypes)));
+											adSystemTypes.Remove(AdSystemTypes.None.ToString());
+											foreach (var it in adSystemTypes)
 											{
 												<option>@it</option>
 											}
@@ -149,7 +149,7 @@
 									</select>
 								</div>
 							</div>
-
+							<div class="alert alert-danger" hidden />
 							<div class="form-group col-sm-12">
 								<button id='btn-ad-unit-create' class="btn btn-primary" type="button">Create</button>
 								<button id='btn-ad-unit-modify' class="btn btn-primary" type="button">Modify</button>

@@ -71,21 +71,25 @@ namespace Hena
 		{
 			try
 			{
-				var request = CreateRequest(Host + "/" + remoteFile, WebRequestMethods.Ftp.UploadFile, true, true, true);
-				request.ContentLength = contents.Length;
+				var ftpRequest = CreateRequest(Host + "/" + remoteFile, WebRequestMethods.Ftp.UploadFile, true, true, true);
+				ftpRequest.ContentLength = contents.Length;
 
-				Stream requestStream = await request.GetRequestStreamAsync();
+				Stream ftpStream = await ftpRequest.GetRequestStreamAsync();
 				{
 					for (int offset = 0; offset < contents.Length; offset += BufferSize)
 					{
 						int len = Math.Min(BufferSize, contents.Length - offset);
-						await requestStream.WriteAsync(contents, offset, len);
+						await ftpStream.WriteAsync(contents, offset, len);
 					}
 				}
-				var response = (FtpWebResponse)await request.GetResponseAsync();
+				var ftpResponse = (FtpWebResponse)await ftpRequest.GetResponseAsync();
 				{
-					Console.WriteLine($"Upload File Complete, status {response.StatusDescription}");
+					Console.WriteLine($"Upload File Complete, status {ftpResponse.StatusDescription}");
 				}
+				ftpResponse.Close();
+				ftpStream.Close();
+				ftpRequest = null;
+
 			}
 			catch (Exception ex)
 			{

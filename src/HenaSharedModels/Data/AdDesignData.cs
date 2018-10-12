@@ -29,7 +29,7 @@ namespace Hena.Shared.Data
 		public string Name { get; set; } = string.Empty;
 
 		// 광고 디자인 타입
-		public AdDesignTypes AdDesignType { get; set; } = AdDesignTypes.None;
+		public AdDesignTypes.en AdDesignType { get; set; } = AdDesignTypes.en.None;
 
 		// 업로드된 리소스 Id
 		public DBKey AdResourceId { get; set; } = GlobalDefine.INVALID_DBKEY;

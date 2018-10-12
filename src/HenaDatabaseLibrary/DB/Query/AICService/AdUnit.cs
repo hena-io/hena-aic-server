@@ -27,7 +27,7 @@ namespace Hena.DB
 				parameters.Add(Item.AppId);
 				parameters.Add(Item.AdUnitId);
 				parameters.Add(Item.Name);
-				parameters.Add(Item.AdDesignType);
+				parameters.Add(Item.AdSystemType);
 			}
 		}
 		#endregion // IN / OUT

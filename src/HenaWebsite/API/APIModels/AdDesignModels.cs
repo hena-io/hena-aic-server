@@ -6,6 +6,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,10 +19,13 @@ namespace HenaWebsite.Models.API.AdDesign
 		{
 			public class Request
 			{
+				[Required]
 				public DBKey CampaignId { get; set; } = GlobalDefine.INVALID_DBKEY;
+				[Required]
 				public string Name { get; set; } = string.Empty;
-				public AdDesignTypes AdDesignType { get; set; } = AdDesignTypes.None;
+				[Required]
 				public DBKey AdResourceId { get; set; } = GlobalDefine.INVALID_DBKEY;
+				[Required]
 				public string DestinationUrl { get; set; } = string.Empty;
 
 				public virtual bool IsValidParameters()
@@ -48,7 +52,6 @@ namespace HenaWebsite.Models.API.AdDesign
 			{
 				public DBKey AdDesignId { get; set; } = GlobalDefine.INVALID_DBKEY;
 				public string Name { get; set; } = string.Empty;
-				public AdDesignTypes AdDesignType { get; set; } = AdDesignTypes.None;
 				public DBKey AdResourceId { get; set; } = GlobalDefine.INVALID_DBKEY;
 				public string DestinationUrl { get; set; } = string.Empty;
 

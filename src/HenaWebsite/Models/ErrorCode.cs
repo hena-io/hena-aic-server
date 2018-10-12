@@ -21,6 +21,7 @@ namespace HenaWebsite.Models
 		InvalidPassword,		// 잘못된 비밀번호
 		InvalidFormat,			// 잘못된 포멧
 		InvalidResource,		// 잘못된 리소스
+		InvalidSize,			// 잘못된 사이즈
 		ExistUserName,          // 이미 존재하는 유저명
 		ExistEMail,				// 이미 존재하는 이메일
 		NotSupportFormat,		// 지원하지 않는 포멧

@@ -91,7 +91,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_design_insert`(IN in_UserId B
 , IN in_AdDesignId BIGINT
 
 , IN in_Name VARCHAR(80)
-, IN in_AdDesignType VARCHAR(15)
+, IN in_AdDesignType VARCHAR(45)
 , IN in_AdResourceId BIGINT
 , IN in_DestinationUrl TEXT
 )
@@ -203,7 +203,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_design_update`(IN in_AdDesignId BIGINT
 , IN in_Name VARCHAR(80)
-, IN in_AdDesignType VARCHAR(15)
+, IN in_AdDesignType VARCHAR(45)
 , IN in_AdResourceId BIGINT
 , IN in_DestinationUrl TEXT
 )
@@ -257,7 +257,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_resource_insert`(IN in_UserId BIGINT
 , IN in_AdResourceId BIGINT
-, IN in_AdResourceType VARCHAR(15)
+, IN in_AdDesignType VARCHAR(45)
 , IN in_ContentType VARCHAR(45)
 , IN in_Width SMALLINT
 , IN in_Height SMALLINT
@@ -266,14 +266,14 @@ BEGIN
 
 	INSERT INTO `tbl_ad_resource`(`UserId`
 		, `AdResourceId`
-		, `AdResourceType`
+		, `AdDesignType`
         , `ContentType`
 		
 		, `Width`
 		, `Height`
 	) VALUES (in_UserId
 		, in_AdResourceId
-		, in_AdResourceType
+		, in_AdDesignType
         , in_ContentType
 		
 		, in_Width
@@ -344,7 +344,7 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_resource_update`(IN in_AdResourceId BIGINT
-, IN in_AdResourceType VARCHAR(15)
+, IN in_AdDesignType VARCHAR(45)
 , IN in_ContentType VARCHAR(45)
 , IN in_Width SMALLINT
 , IN in_Height SMALLINT
@@ -352,7 +352,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_resource_update`(IN in_AdReso
 BEGIN
 
 	UPDATE `tbl_ad_resource`
-	SET `AdResourceType` = in_AdResourceType
+	SET `AdDesignType` = in_AdDesignType
 		, `ContentType` = in_ContentType
 		, `Width` = in_Width
 		, `Height` = in_Height
@@ -1325,4 +1325,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-12  9:31:03
+-- Dump completed on 2018-10-12 15:41:04

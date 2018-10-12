@@ -85,13 +85,7 @@ namespace HenaWebsite.Controllers
 
 		public async Task<IActionResult> Logout()
 		{
-		
-			await HttpContext.SignOutAsync();
-
-			foreach (var cookie in Request.Cookies.Keys)
-			{
-				Response.Cookies.Delete(cookie);
-			}
+			await SignOutAsync();
 			return WebServiceUtility.RedirectToActionWithNonce(this, "Index", "Home");
 		}
 

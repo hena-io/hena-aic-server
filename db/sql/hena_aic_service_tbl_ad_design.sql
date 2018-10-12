@@ -29,7 +29,7 @@ CREATE TABLE `tbl_ad_design` (
   `AdDesignId` bigint(20) NOT NULL,
   `Name` varchar(80) NOT NULL,
   `AdResourceId` bigint(20) NOT NULL,
-  `AdDesignType` varchar(15) NOT NULL DEFAULT 'None' COMMENT 'None, Banner, Interstitial, Video',
+  `AdDesignType` varchar(45) NOT NULL DEFAULT 'None' COMMENT 'None, MobileLeaderboard, MobileBannerLandscape, LargeMobileBanner, Banner, Leaderboard, InlineRectangle, SmartphoneInterstitialPortrait, SmartphoneInterstitialLandscape, TabletInterstitialPortrait, TabletInterstitialLandscape',
   `DestinationUrl` text NOT NULL,
   `IsPause` tinyint(4) NOT NULL DEFAULT '0',
   `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -37,7 +37,7 @@ CREATE TABLE `tbl_ad_design` (
   PRIMARY KEY (`UserId`,`CampaignId`,`AdDesignId`),
   UNIQUE KEY `Idx_UNIQUE` (`Idx`),
   UNIQUE KEY `CampaignDesignId_UNIQUE` (`AdDesignId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -49,4 +49,4 @@ CREATE TABLE `tbl_ad_design` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-12  9:31:02
+-- Dump completed on 2018-10-12 15:41:03

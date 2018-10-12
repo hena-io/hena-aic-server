@@ -16,8 +16,8 @@ namespace Hena.Shared.Data
 		// 광고 리소스 Id
 		public DBKey AdResourceId { get; set; } = GlobalDefine.INVALID_DBKEY;
 
-		// 광고 리소스 타입
-		public AdResourceTypes AdResourceType { get; set; } = AdResourceTypes.None;
+		// 광고 디자인 타입
+		public AdDesignTypes.en AdDesignType { get; set; } = AdDesignTypes.en.None;
 
 		// 리소스 Url
 		public string Url { get { return $"http://hena.io/aic/resources/{UserId}/{AdResourceId}"; } }

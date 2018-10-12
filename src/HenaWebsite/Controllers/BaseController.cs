@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Hena;
 using Hena.Security.Claims;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 
 namespace HenaWebsite.Controllers
 {
@@ -29,6 +31,16 @@ namespace HenaWebsite.Controllers
 			return defaultValue;
 		}
 		#endregion // Utility
+
+		public async Task SignOutAsync()
+		{
+			await HttpContext.SignOutAsync();
+
+			foreach (var cookie in Request.Cookies.Keys)
+			{
+				Response.Cookies.Delete(cookie);
+			}
+		}
 
 		//protected async Task SendEMailAsync(string subject, string body, bool isBodyHtml, MailAddress[] to, MailAddress[] cc, MailAddress[] bcc)
 		//{

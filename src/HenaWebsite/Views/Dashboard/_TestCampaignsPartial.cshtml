@@ -4,7 +4,7 @@
 
 <!--campaigns begin-->
 <div class="row">
-	<section class="panel">
+	<section class="panel" id="section-campaigns">
 		<header class="panel-heading">
 			<h3>Campaigns</h3>
 		</header>
@@ -62,27 +62,30 @@
 							<div class="form-group col-sm-6">
 								<label class="col-sm-2 control-label">Begin Time</label>
 								<div class="col-sm-10">
-									<input type="datetime-local" class="form-control" name="beginTime" placeholder="">
+									<input type="date" class="form-control" name="beginTime" placeholder="">
 								</div>
 							</div>
 
 							<div class="form-group col-sm-6">
 								<label class="col-sm-2 control-label">End Time</label>
 								<div class="col-sm-10">
-									<input type="datetime-local" class="form-control" name="endTime" placeholder="">
+									<input type="date" class="form-control" name="endTime" placeholder="">
 								</div>
 							</div>
 
-
-								<div class="form-group col-sm-12">
-									<button id='btn-campaign-create' class="btn btn-primary" type="button">Create</button>
-									<button id='btn-campaign-modify' class="btn btn-primary" type="button">Modify</button>
-									<button id='btn-campaign-delete' class="btn btn-primary" type="button">Delete</button>
-
-									<button id='btn-campaign-form-reset' class="btn btn-primary" type="button">Form Reset</button>
+							<div class="form-group col-sm-12">
+								<div class="alert alert-danger" hidden>
 								</div>
+							</div>
+							<div class="form-group col-sm-12">
+								<button id='btn-campaign-create' class="btn btn-primary" type="button">Create</button>
+								<button id='btn-campaign-modify' class="btn btn-primary" type="button">Modify</button>
+								<button id='btn-campaign-delete' class="btn btn-primary" type="button">Delete</button>
 
-</form>
+								<button id='btn-campaign-form-reset' class="btn btn-primary" type="button">Form Reset</button>
+							</div>
+
+						</form>
 					</div>
 				</section>
 			</div>
@@ -133,7 +136,7 @@
 <!--campaigns end-->
 <!--ad-design begin-->
 <div class="row">
-	<section class="panel">
+	<section class="panel" id="section-ad-designs">
 		<header class="panel-heading">
 			<h3>Ad Designs</h3>
 		</header>
@@ -148,7 +151,7 @@
 									<th>AdDesignId</th>
 									<th>Name</th>
 									<th>AdDesignType</th>
-									<th>ResourceId</th>
+									<th>AdResourceId</th>
 									<th>DestinationUrl</th>
 									<th>IsPause</th>
 									<th>CreateTime</th>
@@ -184,25 +187,18 @@
 							</div>
 
 							<div class="form-group col-sm-6">
-								<label class="col-sm-2 control-label">Ad Design Name</label>
+								<label class="col-sm-2 control-label">Ad Design Type</label>
 								<div class="col-sm-10">
-									<input type="text" class="form-control" name="name" placeholder="">
+									<div class="col-sm-10">
+										<input type="text" class="form-control" name="adDesignType" placeholder="" readonly>
+									</div>
 								</div>
 							</div>
 
 							<div class="form-group col-sm-6">
-								<label class="col-sm-2 control-label">Ad Design Type</label>
+								<label class="col-sm-2 control-label">Ad Design Name</label>
 								<div class="col-sm-10">
-									<select class="form-control" name="adDesignType">
-										@{
-											List<string> adDesignTypes = new List<string>(Enum.GetNames(typeof(AdDesignTypes)));
-											adDesignTypes.Remove(AdDesignTypes.None.ToString());
-											foreach (var it in adDesignTypes)
-											{
-												<option>@it</option>
-											}
-										}
-									</select>
+									<input type="text" class="form-control" name="name" placeholder="">
 								</div>
 							</div>
 
@@ -224,12 +220,13 @@
 								</div>
 
 								<div class="col-sm-10">
-									<img src="http://hena.io/aic/resources/783380349351692948/787109823954977517" id="ad-resource-preview" />
+									<img src="" id="ad-resource-preview" />
 								</div>
 							</div>
-
-
-
+							<div class="form-group col-sm-12">
+								<div class="alert alert-danger" hidden>
+								</div>
+							</div>
 							<div class="form-group col-sm-12">
 								<button id='btn-ad-design-create' class="btn btn-primary" type="button">Create</button>
 								<button id='btn-ad-design-modify' class="btn btn-primary" type="button">Modify</button>

@@ -25,7 +25,7 @@ namespace Hena.DB
 			{
 				parameters.Add(Item.UserId);
 				parameters.Add(Item.AdResourceId);
-				parameters.Add(Item.AdResourceType);
+				parameters.Add(Item.AdDesignType);
 				parameters.Add(Item.ContentType);
 				parameters.Add(Item.Width);
 				parameters.Add(Item.Height);
@@ -48,7 +48,7 @@ namespace Hena.DB
 			public override void FillParameters(List<object> parameters)
 			{
 				parameters.Add(Item.AdResourceId);
-				parameters.Add(Item.AdResourceType);
+				parameters.Add(Item.AdDesignType);
 				parameters.Add(Item.Width);
 				parameters.Add(Item.Height);
 			}

@@ -26,7 +26,7 @@ CREATE TABLE `tbl_ad_resource` (
   `Idx` bigint(20) NOT NULL AUTO_INCREMENT,
   `UserId` bigint(20) NOT NULL,
   `AdResourceId` bigint(20) NOT NULL,
-  `AdResourceType` varchar(15) NOT NULL DEFAULT 'None' COMMENT 'None, Image, Video',
+  `AdDesignType` varchar(45) NOT NULL DEFAULT 'None' COMMENT 'None, MobileLeaderboard, MobileBannerLandscape, LargeMobileBanner, Banner, Leaderboard, InlineRectangle, SmartphoneInterstitialPortrait, SmartphoneInterstitialLandscape, TabletInterstitialPortrait, TabletInterstitialLandscape',
   `ContentType` varchar(45) NOT NULL DEFAULT '' COMMENT 'image/png ...',
   `Width` smallint(6) NOT NULL DEFAULT '0',
   `Height` smallint(6) NOT NULL DEFAULT '0',
@@ -36,7 +36,7 @@ CREATE TABLE `tbl_ad_resource` (
   UNIQUE KEY `ResourceId_UNIQUE` (`AdResourceId`),
   UNIQUE KEY `Idx_UNIQUE` (`Idx`),
   KEY `Idx_UserId` (`UserId`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +48,4 @@ CREATE TABLE `tbl_ad_resource` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-12  9:31:02
+-- Dump completed on 2018-10-12 15:41:04

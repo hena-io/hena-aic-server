@@ -25,6 +25,10 @@ namespace HenaWebsite.Controllers.API
 		[HttpPost]
 		public async Task<IActionResult> Create([FromBody] AppModels.Create.Request request)
 		{
+			// Check session validation
+			if (await CheckSessionValidationAndSignOutAsync() == false)
+				return APIResponse(ErrorCode.InvalidSession);
+
 			// Check valid parameters
 			if (request.IsValidParameters() == false)
 				return APIResponse(ErrorCode.InvalidParameters);
@@ -53,6 +57,10 @@ namespace HenaWebsite.Controllers.API
 		[HttpPost]
 		public async Task<IActionResult> Modify([FromBody] AppModels.Modify.Request request)
 		{
+			// Check session validation
+			if (await CheckSessionValidationAndSignOutAsync() == false)
+				return APIResponse(ErrorCode.InvalidSession);
+
 			// Check valid parameters
 			if (request.IsValidParameters() == false)
 				return APIResponse(ErrorCode.InvalidParameters);
@@ -88,6 +96,10 @@ namespace HenaWebsite.Controllers.API
 		[HttpPost]
 		public async Task<IActionResult> Delete([FromBody] AppModels.Delete.Request request)
 		{
+			// Check session validation
+			if (await CheckSessionValidationAndSignOutAsync() == false)
+				return APIResponse(ErrorCode.InvalidSession);
+
 			// Check valid parameters
 			if (request.IsValidParameters() == false)
 				return APIResponse(ErrorCode.InvalidParameters);
@@ -117,6 +129,10 @@ namespace HenaWebsite.Controllers.API
 		[HttpPost]
 		public async Task<IActionResult> List()
 		{
+			// Check session validation
+			if (await CheckSessionValidationAndSignOutAsync() == false)
+				return APIResponse(ErrorCode.InvalidSession);
+
 			AppDataContainer container = new AppDataContainer();
 			await container.FromDBByUserIdAsync(UserId);
 

@@ -25,8 +25,9 @@ namespace HenaWebsite.Controllers.API
 	{
 		public const int MAX_RESOURCE_SIZE = 1024 * 150;
 		public static readonly string[] SUPPORT_IMAGE_CONTENT_TYPE = new string[]{ "image/jpg"
-			,"image/png"
-			,"image/gif"
+			, "image/jpeg"
+			, "image/png"
+			, "image/gif"
 		};
 
 		#region API
@@ -35,6 +36,10 @@ namespace HenaWebsite.Controllers.API
 		[HttpPost]
 		public async Task<IActionResult> Upload([FromForm]AdResourceModels.Upload.Request request)
 		{
+			// Check session validation
+			if (await CheckSessionValidationAndSignOutAsync() == false)
+				return APIResponse(ErrorCode.InvalidSession);
+
 			// Check valid parameters
 			if (request == null || request.IsValidParameters() == false)
 				return APIResponse(ErrorCode.InvalidParameters);
@@ -42,14 +47,16 @@ namespace HenaWebsite.Controllers.API
 			// Check validation
 			byte[] contents;
 			SKBitmap bitmap = null;
+			AdDesignTypes.en adDesignType = AdDesignTypes.en.None;
 			try
 			{
-				if (SUPPORT_IMAGE_CONTENT_TYPE.Contains(request.File.ContentType) == false)
+				var contentType = request.File.ContentType.ToLower();
+				if (SUPPORT_IMAGE_CONTENT_TYPE.Contains(contentType) == false)
 					return APIResponse(ErrorCode.NotSupportFormat);
 
 				var stream = request.File.OpenReadStream();
-				if (stream.Length > MAX_RESOURCE_SIZE)
-					return APIResponse(ErrorCode.InvalidResource);
+				//if (stream.Length > MAX_RESOURCE_SIZE)
+				//	return APIResponse(ErrorCode.InvalidResource);
 
 				contents = new byte[stream.Length];
 				await stream.ReadAsync(contents, 0, contents.Length);
@@ -57,6 +64,10 @@ namespace HenaWebsite.Controllers.API
 				bitmap = SKBitmap.Decode(contents);
 				if (bitmap.Width >= short.MaxValue || bitmap.Height >= short.MaxValue)
 					return APIResponse(ErrorCode.InvalidResource);
+
+				adDesignType = AdDesignTypes.ToEnum(new Size(bitmap.Width, bitmap.Height));
+				if (adDesignType == AdDesignTypes.en.None)
+					return APIResponse(ErrorCode.InvalidSize);
 			}
 			catch (Exception ex)
 			{
@@ -89,7 +100,7 @@ namespace HenaWebsite.Controllers.API
 			var item = insertQuery.IN.Item;
 			item.UserId = UserId;
 			item.AdResourceId = adResourceId;
-			item.AdResourceType = AdResourceTypes.Image;
+			item.AdDesignType = adDesignType;
 			item.ContentType = request.File.ContentType;
 			item.Width = (short)bitmap.Width;
 			item.Height = (short)bitmap.Height;
@@ -110,6 +121,10 @@ namespace HenaWebsite.Controllers.API
 		[HttpPost]
 		public async Task<IActionResult> Delete([FromBody] AdResourceModels.Delete.Request request)
 		{
+			// Check session validation
+			if (await CheckSessionValidationAndSignOutAsync() == false)
+				return APIResponse(ErrorCode.InvalidSession);
+
 			// Check valid parameters
 			if (request == null || request.IsValidParameters() == false)
 				return APIResponse(ErrorCode.InvalidParameters);
@@ -139,6 +154,10 @@ namespace HenaWebsite.Controllers.API
 		[HttpPost]
 		public async Task<IActionResult> Info([FromBody] AdResourceModels.Info.Request request)
 		{
+			// Check session validation
+			if (await CheckSessionValidationAndSignOutAsync() == false)
+				return APIResponse(ErrorCode.InvalidSession);
+
 			// Check valid parameters
 			if (request == null || request.IsValidParameters() == false)
 				return APIResponse(ErrorCode.InvalidParameters);
@@ -156,6 +175,10 @@ namespace HenaWebsite.Controllers.API
 		[HttpPost]
 		public async Task<IActionResult> List()
 		{
+			// Check session validation
+			if (await CheckSessionValidationAndSignOutAsync() == false)
+				return APIResponse(ErrorCode.InvalidSession);
+
 			// Check valid parameters
 			AdResourceDataContainer container = new AdResourceDataContainer();
 			await container.FromDBByUserIdAsync(UserId);
