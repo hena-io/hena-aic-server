@@ -280,7 +280,7 @@
 			tbodyValue += "	<td><input type='radio' name='ad-units' data-ad-unit-id='" + item.adUnitId + "' /></td>";
 			tbodyValue += "	<td>" + item.adUnitId + "</td>";
 			tbodyValue += "	<td>" + item.name + "</td>";
-			tbodyValue += "	<td>" + item.adDesignType + "</td>";
+			tbodyValue += "	<td>" + item.adSystemType + "</td>";
 			tbodyValue += "	<td>" + moment.utc(item.createTime).local().format('YYYY-MM-DD HH:mm:ss') + "</td>";
 			tbodyValue += "	<td>" + moment.utc(item.lastUpdate).local().format('YYYY-MM-DD HH:mm:ss') + "</td>";
 			tbodyValue += "</tr>";

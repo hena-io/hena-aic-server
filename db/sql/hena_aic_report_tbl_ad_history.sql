@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.12, for Win64 (x86_64)
 --
--- Host: localhost    Database: hena_aic_service
+-- Host: localhost    Database: hena_aic_report
 -- ------------------------------------------------------
 -- Server version	8.0.12
 
@@ -16,29 +16,42 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `tbl_campaign`
+-- Table structure for table `tbl_ad_history`
 --
 
-DROP TABLE IF EXISTS `tbl_campaign`;
+DROP TABLE IF EXISTS `tbl_ad_history`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `tbl_campaign` (
+CREATE TABLE `tbl_ad_history` (
   `Idx` bigint(20) NOT NULL AUTO_INCREMENT,
-  `UserId` bigint(20) NOT NULL,
+  `AdHistoryId` bigint(20) NOT NULL,
+  `PublisherId` bigint(20) NOT NULL,
+  `AppId` bigint(20) NOT NULL,
+  `AdUnitId` bigint(20) NOT NULL,
+  `AdvertiserId` bigint(20) NOT NULL COMMENT '광고주 ID',
   `CampaignId` bigint(20) NOT NULL,
-  `Name` varchar(80) NOT NULL COMMENT 'display campaign name',
-  `CampaignType` varchar(10) NOT NULL COMMENT 'ex) CPM, CPC',
+  `AdDesignId` bigint(20) NOT NULL,
+  `IPAddress` varchar(45) NOT NULL,
+  `UserAgent` text NOT NULL,
+  `CampaignType` varchar(10) NOT NULL DEFAULT '' COMMENT 'ex) CPM, CPC',
+  `AdDesignType` varchar(45) NOT NULL DEFAULT 'None' COMMENT 'None, MobileLeaderboard, MobileBannerLandscape, LargeMobileBanner, Banner, Leaderboard, InlineRectangle, SmartphoneInterstitialPortrait, SmartphoneInterstitialLandscape, TabletInterstitialPortrait, TabletInterstitialLandscape',
   `Cost` decimal(20,10) NOT NULL DEFAULT '0.0000000000',
-  `TargetValue` bigint(20) NOT NULL DEFAULT '0' COMMENT '목표치',
-  `BeginTime` datetime NOT NULL,
-  `EndTime` datetime NOT NULL,
-  `IsPause` tinyint(4) NOT NULL DEFAULT '0',
+  `IsDisplayed` tinyint(4) NOT NULL DEFAULT '0',
+  `DisplayTime` datetime DEFAULT NULL,
+  `IsClicked` tinyint(4) NOT NULL DEFAULT '0',
+  `ClickTime` datetime DEFAULT NULL,
   `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `LastUpdate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`UserId`,`CampaignId`),
-  UNIQUE KEY `CampaignId_UNIQUE` (`CampaignId`),
-  UNIQUE KEY `Idx_UNIQUE` (`Idx`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`Idx`,`AdHistoryId`),
+  UNIQUE KEY `Idx_UNIQUE` (`Idx`),
+  UNIQUE KEY `AdHistoryId_UNIQUE` (`AdHistoryId`),
+  KEY `Idx_PublisherId` (`PublisherId`) /*!80000 INVISIBLE */,
+  KEY `Idx_AdvertiserId` (`AdvertiserId`) /*!80000 INVISIBLE */,
+  KEY `Idx_AppId` (`AppId`) /*!80000 INVISIBLE */,
+  KEY `Idx_AdUnitId` (`AdUnitId`),
+  KEY `Idx_CampaignId` (`CampaignId`),
+  KEY `Idx_AdDesignId` (`AdDesignId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +63,4 @@ CREATE TABLE `tbl_campaign` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-16 18:20:39
+-- Dump completed on 2018-10-16 18:20:37

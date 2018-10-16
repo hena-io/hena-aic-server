@@ -112,6 +112,14 @@ namespace Hena
 			}
 		}
 
+		public virtual List<TData> FindAll(Predicate<TData> match)
+		{
+			lock(Items)
+			{
+				return Items.FindAll(match);
+			}
+		}
+
 
 		public bool Swap(ref TContainer target)
         {

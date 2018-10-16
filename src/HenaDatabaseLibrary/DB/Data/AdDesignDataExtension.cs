@@ -33,5 +33,18 @@ namespace Hena.Shared.Data
             query.OUT.FirstItem.Copy(item);
             return true;
         }
+
+		public static async Task<bool> ChoiceFromDBAsync(this AdDesignData item, AdDesignTypes.en adDesignType)
+		{
+			var query = new DBQuery_AdDesign_Choice();
+			query.IN.AdDesignType = adDesignType;
+
+			await DBThread.Instance.ReqQueryAsync(query);
+			if (query.OUT.FirstItem == null)
+				return false;
+
+			query.OUT.FirstItem.Copy(item);
+			return true;
+		}
 	}
 }

@@ -18,6 +18,15 @@ namespace Hena.Shared.Data
 		API,
 	}
 
+	[JsonConverter(typeof(StringEnumConverter))]
+	public enum ClientTypes
+	{
+		None,
+		Android,
+		IOS,
+		Web,
+	}
+
 	// 캠페인 타입
 	[JsonConverter(typeof(StringEnumConverter))]
 	public enum CampaignTypes
@@ -95,6 +104,44 @@ namespace Hena.Shared.Data
 			SmartphoneInterstitialLandscape,	// 480 x 320: 스마트폰 전면 광고(가로 모드)
 			TabletInterstitialPortrait,			// 768 x 1024: 태블릿 전면 광고(세로 모드)
 			TabletInterstitialLandscape,		// 1024 x 768: 태블릿 전면 광고(가로 모드)
+		}
+
+		public static en[] ToSupported(ClientTypes clientType, AdSystemTypes adSystemType, bool isLandscape)
+		{
+			if (clientType == ClientTypes.None)
+				return new en[0];
+
+			if (clientType == ClientTypes.Web)
+				return new en[] { en.Leaderboard, en.InlineRectangle };
+
+			List<en> items = new List<en>();
+			if (adSystemType == AdSystemTypes.Banner)
+			{
+				if (isLandscape)
+				{
+					items.Add(en.MobileBannerLandscape);
+				}
+				else
+				{
+					items.Add(en.MobileLeaderboard);
+					items.Add(en.LargeMobileBanner);
+				}
+				items.Add(en.Banner);
+			}
+			else if (adSystemType == AdSystemTypes.Interstitial)
+			{
+				if (isLandscape)
+				{
+					items.Add(en.MobileBannerLandscape);
+				}
+				else
+				{
+					items.Add(en.MobileLeaderboard);
+					items.Add(en.LargeMobileBanner);
+				}
+			}
+
+			return items.ToArray();
 		}
 
 		public static Size ToSize(en e)

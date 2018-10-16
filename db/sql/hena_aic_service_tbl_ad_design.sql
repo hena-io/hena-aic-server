@@ -36,7 +36,8 @@ CREATE TABLE `tbl_ad_design` (
   `LastUpdate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`UserId`,`CampaignId`,`AdDesignId`),
   UNIQUE KEY `Idx_UNIQUE` (`Idx`),
-  UNIQUE KEY `CampaignDesignId_UNIQUE` (`AdDesignId`)
+  UNIQUE KEY `CampaignDesignId_UNIQUE` (`AdDesignId`),
+  KEY `Idx_AdDesignType` (`AdDesignType`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +50,4 @@ CREATE TABLE `tbl_ad_design` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-12 17:14:26
+-- Dump completed on 2018-10-16 18:20:38

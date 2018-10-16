@@ -57,6 +57,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="API\PublicAPI\" />
     <Folder Include="wwwroot\hena\js\NewFolder\" />
     <Folder Include="wwwroot\hena\js\pages\landing\" />
   </ItemGroup>

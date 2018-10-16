@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Hena;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 
 namespace HenaWebsite.Models.User
 {
@@ -22,5 +24,5 @@ namespace HenaWebsite.Models.User
 		public string Password { get; set; }
 	}
 
-	
+
 }

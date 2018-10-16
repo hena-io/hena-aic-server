@@ -100,7 +100,24 @@ namespace Hena.Library.Extensions
 			}
 		}
 
+		public static string Encode<T>(this T target)
+		{
+			byte[] serialized = JsonConvert.SerializeObject(target).ToBytes().GZipCompress();
+			return AESUtility.Encrypt(serialized, "HENA");
+		}
 
+		public static T Decode<T>(string source)
+		{
+			byte[] decrypted = AESUtility.DecryptBytes(source, "HENA").GZipDecompress();
+			return JsonConvert.DeserializeObject<T>(ByteExtensions.ToUTF8String(decrypted));
+		}
+
+		public static T Decode<T>(this T target, string source) where T : class, new()
+		{
+			var decoded = Decode<T>(source);
+			Copy(decoded, target);
+			return target;
+		}
 	}
 
 

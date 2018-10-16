@@ -17,6 +17,7 @@ namespace Hena
 		private static Id64Generator _id64Gen_CampaignId = null;		// 캠페인 ID
 		private static Id64Generator _id64Gen_AdDesignId = null;		// 광고 디자인 ID
 		private static Id64Generator _id64Gen_AdResourceId = null;		// 광고 리소스 ID
+		private static Id64Generator _id64Gen_AdHistoryId = null;		// 광고 기록 ID
 		private static IdStringGeneratorWrapper _idGen_VerifyCode = null;   // 인증코드
 
 		// 절대 변경하지 말 것!! 
@@ -46,6 +47,7 @@ namespace Hena
 			_id64Gen_CampaignId = new Id64Generator(machineId, 0, GenCustomMask(4));
 			_id64Gen_AdDesignId = new Id64Generator(machineId, 0, GenCustomMask(5));
 			_id64Gen_AdResourceId = new Id64Generator(machineId, 0, GenCustomMask(6));
+			_id64Gen_AdHistoryId = new Id64Generator(machineId, 0, GenCustomMask(7));
 
 			_idGen_VerifyCode = new IdStringGeneratorWrapper(new Id64Generator(machineId, 0, GenCustomMask(5)), IdStringGeneratorWrapper.Base32, "V");
 			return true;
@@ -60,6 +62,7 @@ namespace Hena
 		public static long NewCampaignId { get { return _id64Gen_CampaignId.GenerateId(); } }
 		public static long NewAdDesignId { get { return _id64Gen_AdDesignId.GenerateId(); } }
 		public static long NewAdResourceId { get { return _id64Gen_AdResourceId.GenerateId(); } }
+		public static long NewAdHistoryId { get { return _id64Gen_AdHistoryId.GenerateId(); } }
 		public static string NewVerifyCode { get { return _idGen_VerifyCode.GenerateId(); } }
 
 	}

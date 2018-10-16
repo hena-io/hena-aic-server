@@ -117,4 +117,22 @@ namespace Hena.DB
 	{
 		public override string ProcedureName => "sp_ad_design_select_by_campaignid";
 	}
+
+	// 광고 디자인 선택
+	public class DBQuery_AdDesign_Choice : DBQuery_AdDesign_Select_Base<DBQuery_AdDesign_Choice.IN_DATA>
+	{
+		public override string ProcedureName => "sp_ad_design_choice";
+
+		#region IN / OUT
+		public class IN_DATA : IN_BASE
+		{
+			public AdDesignTypes.en AdDesignType = AdDesignTypes.en.None;
+
+			public override void FillParameters(List<object> parameters)
+			{
+				parameters.Add(AdDesignType);
+			}
+		}
+		#endregion // IN / OUT
+	}
 }

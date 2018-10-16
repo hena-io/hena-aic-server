@@ -9,6 +9,18 @@ namespace Hena
 {
     public static class StringExtensions
     {
+
+		// 한개이상 null이거나 empty가 존재하는지 체크
+		public static bool AnyNullOrEmpty(params string[] items)
+		{
+			foreach(var it in items)
+			{
+				if( string.IsNullOrEmpty(it))
+					return true;
+			}
+			return false;
+		}
+
 		public static bool TrySubStringByKeyword(this string item, string beginKeyword, string endKeyword, out string result)
 		{
 			int beginPosition, endPosition;

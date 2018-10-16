@@ -40,6 +40,9 @@ namespace Hena.Shared.Data
 		// 목적지 URL
 		public string DestinationUrl { get; set; } = string.Empty;
 
+		// HD 디자인
+		public bool IsHD { get; set; } = false;
+
 		// 캠페인 일시정지 상태
 		public bool IsPause { get; set; } = false;
 

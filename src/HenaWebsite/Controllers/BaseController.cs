@@ -13,6 +13,12 @@ namespace HenaWebsite.Controllers
 		public bool IsAuthenticated { get => User.Identity.IsAuthenticated; }
 		public DBKey UserId { get => GetClaimValueSafe(HenaClaimTypes.UserId, GlobalDefine.INVALID_DBKEY); }
 		public string EMail { get => GetClaimValueSafe(HenaClaimTypes.Email, string.Empty); }
+
+		public string RemoteIPAddress { get => HttpContext.Connection.RemoteIpAddress.ToString(); }
+		public string UserAgent { get => HttpContext.Request.Headers["User-Agent"].ToString(); }
+
+
+
 		#endregion // Properties
 
 		#region Utility

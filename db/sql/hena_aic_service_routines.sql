@@ -53,6 +53,36 @@ SET character_set_client = @saved_cs_client;
 --
 -- Dumping routines for database 'hena_aic_service'
 --
+/*!50003 DROP PROCEDURE IF EXISTS `sp_ad_design_choice` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_design_choice`(IN in_AdDesignType VARCHAR(45)
+)
+BEGIN
+
+	SELECT a.* FROM `tbl_ad_design` as a 
+		JOIN `tbl_campaign` as b 
+		ON a.CampaignId = b.CampaignId
+    WHERE a.`AdDesignType` = in_AdDesignType
+		AND a.IsPause = 0
+		AND b.IsPause = 0
+		AND b.`BeginTime` <= CURRENT_TIMESTAMP
+		AND b.`EndTime` >= CURRENT_TIMESTAMP
+    ORDER BY RAND() LIMIT 1;
+        
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `sp_ad_design_delete` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -405,7 +435,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_unit_insert`(IN in_UserId BIG
 , IN in_AdUnitId BIGINT
 
 , IN in_Name VARCHAR(80)
-, IN in_AdDesignType VARCHAR(15)
+, IN in_AdSystemType VARCHAR(15)
 )
 BEGIN
 
@@ -414,13 +444,13 @@ BEGIN
 		, `AdUnitId`
 		
 		, `Name`
-		, `AdDesignType`
+		, `AdSystemType`
 	) VALUES (in_UserId
 		, in_AppId
 		, in_AdUnitId
 		
 		, in_Name
-		, in_AdDesignType
+		, in_AdSystemType
 	);
 	
     
@@ -1337,4 +1367,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-12 17:14:27
+-- Dump completed on 2018-10-16 18:20:39
