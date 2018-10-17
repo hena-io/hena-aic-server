@@ -207,7 +207,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ad_history_insert`(IN in_AdHisto
 )
 BEGIN
 
-	INSERT INTO `tbl_ad_report`(`AdHistoryId`
+	INSERT INTO `tbl_ad_history`(`AdHistoryId`
 		, `PublisherId`
 		, `AppId`
         , `AdUnitId`
@@ -217,7 +217,6 @@ BEGIN
         , `AdDesignId`
 		
 		, `IPAddress`
-		, `MacAddress`
 		, `UserAgent`
         
 		, `CampaignType`
@@ -233,7 +232,6 @@ BEGIN
         , in_AdDesignId
 		
 		, in_IPAddress
-		, in_MacAddress
 		, in_UserAgent
 		
 		, in_CampaignType
@@ -481,4 +479,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-16 18:20:37
+-- Dump completed on 2018-10-17 15:38:43

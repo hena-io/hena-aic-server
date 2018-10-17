@@ -51,7 +51,7 @@ CREATE TABLE `tbl_ad_history` (
   KEY `Idx_AdUnitId` (`AdUnitId`),
   KEY `Idx_CampaignId` (`CampaignId`),
   KEY `Idx_AdDesignId` (`AdDesignId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -63,4 +63,4 @@ CREATE TABLE `tbl_ad_history` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-16 18:20:37
+-- Dump completed on 2018-10-17 15:38:43

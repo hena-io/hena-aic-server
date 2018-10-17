@@ -1,6 +1,7 @@
 ﻿using Hena;
 using Hena.Library.Extensions;
 using Hena.Shared.Data;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -70,8 +71,8 @@ namespace HenaWebsite.Models.Service.PageAd
 
 			public class Response
 			{
-				// 광고 기록 ID
-				public DBKey AdHistoryId { get; set; } = string.Empty;
+				// 광고 유닛 Id
+				public DBKey AdUnitId { get; set; } = GlobalDefine.INVALID_DBKEY;
 
 				// 광고 시스템 타입
 				public AdSystemTypes AdSystemType { get; set; } = AdSystemTypes.None;
@@ -98,7 +99,7 @@ namespace HenaWebsite.Models.Service.PageAd
 				public string AdClickUrl { get; set; } = string.Empty;
 
 				// 광고 정보
-				public string Ai { get; set; }	
+				public string Ai { get; set; } = string.Empty;
 			}
 		}
 
@@ -107,11 +108,37 @@ namespace HenaWebsite.Models.Service.PageAd
 		{
 			public class Request
 			{
-				// 광고 유닛 Id
-				public DBKey AdUnitId { get; set; } = GlobalDefine.INVALID_DBKEY;
-
 				// 광고 정보 데이터( 디스플레이 or 클릭시에 첨부 )
 				public string Ai { get; set; } = string.Empty;
+
+				public AdInfo CreateFromAi()
+				{
+					return new AdInfo().Decode(Ai.DecodeUrlSafeBase64ToBase64());
+				}
+
+				public virtual bool IsValidParameters()
+				{
+					if (StringExtensions.AnyNullOrEmpty(Ai))
+						return false;
+
+					return true;
+				}
+			}
+		}
+
+		// 광고 클릭
+		public static class AdResource
+		{
+			public class Request
+			{
+				// 광고 정보 데이터( 디스플레이 or 클릭시에 첨부 )
+				public string Ai { get; set; } = string.Empty;
+
+				public AdInfo CreateFromAi()
+				{
+					return new AdInfo().Decode(Ai.DecodeUrlSafeBase64ToBase64());
+				}
+
 
 				public virtual bool IsValidParameters()
 				{
@@ -128,11 +155,13 @@ namespace HenaWebsite.Models.Service.PageAd
 		{
 			public class Request
 			{
-				// 광고 유닛 Id
-				public DBKey AdUnitId { get; set; } = GlobalDefine.INVALID_DBKEY;
-
 				// 광고 정보 데이터( 디스플레이 or 클릭시에 첨부 )
 				public string Ai { get; set; } = string.Empty;
+
+				public AdInfo CreateFromAi()
+				{
+					return new AdInfo().Decode(Ai.DecodeUrlSafeBase64ToBase64());
+				}
 
 				public virtual bool IsValidParameters()
 				{

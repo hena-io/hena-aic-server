@@ -164,6 +164,28 @@ var HenaApi = {};
 	};
 
 	// -----------------------------------------------------------
+	// Ad Units
+	// -----------------------------------------------------------
+	HenaApi.pageAd = {
+
+		// adUnitId:1234567890
+		// clientType: 'Web'		Ex ) {Android,IOS,Web}
+		// adSystemType: 'Banner'				Ex ) {Banner, Interstitial, Video}
+		// isLandscape: false
+		// screenWidth: 1280
+		// screenHeight: 720
+		ready: function (data, callback) {
+			post("/service/pagead/adready", data, callback);
+		},
+
+		// adUnitId:1234567890
+		// ai: base64 encoded string
+		display: function (data, callback) {
+			post("/service/pagead/addisplay", data, callback);
+		}
+	};
+
+	// -----------------------------------------------------------
 	// utilities
 	// -----------------------------------------------------------
 	// common api functions

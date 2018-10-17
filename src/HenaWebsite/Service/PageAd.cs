@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Hena;
@@ -15,10 +16,11 @@ namespace HenaWebsite.Controllers
 {
 	[Produces("application/json")]
 	[Route("service/[controller]/[action]")]
-	public class PageAdController : API.BaseApi
+	public class PageAd : API.BaseApi
 	{
 		// 광고 준비
-		public async Task<IActionResult> AdReaady([FromBody]PageAdModels.AdReady.Request request)
+		[HttpPost]
+		public async Task<IActionResult> AdReady([FromBody]PageAdModels.AdReady.Request request)
 		{
 			if (request == null || request.IsValidParameters() == false)
 				return APIResponse(ErrorCode.InvalidParameters);
@@ -80,22 +82,34 @@ namespace HenaWebsite.Controllers
 
 			// Response
 			var response = new PageAdModels.AdReady.Response();
+			response.AdUnitId = request.AdUnitId;
 			response.AdSystemType = ai.AdUnitData.AdSystemType;
 			response.AdDesignType = ai.AdDesignData.AdDesignType;
 
 			response.ContentType = ai.AdResourceData.ContentType;
-			response.ResourceUrl = ai.AdResourceData.Url;
+			if (request.ClientType == ClientTypes.Web)
+			{
+				var resourceUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{Url.Action("AdResource", "PageAd")}";
+				response.ResourceUrl = resourceUrl;
+			}
+			else
+			{
+				response.ResourceUrl = ai.AdResourceData.Url;
+			}
+
 			response.Width = ai.AdResourceData.Width;
 			response.Height = ai.AdResourceData.Height;
 
 			response.AdUrl = ai.AdDesignData.DestinationUrl;
-			response.AdClickUrl = Url.Action("AdClick", "PageAd", HttpContext.Request.Host);
 
-			response.Ai = ai.Encode();
+			response.AdClickUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{Url.Action("AdClick", "PageAd")}";
+
+			response.Ai = ai.Encode().EncodeBase64ToUrlSafeBase64();
 			return Success(response);
 		}
 
 		// 광고 시청
+		[HttpPost]
 		public async Task<IActionResult> AdDisplay([FromBody]PageAdModels.AdDisplay.Request request)
 		{
 			try
@@ -103,10 +117,7 @@ namespace HenaWebsite.Controllers
 				if (request == null || request.IsValidParameters() == false)
 					return APIResponse(ErrorCode.InvalidParameters);
 
-				AdInfo ai = new AdInfo(request.Ai);
-
-				if (request.AdUnitId != ai.AdUnitData.AdUnitId)
-					return APIResponse(ErrorCode.BadRequest);
+				AdInfo ai = request.CreateFromAi();
 
 				var query = new DBQuery_AdHistory_Update_Display();
 				query.IN.AdHistoryId = ai.AdHistoryData.AdHistoryId;
@@ -124,18 +135,43 @@ namespace HenaWebsite.Controllers
 			}
 		}
 
+		[HttpGet]
+		public async Task<IActionResult> AdResource([FromQuery, Required]PageAdModels.AdResource.Request request)
+		{
+			try
+			{
+				if (request == null || request.IsValidParameters() == false)
+					return NotFound();
+
+				AdInfo ai = request.CreateFromAi();
+
+				var query = new DBQuery_AdHistory_Update_Display();
+				query.IN.AdHistoryId = ai.AdHistoryData.AdHistoryId;
+				query.IN.IsDisplayed = true;
+
+				if (await DBThread.Instance.ReqQueryAsync(query) == false)
+					return NotFound();
+
+				return Redirect(ai.AdResourceData.Url);
+			}
+			catch (Exception ex)
+			{
+				NLog.LogManager.GetCurrentClassLogger().Error(ex);
+				return NotFound();
+			}
+		}
+
+
 		// 광고 클릭
-		public async Task<IActionResult> AdClick([FromBody]PageAdModels.AdClick.Request request)
+		[HttpGet]
+		public async Task<IActionResult> AdClick([FromQuery]PageAdModels.AdClick.Request request)
 		{
 			try
 			{
 				if (request == null || request.IsValidParameters() == false)
 					return APIResponse(ErrorCode.InvalidParameters);
 
-				AdInfo ai = new AdInfo(request.Ai);
-
-				if (request.AdUnitId != ai.AdUnitData.AdUnitId)
-					return APIResponse(ErrorCode.BadRequest);
+				AdInfo ai = request.CreateFromAi();
 
 				var query = new DBQuery_AdHistory_Update_Click();
 				query.IN.AdHistoryId = ai.AdHistoryData.AdHistoryId;

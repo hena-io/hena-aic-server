@@ -112,7 +112,7 @@ namespace Hena.Shared.Data
 				return new en[0];
 
 			if (clientType == ClientTypes.Web)
-				return new en[] { en.Leaderboard, en.InlineRectangle };
+				return new en[] { en.InlineRectangle };
 
 			List<en> items = new List<en>();
 			if (adSystemType == AdSystemTypes.Banner)
