@@ -10,31 +10,26 @@ using Newtonsoft.Json.Linq;
 
 namespace Hena.Shared.Data
 {
-	// 앱 데이터
-	public class AdUnitData 
+	// 잔고 데이터
+	public class BalanceData 
 	{
 		// 기본값
-		public readonly static AdUnitData Default = new AdUnitData();
+		public readonly static BalanceData Default = new BalanceData();
 
 		// 유저 Id
 		public DBKey UserId { get; set; } = GlobalDefine.INVALID_DBKEY;
 
-		// 앱 Id
-		public DBKey AppId { get; set; } = GlobalDefine.INVALID_DBKEY;
-		
-		// 광고유닛 Id
-		public DBKey AdUnitId { get; set; } = GlobalDefine.INVALID_DBKEY;
+		// 재화 타입
+		public CurrencyTypes CurrencyType { get; set; } = CurrencyTypes.None;
 
-		// 광고유닛 이름( Max 80 )
-		public string Name { get; set; } = string.Empty;
-
-		// 광고 시스템 타입
-		public AdSystemTypes AdSystemType { get; set; } = AdSystemTypes.None;
+		// 잔고
+		public decimal Balance { get; set; } = 0;
 
 		// 생성된 시간
 		public DateTime CreateTime { get; set; } = DateTime.MinValue;
 
 		// 마지막 업데이트된 시간
 		public DateTime LastUpdate { get; set; } = DateTime.MinValue;
+		
 	}
 }

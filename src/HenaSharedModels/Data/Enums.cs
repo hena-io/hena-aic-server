@@ -10,6 +10,13 @@ using System.Threading.Tasks;
 namespace Hena.Shared.Data
 {
 	[JsonConverter(typeof(StringEnumConverter))]
+	public enum CurrencyTypes
+	{
+		None,
+		HENA,
+	}
+
+	[JsonConverter(typeof(StringEnumConverter))]
 	public enum SerializationMode
 	{
 		Normal,
