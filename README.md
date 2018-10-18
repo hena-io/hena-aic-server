@@ -11,6 +11,8 @@
 
 --------------------------------
 ## 2. 매뉴얼
+- 프로젝트 매뉴얼 : https://github.com/hena-io/hena-aic-server/blob/master/doc/manual/project-manual.md
+- 
 - 데이터베이스 : https://github.com/hena-io/hena-aic-server/blob/master/doc/manual/database-manual.md
 
 - API : https://github.com/hena-io/hena-aic-server/blob/master/doc/manual/api-manual.md
