@@ -10,8 +10,10 @@
     - MySQL Server 8.0
 
 --------------------------------
-## 2. 참고문서
-- 데이터베이스 매뉴얼 : https://github.com/hena-io/hena-aic-server/blob/master/doc/db/database-manual.md
+## 2. 매뉴얼
+- 데이터베이스 : https://github.com/hena-io/hena-aic-server/blob/master/doc/manual/database-manual.md
+
+- API : https://github.com/hena-io/hena-aic-server/blob/master/doc/manual/api-manual.md
 
 ----------------------------------------
 ## 3. 저장소

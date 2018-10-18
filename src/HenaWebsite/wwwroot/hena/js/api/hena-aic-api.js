@@ -20,7 +20,7 @@ var HenaApi = {};
 			post("/api/campaigns/create", data, callback);
 		},
 
-		// campaignId:1234567890
+		// campaignId:'1234567890'
 		// name: 'Campaign Name'
 		// campaignType: 'CPC'				Ex ) {CPC, CPM}
 		// cost: '1000'
@@ -31,7 +31,7 @@ var HenaApi = {};
 			post("/api/campaigns/modify", data, callback);
 		},
 
-		// campaignId:1234567890
+		// campaignId:'1234567890'
 		delete: function (data, callback) {
 			post("/api/campaigns/delete", data, callback);
 		},
@@ -48,30 +48,30 @@ var HenaApi = {};
 	// -----------------------------------------------------------
 	HenaApi.adDesigns = {
 
-		// campaignId:1234567890
+		// campaignId:'1234567890'
 		// name: 'Ad Design Name'
-		// adDesignType: 'Banner'				Ex ) {Banner, Interstitial, Video}
-		// resourceName: 'image00'
+		// adDesignType: 'Banner'				Ex ) {None, MobileLeaderboard, MobileBannerLandscape, LargeMobileBanner, Banner, Leaderboard, InlineRectangle, SmartphoneInterstitialPortrait, SmartphoneInterstitialLandscape, TabletInterstitialPortrait, TabletInterstitialLandscape}
+		// adResourceId: 'image00'
 		// destinationUrl: 'http://www.hena.io'
 		create: function (data, callback) {
 			post("/api/addesigns/create", data, callback);
 		},
 
-		// adDesignId:1234567890
+		// adDesignId:'1234567890'
 		// name: 'Ad Design Name'
-		// adDesignType: 'Banner'				Ex ) {Banner, Interstitial, Video}
-		// resourceName: 'image00'
+		// adDesignType: 'Banner'				Ex ) {None, MobileLeaderboard, MobileBannerLandscape, LargeMobileBanner, Banner, Leaderboard, InlineRectangle, SmartphoneInterstitialPortrait, SmartphoneInterstitialLandscape, TabletInterstitialPortrait, TabletInterstitialLandscape}
+		// adResourceId: '1234567890'
 		// destinationUrl: 'http://www.hena.io'
 		modify: function (data, callback) {
 			post("/api/addesigns/modify", data, callback);
 		},
 
-		// adDesignId:1234567890
+		// adDesignId:'1234567890'
 		delete: function (data, callback) {
 			post("/api/addesigns/delete", data, callback);
 		},
 
-		// campaignId:1234567890
+		// campaignId:'1234567890'
 		list: function (data, callback) {
 			post("/api/addesigns/list", data, callback);
 		}
@@ -87,14 +87,14 @@ var HenaApi = {};
 			post("/api/apps/create", data, callback);
 		},
 
-		// appId:1234567890
+		// appId:'1234567890'
 		// name: 'App Name'
 		// marketType: 'GooglePlay'				Ex ) {GooglePlay, AppleAppStore, WebSite}
 		modify: function (data, callback) {
 			post("/api/apps/modify", data, callback);
 		},
 
-		// appId:1234567890
+		// appId:'1234567890'
 		delete: function (data, callback) {
 			post("/api/apps/delete", data, callback);
 		},
@@ -110,26 +110,26 @@ var HenaApi = {};
 	// -----------------------------------------------------------
 	HenaApi.adUnits = {
 
-		// appId:1234567890
+		// appId:'1234567890'
 		// name: 'Ad Unit Name'
 		// adSystemType: 'Banner'				Ex ) {Banner, Interstitial, Video}
 		create: function (data, callback) {
 			post("/api/adunits/create", data, callback);
 		},
 
-		// adUnitId:1234567890
+		// adUnitId:'1234567890'
 		// name: 'Ad Unit Name'
 		// adSystemType: 'Banner'				Ex ) {Banner, Interstitial, Video}
 		modify: function (data, callback) {
 			post("/api/adunits/modify", data, callback);
 		},
 
-		// adUnitId:1234567890
+		// adUnitId:'1234567890'
 		delete: function (data, callback) {
 			post("/api/adunits/delete", data, callback);
 		},
 
-		// appId:1234567890
+		// appId:'1234567890'
 		list: function (data, callback) {
 			post("/api/adunits/list", data, callback);
 		}
@@ -141,18 +141,18 @@ var HenaApi = {};
 	HenaApi.adResource = {
 
 		// need FormData
-		// adResourceId:1234567890
+		// adResourceId:'1234567890'
 		// file: FormFile
 		upload: function (data, callback) {
 			postFormData("/api/adresources/upload", data, callback);
 		},
 
-		// adResourceId:1234567890
+		// adResourceId:'1234567890'
 		delete: function (data, callback) {
 			post("/api/adresources/delete", data, callback);
 		},
 
-		// adResourceId:1234567890
+		// adResourceId:'1234567890'
 		info: function (data, callback) {
 			post("/api/adresources/info", data, callback);
 		},
@@ -168,7 +168,7 @@ var HenaApi = {};
 	// -----------------------------------------------------------
 	HenaApi.pageAd = {
 
-		// adUnitId:1234567890
+		// adUnitId:'1234567890'
 		// clientType: 'Web'		Ex ) {Android,IOS,Web}
 		// adSystemType: 'Banner'				Ex ) {Banner, Interstitial, Video}
 		// isLandscape: false
@@ -178,7 +178,7 @@ var HenaApi = {};
 			post("/service/pagead/adready", data, callback);
 		},
 
-		// adUnitId:1234567890
+		// adUnitId:'1234567890'
 		// ai: base64 encoded string
 		display: function (data, callback) {
 			post("/service/pagead/addisplay", data, callback);
