@@ -14,6 +14,8 @@ namespace Hena.Shared.Data
 	{
 		None,
 		HENA,
+		HENA_AIC,
+		HENA_MINING,
 	}
 
 	[JsonConverter(typeof(StringEnumConverter))]
@@ -139,12 +141,11 @@ namespace Hena.Shared.Data
 			{
 				if (isLandscape)
 				{
-					items.Add(en.MobileBannerLandscape);
+					items.Add(en.SmartphoneInterstitialLandscape);
 				}
 				else
 				{
-					items.Add(en.MobileLeaderboard);
-					items.Add(en.LargeMobileBanner);
+					items.Add(en.SmartphoneInterstitialPortrait);
 				}
 			}
 

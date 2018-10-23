@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.12, for Win64 (x86_64)
 --
--- Host: localhost    Database: hena_aic_report
+-- Host: localhost    Database: hena_aic_service
 -- ------------------------------------------------------
 -- Server version	8.0.12
 
@@ -25,17 +25,20 @@ DROP TABLE IF EXISTS `tbl_ad_history`;
 CREATE TABLE `tbl_ad_history` (
   `Idx` bigint(20) NOT NULL AUTO_INCREMENT,
   `AdHistoryId` bigint(20) NOT NULL,
-  `PublisherId` bigint(20) NOT NULL,
-  `AppId` bigint(20) NOT NULL,
-  `AdUnitId` bigint(20) NOT NULL,
-  `AdvertiserId` bigint(20) NOT NULL COMMENT '광고주 ID',
-  `CampaignId` bigint(20) NOT NULL,
-  `AdDesignId` bigint(20) NOT NULL,
+  `CustomerId` bigint(20) NOT NULL DEFAULT '-1',
+  `PublisherId` bigint(20) NOT NULL DEFAULT '-1',
+  `AppId` bigint(20) NOT NULL DEFAULT '-1',
+  `AdUnitId` bigint(20) NOT NULL DEFAULT '-1',
+  `AdvertiserId` bigint(20) NOT NULL DEFAULT '-1' COMMENT '광고주 ID',
+  `CampaignId` bigint(20) NOT NULL DEFAULT '-1',
+  `AdDesignId` bigint(20) NOT NULL DEFAULT '-1',
   `IPAddress` varchar(45) NOT NULL,
   `UserAgent` text NOT NULL,
   `CampaignType` varchar(10) NOT NULL DEFAULT '' COMMENT 'ex) CPM, CPC',
   `AdDesignType` varchar(45) NOT NULL DEFAULT 'None' COMMENT 'None, MobileLeaderboard, MobileBannerLandscape, LargeMobileBanner, Banner, Leaderboard, InlineRectangle, SmartphoneInterstitialPortrait, SmartphoneInterstitialLandscape, TabletInterstitialPortrait, TabletInterstitialLandscape',
   `Cost` decimal(20,10) NOT NULL DEFAULT '0.0000000000',
+  `PublisherRevenue` decimal(20,10) NOT NULL DEFAULT '0.0000000000',
+  `CustomerRevenue` decimal(20,10) NOT NULL DEFAULT '0.0000000000',
   `IsDisplayed` tinyint(4) NOT NULL DEFAULT '0',
   `DisplayTime` datetime DEFAULT NULL,
   `IsClicked` tinyint(4) NOT NULL DEFAULT '0',
@@ -43,15 +46,16 @@ CREATE TABLE `tbl_ad_history` (
   `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `LastUpdate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`Idx`,`AdHistoryId`),
-  UNIQUE KEY `Idx_UNIQUE` (`Idx`),
   UNIQUE KEY `AdHistoryId_UNIQUE` (`AdHistoryId`),
+  UNIQUE KEY `Idx_UNIQUE` (`Idx` DESC),
   KEY `Idx_PublisherId` (`PublisherId`) /*!80000 INVISIBLE */,
   KEY `Idx_AdvertiserId` (`AdvertiserId`) /*!80000 INVISIBLE */,
   KEY `Idx_AppId` (`AppId`) /*!80000 INVISIBLE */,
   KEY `Idx_AdUnitId` (`AdUnitId`),
   KEY `Idx_CampaignId` (`CampaignId`),
-  KEY `Idx_AdDesignId` (`AdDesignId`)
-) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `Idx_AdDesignId` (`AdDesignId`),
+  KEY `Idx_CustomerId` (`CustomerId`)
+) ENGINE=InnoDB AUTO_INCREMENT=345 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -63,4 +67,4 @@ CREATE TABLE `tbl_ad_history` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-17 15:38:43
+-- Dump completed on 2018-10-23 17:19:31

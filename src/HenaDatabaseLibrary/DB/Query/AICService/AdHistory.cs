@@ -14,7 +14,7 @@ namespace Hena.DB
 	// 광고 기록 추가
 	public class DBQuery_AdHistory_Insert : DBQuery<DBQuery_AdHistory_Insert.IN_DATA>
 	{
-		public override DBType DBType => DBType.Hena_AIC_Report;
+		public override DBType DBType => DBType.Hena_AIC_Service;
 		public override string ProcedureName => "sp_ad_history_insert";
 
 		#region IN / OUT
@@ -25,6 +25,8 @@ namespace Hena.DB
 			public override void FillParameters(List<object> parameters)
 			{
 				parameters.Add(Item.AdHistoryId);
+
+				parameters.Add(Item.CustomerId);
 
 				parameters.Add(Item.PublisherId);
 				parameters.Add(Item.AppId);
@@ -48,7 +50,7 @@ namespace Hena.DB
 	// 광고 기록 - 노출정보 갱신
 	public class DBQuery_AdHistory_Update_Display : DBQuery<DBQuery_AdHistory_Update_Display.IN_DATA>
 	{
-		public override DBType DBType => DBType.Hena_AIC_Report;
+		public override DBType DBType => DBType.Hena_AIC_Service;
 		public override string ProcedureName => "sp_ad_history_update_display";
 
 		#region IN / OUT
@@ -69,7 +71,7 @@ namespace Hena.DB
 	// 광고 기록 - 클릭정보 갱신
 	public class DBQuery_AdHistory_Update_Click : DBQuery<DBQuery_AdHistory_Update_Click.IN_DATA>
 	{
-		public override DBType DBType => DBType.Hena_AIC_Report;
+		public override DBType DBType => DBType.Hena_AIC_Service;
 		public override string ProcedureName => "sp_ad_history_update_click";
 
 		#region IN / OUT
@@ -87,10 +89,33 @@ namespace Hena.DB
 		#endregion // IN / OUT
 	}
 
+	// 광고 기록 - 수익정보 갱신
+	public class DBQuery_AdHistory_Update_Revenue : DBQuery<DBQuery_AdHistory_Update_Revenue.IN_DATA>
+	{
+		public override DBType DBType => DBType.Hena_AIC_Service;
+		public override string ProcedureName => "sp_ad_history_update_revenue";
+
+		#region IN / OUT
+		public class IN_DATA : IN_BASE
+		{
+			public DBKey AdHistoryId { get; set; } = GlobalDefine.INVALID_DBKEY;
+			public decimal PublisherRevenue { get; set; } = 0m;
+			public decimal CustomerRevenue { get; set; } = 0m;
+
+			public override void FillParameters(List<object> parameters)
+			{
+				parameters.Add(AdHistoryId);
+				parameters.Add(PublisherRevenue);
+				parameters.Add(CustomerRevenue);
+			}
+		}
+		#endregion // IN / OUT
+	}
+
 	// 광고 기록 삭제
 	public class DBQuery_AdHistory_Delete : DBQuery<COMMON_IN_DATA_DBKeyOnly>
 	{
-		public override DBType DBType => DBType.Hena_AIC_Report;
+		public override DBType DBType => DBType.Hena_AIC_Service;
 		public override string ProcedureName => "sp_ad_history_delete";
 	}
 
@@ -101,7 +126,7 @@ namespace Hena.DB
 		: DBQuery<T_IN, DBQuery_AdHistory_Select_Base<T_IN>.OUT_DATA>
 		where T_IN : DBQueryBase.IIN, new()
 	{
-		public override DBType DBType => DBType.Hena_AIC_Report;
+		public override DBType DBType => DBType.Hena_AIC_Service;
 
 		#region IN / OUT
 		public class OUT_DATA : IOUT
@@ -136,33 +161,38 @@ namespace Hena.DB
 	{
 		public override string ProcedureName => "sp_ad_history_select";
 	}
+	// 광고 기록 조회( CustomerId )
+	public class DBQuery_AdHistory_Select_By_CustomerId : DBQuery_AdHistory_Select_Base<COMMON_IN_DATA_DBKeyOffsetLimit>
+	{
+		public override string ProcedureName => "sp_ad_history_select_by_customerid";
+	}
 	// 광고 기록 조회( PublisherId )
-	public class DBQuery_AdHistory_Select_By_PublisherId : DBQuery_AdHistory_Select_Base<COMMON_IN_DATA_DBKeyOnly>
+	public class DBQuery_AdHistory_Select_By_PublisherId : DBQuery_AdHistory_Select_Base<COMMON_IN_DATA_DBKeyOffsetLimit>
 	{
 		public override string ProcedureName => "sp_ad_history_select_by_publisherid";
 	}
 	// 광고 기록 조회( AdvertiserId )
-	public class DBQuery_AdHistory_Select_By_AdvertiserId : DBQuery_AdHistory_Select_Base<COMMON_IN_DATA_DBKeyOnly>
+	public class DBQuery_AdHistory_Select_By_AdvertiserId : DBQuery_AdHistory_Select_Base<COMMON_IN_DATA_DBKeyOffsetLimit>
 	{
 		public override string ProcedureName => "sp_ad_history_select_by_advertiserid";
 	}
 	// 광고 기록 조회( AppId )
-	public class DBQuery_AdHistory_Select_By_AppId : DBQuery_AdHistory_Select_Base<COMMON_IN_DATA_DBKeyOnly>
+	public class DBQuery_AdHistory_Select_By_AppId : DBQuery_AdHistory_Select_Base<COMMON_IN_DATA_DBKeyOffsetLimit>
 	{
 		public override string ProcedureName => "sp_ad_history_select_by_appid";
 	}
 	// 광고 기록 조회( AdUnitId )
-	public class DBQuery_AdHistory_Select_By_AdUnitId : DBQuery_AdHistory_Select_Base<COMMON_IN_DATA_DBKeyOnly>
+	public class DBQuery_AdHistory_Select_By_AdUnitId : DBQuery_AdHistory_Select_Base<COMMON_IN_DATA_DBKeyOffsetLimit>
 	{
 		public override string ProcedureName => "sp_ad_history_select_by_adunitid";
 	}
 	// 광고 기록 조회( CampaignId )
-	public class DBQuery_AdHistory_Select_By_CampaignId : DBQuery_AdHistory_Select_Base<COMMON_IN_DATA_DBKeyOnly>
+	public class DBQuery_AdHistory_Select_By_CampaignId : DBQuery_AdHistory_Select_Base<COMMON_IN_DATA_DBKeyOffsetLimit>
 	{
 		public override string ProcedureName => "sp_ad_history_select_by_campaignid";
 	}
 	// 광고 기록 조회( AdDesignId )
-	public class DBQuery_AdHistory_Select_By_AdDesignId : DBQuery_AdHistory_Select_Base<COMMON_IN_DATA_DBKeyOnly>
+	public class DBQuery_AdHistory_Select_By_AdDesignId : DBQuery_AdHistory_Select_Base<COMMON_IN_DATA_DBKeyOffsetLimit>
 	{
 		public override string ProcedureName => "sp_ad_history_select_by_addesignid";
 	}
@@ -177,7 +207,7 @@ namespace Hena.DB
 		where T_IN : DBQueryBase.IIN, new()
 		where T_QUERY : DBQuery_AdHistory_Count_Base<T_QUERY, T_IN>, new()
 	{
-		public override DBType DBType => DBType.Hena_AIC_Report;
+		public override DBType DBType => DBType.Hena_AIC_Service;
 
 		protected static async Task<int> CountByDBKeyAsync(T_IN inData)
 		{

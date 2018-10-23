@@ -39,6 +39,9 @@ namespace HenaWebsite.Models.Service.PageAd
 		{
 			public class Request
 			{
+				// 고객 Id
+				public DBKey CustomerId { get; set; } = GlobalDefine.INVALID_DBKEY;
+
 				// 광고 유닛 Id
 				public DBKey AdUnitId { get; set; } = GlobalDefine.INVALID_DBKEY;
 

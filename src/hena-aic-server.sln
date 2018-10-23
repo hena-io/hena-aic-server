@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HenaSharedModels", "HenaSha
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HenaTestCode", "HenaTestCode\HenaTestCode.csproj", "{898C1CEE-1348-4D21-AC7C-85013B944CCA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HenaSampleImageCreator", "HenaSampleImageCreator\HenaSampleImageCreator.csproj", "{C7D37737-4694-42CC-AFAC-5C8A567281BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HenaSampleImageCreator", "HenaSampleImageCreator\HenaSampleImageCreator.csproj", "{C7D37737-4694-42CC-AFAC-5C8A567281BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

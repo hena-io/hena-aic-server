@@ -62,6 +62,17 @@ namespace HenaWebsite.Controllers
 			var ahd = ai.AdHistoryData = insertQuery.IN.Item;
 			ahd.AdHistoryId = IDGenerator.NewAdHistoryId;
 
+			UserBasicData customerData = new UserBasicData();
+			if (request.CustomerId != GlobalDefine.INVALID_DBKEY 
+				&& await customerData.FromDBAsync(request.CustomerId))
+			{
+				ahd.CustomerId = request.CustomerId;
+			}
+			else
+			{
+				ahd.CustomerId = GlobalDefine.INVALID_DBKEY;
+			}
+
 			ahd.PublisherId = ai.AdUnitData.UserId;
 			ahd.AppId = ai.AdUnitData.AppId;
 			ahd.AdUnitId = ai.AdUnitData.AdUnitId;
@@ -87,15 +98,8 @@ namespace HenaWebsite.Controllers
 			response.AdDesignType = ai.AdDesignData.AdDesignType;
 
 			response.ContentType = ai.AdResourceData.ContentType;
-			if (request.ClientType == ClientTypes.Web)
-			{
-				var resourceUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{Url.Action("AdResource", "PageAd")}";
-				response.ResourceUrl = resourceUrl;
-			}
-			else
-			{
-				response.ResourceUrl = ai.AdResourceData.Url;
-			}
+			var resourceUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{Url.Action("AdResource", "PageAd")}";
+			response.ResourceUrl = resourceUrl;
 
 			response.Width = ai.AdResourceData.Width;
 			response.Height = ai.AdResourceData.Height;
@@ -108,33 +112,7 @@ namespace HenaWebsite.Controllers
 			return Success(response);
 		}
 
-		// 광고 시청
-		[HttpPost]
-		public async Task<IActionResult> AdDisplay([FromBody]PageAdModels.AdDisplay.Request request)
-		{
-			try
-			{
-				if (request == null || request.IsValidParameters() == false)
-					return APIResponse(ErrorCode.InvalidParameters);
-
-				AdInfo ai = request.CreateFromAi();
-
-				var query = new DBQuery_AdHistory_Update_Display();
-				query.IN.AdHistoryId = ai.AdHistoryData.AdHistoryId;
-				query.IN.IsDisplayed = true;
-
-				if (await DBThread.Instance.ReqQueryAsync(query) == false)
-					return APIResponse(ErrorCode.DatabaseError);
-
-				return Success();
-			}
-			catch (Exception ex)
-			{
-				NLog.LogManager.GetCurrentClassLogger().Error(ex);
-				return APIResponse(ErrorCode.UknownError);
-			}
-		}
-
+		// 리소스 요청( Display 상태로 판단 )
 		[HttpGet]
 		public async Task<IActionResult> AdResource([FromQuery, Required]PageAdModels.AdResource.Request request)
 		{
@@ -145,12 +123,26 @@ namespace HenaWebsite.Controllers
 
 				AdInfo ai = request.CreateFromAi();
 
-				var query = new DBQuery_AdHistory_Update_Display();
-				query.IN.AdHistoryId = ai.AdHistoryData.AdHistoryId;
-				query.IN.IsDisplayed = true;
-
-				if (await DBThread.Instance.ReqQueryAsync(query) == false)
+				AdHistoryData ahd = new AdHistoryData();
+				if (await ahd.FromDBAsync(ai.AdHistoryData.AdHistoryId) == false)
 					return NotFound();
+
+				if (ahd.IsDisplayed)
+					return Redirect(ai.AdResourceData.Url);
+
+				var updateDisplayQuery = new DBQuery_AdHistory_Update_Display();
+				updateDisplayQuery.IN.AdHistoryId = ai.AdHistoryData.AdHistoryId;
+				updateDisplayQuery.IN.IsDisplayed = true;
+
+				if (await DBThread.Instance.ReqQueryAsync(updateDisplayQuery))
+				{
+					// 수익 지급
+					if (ai.AdHistoryData.CampaignType == CampaignTypes.CPM)
+					{
+						await ProvideRevenueToDBAsync(ahd.AdHistoryId, ahd.PublisherId, ahd.CustomerId, ahd.Cost * 0.6m, ahd.Cost * 0.4m);
+						await PaymentCostToDBAsync(ahd.AdvertiserId, ahd.Cost);
+					}
+				}
 
 				return Redirect(ai.AdResourceData.Url);
 			}
@@ -173,12 +165,25 @@ namespace HenaWebsite.Controllers
 
 				AdInfo ai = request.CreateFromAi();
 
-				var query = new DBQuery_AdHistory_Update_Click();
-				query.IN.AdHistoryId = ai.AdHistoryData.AdHistoryId;
-				query.IN.IsClicked = true;
+				AdHistoryData ahd = new AdHistoryData();
+				if (await ahd.FromDBAsync(ai.AdHistoryData.AdHistoryId) == false)
+					return Redirect(ai.AdDesignData.DestinationUrl);
 
-				if (await DBThread.Instance.ReqQueryAsync(query) == false)
-					return APIResponse(ErrorCode.DatabaseError);
+				if (ahd.IsClicked)
+					return Redirect(ai.AdDesignData.DestinationUrl);
+
+				var updateClickQuery = new DBQuery_AdHistory_Update_Click();
+				updateClickQuery.IN.AdHistoryId = ai.AdHistoryData.AdHistoryId;
+				updateClickQuery.IN.IsClicked = true;
+				if (await DBThread.Instance.ReqQueryAsync(updateClickQuery))
+				{
+					// 수익 지급
+					if (ai.AdHistoryData.CampaignType == CampaignTypes.CPC)
+					{
+						await ProvideRevenueToDBAsync(ahd.AdHistoryId, ahd.PublisherId, ahd.CustomerId, ahd.Cost * 0.6m, ahd.Cost * 0.4m);
+						await PaymentCostToDBAsync(ahd.AdvertiserId, ahd.Cost);
+					}
+				}
 
 				return Redirect(ai.AdDesignData.DestinationUrl);
 			}
@@ -186,6 +191,58 @@ namespace HenaWebsite.Controllers
 			{
 				NLog.LogManager.GetCurrentClassLogger().Error(ex);
 				return View("");
+			}
+		}
+
+		// 비용 차감
+		private async Task PaymentCostToDBAsync(DBKey userId, decimal cost)
+		{
+			if (userId > 0 && cost > 0)
+			{
+				var addBalanceQuery = new DBQuery_Balance_Add();
+				addBalanceQuery.IN.UserId = userId;
+				addBalanceQuery.IN.CurrencyType = CurrencyTypes.HENA;
+				addBalanceQuery.IN.Balance = -cost;
+
+				await DBThread.Instance.ReqQueryAsync(addBalanceQuery);
+			}
+		}
+
+		// 수익금 지급
+		private async Task ProvideRevenueToDBAsync(DBKey adHistoryId, DBKey publisherId, DBKey customerId, decimal publisherRevenue, decimal customerRevenue)
+		{
+			decimal realPublisherRevenue = publisherRevenue;
+			decimal realCustomerRevenue = customerRevenue;
+			if (customerId == GlobalDefine.INVALID_DBKEY)
+			{
+				realPublisherRevenue += realCustomerRevenue;
+				realCustomerRevenue = 0m;
+			}
+
+			var updateRevenueQuery = new DBQuery_AdHistory_Update_Revenue();
+			updateRevenueQuery.IN.AdHistoryId = adHistoryId;
+			updateRevenueQuery.IN.PublisherRevenue = realPublisherRevenue;
+			updateRevenueQuery.IN.CustomerRevenue = realCustomerRevenue;
+			await DBThread.Instance.ReqQueryAsync(updateRevenueQuery);
+
+			if (publisherId > 0 && realPublisherRevenue > 0)
+			{
+				var addBalanceQuery = new DBQuery_Balance_Add();
+				addBalanceQuery.IN.UserId = publisherId;
+				addBalanceQuery.IN.CurrencyType = CurrencyTypes.HENA_AIC;
+				addBalanceQuery.IN.Balance = realPublisherRevenue;
+
+				await DBThread.Instance.ReqQueryAsync(addBalanceQuery);
+			}
+
+			if (customerId > 0 && realCustomerRevenue > 0)
+			{
+				var addBalanceQuery = new DBQuery_Balance_Add();
+				addBalanceQuery.IN.UserId = customerId;
+				addBalanceQuery.IN.CurrencyType = CurrencyTypes.HENA_AIC;
+				addBalanceQuery.IN.Balance = realCustomerRevenue;
+
+				await DBThread.Instance.ReqQueryAsync(addBalanceQuery);
 			}
 		}
 	}

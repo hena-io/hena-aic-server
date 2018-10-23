@@ -21,11 +21,11 @@ namespace Hena
 		}
 
 		private FtpWebRequest CreateRequest(string requestUriString, string method,
-			bool useBinary = true, bool usePassive = true, bool useKeepAlive = true)
+			bool useBinary = true, bool usePassive = true, bool useKeepAlive = true, int timeout = 5000)
 		{
 			FtpWebRequest ftpRequest = (FtpWebRequest)FtpWebRequest.Create(requestUriString);
 			ftpRequest.Credentials = new NetworkCredential(Id, Password);
-
+			ftpRequest.Timeout = timeout;
 			ftpRequest.UseBinary = useBinary;
 			ftpRequest.UsePassive = usePassive;
 			ftpRequest.KeepAlive = useKeepAlive;
@@ -55,14 +55,24 @@ namespace Hena
 						bytesRead = await ftpStream.ReadAsync(byteBuffer, 0, BufferSize);
 					}
 				}
-				catch (Exception ex) { Console.WriteLine(ex.ToString()); return false; }
+				catch (Exception ex)
+				{
+					Console.WriteLine(ex.ToString());
+					NLog.LogManager.GetCurrentClassLogger().Error(ex);
+					return false;
+				}
 
 				localFileStream.Close();
 				ftpStream.Close();
 				ftpResponse.Close();
 				ftpRequest = null;
 			}
-			catch (Exception ex) { Console.WriteLine(ex.ToString()); return false; }
+			catch (Exception ex)
+			{
+				NLog.LogManager.GetCurrentClassLogger().Error(ex);
+				Console.WriteLine(ex.ToString());
+				return false;
+			}
 			return true;
 		}
 		
@@ -71,7 +81,7 @@ namespace Hena
 		{
 			try
 			{
-				var ftpRequest = CreateRequest(Host + "/" + remoteFile, WebRequestMethods.Ftp.UploadFile, true, true, true);
+				var ftpRequest = CreateRequest($"{Host}/{remoteFile}", WebRequestMethods.Ftp.UploadFile, true, true, true);
 				ftpRequest.ContentLength = contents.Length;
 
 				Stream ftpStream = await ftpRequest.GetRequestStreamAsync();
@@ -94,6 +104,7 @@ namespace Hena
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
+				NLog.LogManager.GetCurrentClassLogger().Error(ex, $"remoteFile:{remoteFile}");
 				return false;
 			}
 
@@ -119,13 +130,23 @@ namespace Hena
 						bytesSent = await localFileStream.ReadAsync(byteBuffer, 0, BufferSize);
 					}
 				}
-				catch (Exception ex) { Console.WriteLine(ex.ToString()); return false; }
+				catch (Exception ex)
+				{
+					NLog.LogManager.GetCurrentClassLogger().Error(ex, $"remoteFile:{remoteFile}, localFile:{localFile}");
+					Console.WriteLine(ex.ToString());
+					return false;
+				}
 
 				localFileStream.Close();
 				ftpStream.Close();
 				ftpRequest = null;
 			}
-			catch (Exception ex) { Console.WriteLine(ex.ToString()); return false; }
+			catch (Exception ex)
+			{
+				NLog.LogManager.GetCurrentClassLogger().Error(ex, $"remoteFile:{remoteFile}, localFile:{localFile}");
+				Console.WriteLine(ex.ToString());
+				return false;
+			}
 			return true;
 		}
 
@@ -140,7 +161,9 @@ namespace Hena
 				ftpResponse.Close();
 				ftpRequest = null;
 			}
-			catch (Exception ex) { Console.WriteLine(ex.ToString()); return false; }
+			catch (Exception ex) {
+				NLog.LogManager.GetCurrentClassLogger().Error(ex);
+				Console.WriteLine(ex.ToString()); return false; }
 			return true;
 		}
 
@@ -185,7 +208,9 @@ namespace Hena
 				ftpResponse.Close();
 				ftpRequest = null;
 			}
-			catch (Exception ex) { Console.WriteLine(ex.ToString()); return false; }
+			catch (Exception ex) {
+				NLog.LogManager.GetCurrentClassLogger().Error(ex);
+				Console.WriteLine(ex.ToString()); return false; }
 			return true;
 		}
 

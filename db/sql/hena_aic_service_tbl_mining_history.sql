@@ -16,25 +16,23 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `tbl_ad_unit`
+-- Table structure for table `tbl_mining_history`
 --
 
-DROP TABLE IF EXISTS `tbl_ad_unit`;
+DROP TABLE IF EXISTS `tbl_mining_history`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `tbl_ad_unit` (
+CREATE TABLE `tbl_mining_history` (
   `Idx` bigint(20) NOT NULL AUTO_INCREMENT,
+  `MiningId` bigint(20) NOT NULL,
   `UserId` bigint(20) NOT NULL,
-  `AppId` bigint(20) NOT NULL,
-  `AdUnitId` bigint(20) NOT NULL,
-  `Name` varchar(80) NOT NULL COMMENT 'Display ',
-  `AdSystemType` varchar(15) NOT NULL DEFAULT 'None' COMMENT 'None, Banner, Interstitial, Video',
+  `CurrencyType` varchar(10) NOT NULL,
+  `MiningAmount` decimal(20,10) NOT NULL,
   `CreateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `LastUpdate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`AdUnitId`,`UserId`,`AppId`),
-  UNIQUE KEY `Idx_UNIQUE` (`Idx`),
-  UNIQUE KEY `AdUnitId_UNIQUE` (`AdUnitId`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`MiningId`,`UserId`),
+  UNIQUE KEY `MiningId_UNIQUE` (`MiningId`),
+  UNIQUE KEY `Idx_UNIQUE` (`Idx`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -46,4 +44,4 @@ CREATE TABLE `tbl_ad_unit` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-23 17:19:33
+-- Dump completed on 2018-10-23 17:19:31

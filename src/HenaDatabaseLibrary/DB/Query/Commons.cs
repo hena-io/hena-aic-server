@@ -25,6 +25,20 @@ namespace Hena.DB
 		}
 	}
 
+	public class COMMON_IN_DATA_DBKeyOffsetLimit : DBQueryBase.IN_BASE
+	{
+		public long DBKey { get; set; } = GlobalDefine.INVALID_DBKEY;
+		public int Offset { get; set; } = 0;
+		public int Limit { get; set; } = 0;
+
+		public override void FillParameters(List<object> parameters)
+		{
+			parameters.Add(DBKey);
+			parameters.Add(Offset);
+			parameters.Add(Limit);
+		}
+	}
+
 	public class COMMON_IN_DATA_MachineDBKeyOnly : DBQueryBase.IN_BASE
 	{
 		public short DBKey { get; set; } = GlobalDefine.INVALID_MACHINE_ID;

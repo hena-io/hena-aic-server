@@ -21,13 +21,13 @@ namespace Hena.DB
 		{
 			public DBKey UserId = GlobalDefine.INVALID_DBKEY;
 			public CurrencyTypes CurrencyType = CurrencyTypes.None;
-			public decimal AddBalance = 0m;
+			public decimal Balance = 0m;
 
 			public override void FillParameters(List<object> parameters)
 			{
 				parameters.Add(UserId);
 				parameters.Add(CurrencyType);
-				parameters.Add(AddBalance);
+				parameters.Add(Balance);
 			}
 		}
 		#endregion // IN / OUT

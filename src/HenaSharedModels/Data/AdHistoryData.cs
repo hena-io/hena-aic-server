@@ -18,6 +18,9 @@ namespace Hena.Shared.Data
 
 		// 광고 기록 Id
 		public DBKey AdHistoryId { get; set; } = GlobalDefine.INVALID_DBKEY;
+
+		// 고객 Id
+		public DBKey CustomerId { get; set; } = GlobalDefine.INVALID_DBKEY;
 		
 		// 퍼블리셔(개발자) Id
 		public DBKey PublisherId { get; set; } = GlobalDefine.INVALID_DBKEY;
@@ -44,6 +47,11 @@ namespace Hena.Shared.Data
 		public AdDesignTypes.en AdDesignType { get; set; } = AdDesignTypes.en.None;
 		// 광고 비용
 		public decimal Cost { get; set; } = 0m;
+
+		// 퍼블리셔(개발자) 수익
+		public decimal PublisherRevenue { get; set; } = 0m;
+		// 고객 수익
+		public decimal CustomerRevenue { get; set; } = 0m;
 
 		// 광고 노출여부
 		public bool IsDisplayed { get; set; } = false;

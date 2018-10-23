@@ -184,6 +184,8 @@ namespace HenaWebsite
 
 		private bool SetupService()
 		{
+
+			NLog.LogManager.GetCurrentClassLogger().Error("Setup Service");
 			if (DBThread.Instance.IsActiveService)
 				return false;
 

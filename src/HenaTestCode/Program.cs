@@ -9,6 +9,7 @@ namespace HenaTestCode
 
 		static void Main(string[] args)
 		{
+
 			Task.Run(async () =>
 			{
 				await HenaLibrary.HenaLibrary.Run();
