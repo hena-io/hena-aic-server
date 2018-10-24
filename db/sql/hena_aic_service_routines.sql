@@ -1242,22 +1242,22 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_balance_add`(IN in_UserId BIGINT
-, IN in_CurrencyType VARCHAR(10)
-, IN in_Balance DECIMAL(20,10)
+, IN in_CurrencyType VARCHAR(20)
+, IN in_Amount DECIMAL(20,10)
 )
 BEGIN
 
 	IF (SELECT 1 = 1 FROM `tbl_balance` WHERE `UserId` = in_UserId AND `CurrencyType` = in_CurrencyType ) THEN
 	
 		UPDATE `tbl_balance`
-		SET `Balance` = `Balance` + in_Balance
+		SET `Amount` = `Amount` + in_Amount
 		WHERE `UserId` = in_UserId
 		AND `CurrencyType` = in_CurrencyType;
 	
 	ELSE
 	
-		INSERT INTO `tbl_balance`(`UserId`, `CurrencyType`, `Balance`) 
-        VALUES(in_UserId, in_CurrencyType, in_Balance);
+		INSERT INTO `tbl_balance`(`UserId`, `CurrencyType`, `Amount`) 
+        VALUES(in_UserId, in_CurrencyType, in_Amount);
 	
 	END IF;
     
@@ -1282,7 +1282,7 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_balance_select`(IN in_UserId BIGINT
-, IN in_CurrencyType VARCHAR(10)
+, IN in_CurrencyType VARCHAR(20)
 )
 BEGIN
 
@@ -1330,22 +1330,22 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_balance_update`(IN in_UserId BIGINT
-, IN in_CurrencyType VARCHAR(10)
-, IN in_Balance DECIMAL(20,10)
+, IN in_CurrencyType VARCHAR(20)
+, IN in_Amount DECIMAL(20,10)
 )
 BEGIN
 
 	IF (SELECT 1 = 1 FROM `tbl_balance` WHERE `UserId` = in_UserId ) THEN
 	
 		UPDATE `tbl_balance`
-		SET `Balance` = `Balance` + in_Balance
+		SET `Amount` = in_Amount
 		WHERE `UserId` = in_UserId
 		AND `CurrencyType` = in_CurrencyType;
 	
 	ELSE
 	
-		INSERT INTO `tbl_balance`(`UserId`, `CurrencyType`, `Balance`) 
-        VALUES(in_UserId, in_CurrencyType, in_Balance);
+		INSERT INTO `tbl_balance`(`UserId`, `CurrencyType`, `Amount`) 
+        VALUES(in_UserId, in_CurrencyType, in_Amount);
 	
 	END IF;
     
@@ -1540,6 +1540,127 @@ BEGIN
 		, in_ResourcePath
     );
 
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_mining_history_insert` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_mining_history_insert`(IN in_MiningHistoryId BIGINT
+, IN in_UserId BIGINT
+, IN in_CurrencyType VARCHAR(20)
+, IN in_MiningAmount DECIMAL(20,10)
+)
+BEGIN
+
+	INSERT INTO `tbl_mining_history`(`MiningHistoryId`
+		, `UserId`
+        , `CurrencyType`
+        , `MiningAmount`        
+	) VALUES (in_MiningHistoryId
+		, in_UserId
+        , in_CurrencyType
+        , in_MiningAmount
+	);
+	
+    
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_mining_history_select` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_mining_history_select`(IN in_MiningHistoryId BIGINT
+)
+BEGIN
+
+	SELECT * FROM `tbl_mining_history`
+    WHERE `MiningHistoryId` = in_MiningHistoryId;
+        
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_mining_history_select_by_userid` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_mining_history_select_by_userid`(IN in_UserId BIGINT
+, IN in_Offset INT
+, IN in_Limit INT
+)
+BEGIN
+
+	SELECT * FROM `tbl_mining_history`
+    WHERE `UserId` = in_UserId
+	ORDER BY `Idx` DESC
+    LIMIT in_Limit 
+    OFFSET in_Offset;
+        
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_mining_report_select_by_userid` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_mining_report_select_by_userid`(IN in_UserId BIGINT
+# 로컬타임
+, IN in_BeginDateTime DATETIME
+, IN in_EndDateTime DATETIME
+
+# UTC <-> 로컬타임 Offset (한국시간기준의 경우 '09:00:00' )
+, IN in_TimeOffset TIME
+)
+BEGIN
+
+	SELECT DATE(ADDTIME(CreateTime, in_TimeOffset)) AS ReportDate
+    , in_UserId AS UserId
+    , SUM(MiningAmount) AS MiningAmount
+	FROM `tbl_mining_history`
+	WHERE (UserId=in_UserId)
+	AND ADDTIME(CreateTime, in_TimeOffset) >= in_BeginDateTime
+    AND ADDTIME(CreateTime, in_TimeOffset) <= in_EndDateTime
+    GROUP BY ReportDate
+	ORDER BY ReportDate DESC;
 
 END ;;
 DELIMITER ;
@@ -2112,4 +2233,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-23 17:19:33
+-- Dump completed on 2018-10-24 18:26:44

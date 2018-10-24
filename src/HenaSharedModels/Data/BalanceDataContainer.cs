@@ -24,7 +24,7 @@ namespace Hena.Shared.Data
 				{
 					UserId = userId,
 					CurrencyType = currencyType,
-					Balance = 0m,
+					Amount = 0m,
 					CreateTime = DateTime.UtcNow,
 					LastUpdate = DateTime.UtcNow,
 				};

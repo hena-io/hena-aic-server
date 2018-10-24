@@ -27,7 +27,9 @@ namespace HenaWebsite.Models
 		ExistUserName,          // 이미 존재하는 유저명
 		ExistEMail,				// 이미 존재하는 이메일
 		NotSupportFormat,		// 지원하지 않는 포멧
-		AlreadyLoggedin,		// 이미 로그인되어 있음.
+		AlreadyLoggedin,        // 이미 로그인되어 있음.
+		AlreadyStarted,         // 이미 시작됨.
+		NotRunning,				// 실행중이 아님.
 		DatabaseError,			// 데이터베이스 에러
 		UknownError,			// 알 수 없는 에러
 	}

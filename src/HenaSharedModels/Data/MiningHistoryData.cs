@@ -10,11 +10,14 @@ using Newtonsoft.Json.Linq;
 
 namespace Hena.Shared.Data
 {
-	// 잔고 데이터
-	public class BalanceData 
+	// 마이닝 기록 데이터
+	public class MiningHistoryData
 	{
 		// 기본값
-		public readonly static BalanceData Default = new BalanceData();
+		public readonly static MiningHistoryData Default = new MiningHistoryData();
+
+		// 마이닝 기록 Id
+		public DBKey MiningHistoryId { get; set; } = GlobalDefine.INVALID_DBKEY;
 
 		// 유저 Id
 		public DBKey UserId { get; set; } = GlobalDefine.INVALID_DBKEY;
@@ -22,14 +25,10 @@ namespace Hena.Shared.Data
 		// 재화 타입
 		public CurrencyTypes CurrencyType { get; set; } = CurrencyTypes.None;
 
-		// 잔고
-		public decimal Amount { get; set; } = 0;
+		// 마이닝 갯수
+		public decimal MiningAmount { get; set; } = 0m;
 
-		// 생성된 시간
-		public DateTime CreateTime { get; set; } = DateTime.MinValue;
-
-		// 마지막 업데이트된 시간
-		public DateTime LastUpdate { get; set; } = DateTime.MinValue;
-		
+		// 마이닝된 시간
+		public DateTime MiningTime { get; set; } = DateTime.MinValue;
 	}
 }

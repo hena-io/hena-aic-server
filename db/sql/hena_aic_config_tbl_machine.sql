@@ -31,6 +31,16 @@ CREATE TABLE `tbl_machine` (
   UNIQUE KEY `MachineId_UNIQUE` (`MachineId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tbl_machine`
+--
+
+LOCK TABLES `tbl_machine` WRITE;
+/*!40000 ALTER TABLE `tbl_machine` DISABLE KEYS */;
+INSERT INTO `tbl_machine` VALUES (3,'0C9D92BD9628',80,'2018-10-01 17:35:39'),(4,'92156E432DC8',80,'2018-10-08 03:52:03'),(5,'002248050B5C',80,'2018-10-18 07:48:32');
+/*!40000 ALTER TABLE `tbl_machine` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -41,4 +51,4 @@ CREATE TABLE `tbl_machine` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-23 17:19:30
+-- Dump completed on 2018-10-24 18:26:41

@@ -8,6 +8,7 @@ using System.Resources;
 using System.Threading.Tasks;
 using Hena;
 using Hena.DB;
+using HenaWebsite.Mining;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -200,6 +201,7 @@ namespace HenaWebsite
 			SetupMachineID();
 
 			VerifyDataManager.Instance.StartService();
+			MiningManager.Instance.StartService();
 
 			return true;
 		}

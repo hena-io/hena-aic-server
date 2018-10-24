@@ -69,18 +69,18 @@ namespace HenaWebsite.Controllers.API
 				request.Count = 20;
 			}
 
-			AdHistoryDataContainer adHistories = new AdHistoryDataContainer();
+			AdHistoryDataContainer histories = new AdHistoryDataContainer();
 			if (request.IsPublisherReport)
 			{
-				await adHistories.FromDBByPublisherIdAsync(request.UserId, request.Offset, request.Count);
+				await histories.FromDBByPublisherIdAsync(request.UserId, request.Offset, request.Count);
 			}
 			else
 			{
-				await adHistories.FromDBByCustomerIdAsync(request.UserId, request.Offset, request.Count);
+				await histories.FromDBByCustomerIdAsync(request.UserId, request.Offset, request.Count);
 			}
 
 			var response = new UserServiceModels.AICHistory.Response();
-			response.Items.AddRangeSafe(adHistories.Items);
+			response.Items.AddRangeSafe(histories.Items);
 			return Success(response);
 		}
 

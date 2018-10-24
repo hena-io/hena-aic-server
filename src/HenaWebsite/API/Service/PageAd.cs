@@ -202,7 +202,7 @@ namespace HenaWebsite.Controllers
 				var addBalanceQuery = new DBQuery_Balance_Add();
 				addBalanceQuery.IN.UserId = userId;
 				addBalanceQuery.IN.CurrencyType = CurrencyTypes.HENA;
-				addBalanceQuery.IN.Balance = -cost;
+				addBalanceQuery.IN.Amount = -cost;
 
 				await DBThread.Instance.ReqQueryAsync(addBalanceQuery);
 			}
@@ -230,7 +230,7 @@ namespace HenaWebsite.Controllers
 				var addBalanceQuery = new DBQuery_Balance_Add();
 				addBalanceQuery.IN.UserId = publisherId;
 				addBalanceQuery.IN.CurrencyType = CurrencyTypes.HENA_AIC;
-				addBalanceQuery.IN.Balance = realPublisherRevenue;
+				addBalanceQuery.IN.Amount = realPublisherRevenue;
 
 				await DBThread.Instance.ReqQueryAsync(addBalanceQuery);
 			}
@@ -240,7 +240,7 @@ namespace HenaWebsite.Controllers
 				var addBalanceQuery = new DBQuery_Balance_Add();
 				addBalanceQuery.IN.UserId = customerId;
 				addBalanceQuery.IN.CurrencyType = CurrencyTypes.HENA_AIC;
-				addBalanceQuery.IN.Balance = realCustomerRevenue;
+				addBalanceQuery.IN.Amount = realCustomerRevenue;
 
 				await DBThread.Instance.ReqQueryAsync(addBalanceQuery);
 			}

@@ -12,17 +12,7 @@ namespace HenaWebsite.Controllers
 	{
         public IActionResult Index()
         {
-			return Redirect(Url.Action("Reports", "Campaigns"));
+			return View();
         }
-
-		public IActionResult Create()
-		{
-			return View();
-		}
-
-		public IActionResult Reports()
-		{
-			return View();
-		}
 	}
 }

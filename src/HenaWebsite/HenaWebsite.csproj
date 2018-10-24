@@ -30,10 +30,7 @@
     <Content Update="Views\Apps\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Campaigns\Create.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="Views\Campaigns\Reports.cshtml">
+    <Content Update="Views\Campaigns\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Dashboard\_TestAppsPartial.cshtml">
