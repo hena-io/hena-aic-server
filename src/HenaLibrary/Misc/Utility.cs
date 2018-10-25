@@ -903,7 +903,7 @@ namespace Hena
 			return $"{value.ToString(textFormat)}T";
 		}
 
-        public static string ToCurrencyString(this decimal value, string currencyName, byte decimalLength=8)
+        public static string ToCurrencyString(this decimal value, string currencyName, byte decimalPoint =8)
         {
             if (currencyName.Equals("KRW"))
             {
@@ -917,8 +917,16 @@ namespace Hena
                 return value.ToString("N2");
             }
 
-            return value.ToString("N" + decimalLength);
+            return value.ToString("N" + decimalPoint );
         }
+
+		public static string ToFlexibleNumberString(this decimal value, byte targetLength = 8)
+		{
+			var frontValue = value.ToString("F0");
+			int decimalPoint = Math.Max(0, targetLength - frontValue.Length - 1);
+			return value.ToString("N" + decimalPoint);
+		}
+
 
         // 이메일 포멧인지 체크
         public static bool IsEmailFormat(this string value)

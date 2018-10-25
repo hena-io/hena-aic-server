@@ -45,7 +45,7 @@ namespace Hena.DB
 		#endregion // IN / OUT
 	}
 
-	// 잔고 조회( Publisher - UserId )
+	// 수익 리포트 조회( Publisher - UserId )
 	public class DBQuery_RevenueReport_Select_By_PublisherId : DBQuery_RevenueReport_Select_Base<DBQuery_RevenueReport_Select_By_PublisherId.IN_DATA>
 	{
 		public override string ProcedureName => "sp_revenue_report_select_by_publisherid";
@@ -72,10 +72,37 @@ namespace Hena.DB
 		#endregion // IN / OUT
 	}
 
-	// 잔고 조회( Customer - UserId )
+	// 수익 리포트 조회( Customer - UserId )
 	public class DBQuery_RevenueReport_Select_By_CustomerId : DBQuery_RevenueReport_Select_Base<DBQuery_RevenueReport_Select_By_CustomerId.IN_DATA>
 	{
 		public override string ProcedureName => "sp_revenue_report_select_by_customerid";
+
+		#region IN / OUT
+		public class IN_DATA : IN_BASE
+		{
+			public DBKey UserId = GlobalDefine.INVALID_DBKEY;
+
+			// Local Time
+			public DateTime BeginTimeLocal = DateTime.MinValue;
+			public DateTime EndTimeLocal = DateTime.MinValue;
+
+			public TimeSpan TimeOffset = TimeSpan.Zero;
+
+			public override void FillParameters(List<object> parameters)
+			{
+				parameters.Add(UserId);
+				parameters.Add(BeginTimeLocal);
+				parameters.Add(EndTimeLocal);
+				parameters.Add(TimeOffset);
+			}
+		}
+		#endregion // IN / OUT
+	}
+
+	// 수익 리포트 조회( AdvertiserId - UserId )
+	public class DBQuery_RevenueReport_Select_By_AdvertiserId : DBQuery_RevenueReport_Select_Base<DBQuery_RevenueReport_Select_By_AdvertiserId.IN_DATA>
+	{
+		public override string ProcedureName => "sp_revenue_report_select_by_advertiserid";
 
 		#region IN / OUT
 		public class IN_DATA : IN_BASE

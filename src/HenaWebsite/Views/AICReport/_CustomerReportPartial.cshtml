@@ -1,0 +1,55 @@
+﻿@using Hena;
+@using Hena.Shared.Data;
+@using Hena.Security.Claims;
+
+@{
+
+	DBKey userId = User.FindFirst(HenaClaimTypes.UserId).Value;
+	RevenueReportDataContainer reportDataContainer = new RevenueReportDataContainer();
+	DateTime nowTime = DateTime.UtcNow.AddHours(9);
+	DateTime endTimeLocal = nowTime.Date.AddDays(1);
+	DateTime beginTimeLocal = endTimeLocal.Date.AddDays(-101);
+	await reportDataContainer.FromDBByCustomerIdAsync(userId, beginTimeLocal, endTimeLocal, TimeSpan.FromHours(9));
+	reportDataContainer.Items.Sort((x, y) => { return x.ReportDate.CompareToDesc(y.ReportDate); });
+}
+
+<!--apps begin-->
+<div class="row">
+	<section class="panel" id="section-apps">
+		<header class="panel-heading">
+			@*<h3>AIC Customer History</h3>*@
+		</header>
+		<div class="panel-body">
+
+			<section class="panel">
+				<div class="panel-body">
+					<table class="table table-striped table-advance table-hover" id="table-apps">
+						<thead>
+							<tr>
+								<th class="text-center" width="25%">Date</th>
+								<th class="text-center" width="25%">Revenue</th>
+								<th class="text-center" width="25%">Display</th>
+								<th class="text-center" width="25%">Click</th>
+							</tr>
+						</thead>
+						<tbody>
+							@{
+								foreach (var it in reportDataContainer.Items)
+								{
+								<tr>
+									<td class="text-center">@it.ReportDate.ToStringDate()</td>
+									<td class="text-right">@it.Revenue.ToString("N4") HENA</td>
+									<td class="text-center">@it.DisplayCount</td>
+									<td class="text-center">@it.ClickCount</td>
+								</tr>
+								}
+							}
+						</tbody>
+					</table>
+				</div>
+			</section>
+
+		</div>
+	</section>
+</div>
+<!--apps end-->

@@ -32,8 +32,9 @@ CREATE TABLE `tbl_app` (
   `LastUpdate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`UserId`,`AppId`),
   UNIQUE KEY `Idx_UNIQUE` (`Idx`),
-  UNIQUE KEY `AppId_UNIQUE` (`AppId`) /*!80000 INVISIBLE */,
-  KEY `Idx_AppName` (`Name`)
+  UNIQUE KEY `AppId_UNIQUE` (`AppId`),
+  KEY `Idx_AppName` (`Name`),
+  KEY `Idx_UserId` (`UserId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -56,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-24 18:26:42
+-- Dump completed on 2018-10-25 17:24:31

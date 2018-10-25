@@ -96,5 +96,24 @@
 			showPass = 0;
 		}
 	});
+
+
+	$('#modalForgotPassword button[name=btnSubmit]').on('click', () => {
+		var email = $('#modalForgotPassword input[name=email]').val();
+		if (HenaUtility.checkValidEmail(email) == false) {
+			$('#modalForgotPassword .alert').prop('hidden', false).text('Invalid email');
+			return;
+		}
+
+
+		HenaApi.users.resetPassword({ email: email }, (response) => {
+			if (response.result == "Success") {
+				$('#modalForgotPassword').modal('hide');
+				$('#modalForgotPassword .alert').prop('hidden', true);
+			} else {
+				$('#modalForgotPassword .alert').prop('hidden', false).text(response.result);
+			}
+		});
+	});
 	
 })(jQuery);

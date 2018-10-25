@@ -1668,6 +1668,44 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_revenue_report_select_by_advertiserid` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_revenue_report_select_by_advertiserid`(IN in_UserId BIGINT
+# 로컬타임
+, IN in_BeginDateTime DATETIME
+, IN in_EndDateTime DATETIME
+
+# UTC <-> 로컬타임 Offset (한국시간기준의 경우 '09:00:00' )
+, IN in_TimeOffset TIME
+)
+BEGIN
+
+	SELECT DATE(ADDTIME(CreateTime, in_TimeOffset)) AS ReportDate
+    , in_UserId AS UserId
+    , -( SUM(CustomerRevenue) + SUM(PublisherRevenue)) AS Revenue
+    , SUM(@displayCount := IF( IsDisplayed > 0, 1, 0)) AS DisplayCount
+    , SUM(@clickCount := IF( IsClicked > 0, 1, 0)) AS ClickCount
+	FROM `tbl_ad_history`
+	WHERE (AdvertiserId=in_UserId)
+	AND ADDTIME(CreateTime, in_TimeOffset) >= in_BeginDateTime
+    AND ADDTIME(CreateTime, in_TimeOffset) <= in_EndDateTime
+    GROUP BY ReportDate
+	ORDER BY ReportDate DESC;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `sp_revenue_report_select_by_customerid` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -2233,4 +2271,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-24 18:26:44
+-- Dump completed on 2018-10-25 17:24:33

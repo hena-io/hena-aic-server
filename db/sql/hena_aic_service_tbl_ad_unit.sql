@@ -33,7 +33,9 @@ CREATE TABLE `tbl_ad_unit` (
   `LastUpdate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`AdUnitId`,`UserId`,`AppId`),
   UNIQUE KEY `Idx_UNIQUE` (`Idx`),
-  UNIQUE KEY `AdUnitId_UNIQUE` (`AdUnitId`)
+  UNIQUE KEY `AdUnitId_UNIQUE` (`AdUnitId`),
+  KEY `Idx_UserId` (`UserId`),
+  KEY `Idx_AppId` (`AppId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -56,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-24 18:26:44
+-- Dump completed on 2018-10-25 17:24:32

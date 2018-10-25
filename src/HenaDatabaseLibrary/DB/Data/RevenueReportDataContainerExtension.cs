@@ -11,6 +11,20 @@ namespace Hena.Shared.Data
 {
     public static class RevenueReportDataContainerExtension
 	{
+
+		public static async Task<int> FromDBByAdvertiserIdAsync(this RevenueReportDataContainer item, DBKey userId, DateTime beginTimeLocal, DateTime endTimeLocal, TimeSpan timeOffset)
+		{
+			var query = new DBQuery_RevenueReport_Select_By_AdvertiserId();
+			query.IN.UserId = userId;
+			query.IN.BeginTimeLocal = beginTimeLocal;
+			query.IN.EndTimeLocal = endTimeLocal;
+			query.IN.TimeOffset = timeOffset;
+
+			bool result = await DBThread.Instance.ReqQueryAsync(query);
+			query.OUT.Items.CopyTo(ref item);
+			return item.Count;
+		}
+
 		public static async Task<int> FromDBByPublisherIdAsync(this RevenueReportDataContainer item, DBKey userId, DateTime beginTimeLocal, DateTime endTimeLocal, TimeSpan timeOffset)
 		{
 			var query = new DBQuery_RevenueReport_Select_By_PublisherId();

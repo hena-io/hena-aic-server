@@ -200,7 +200,7 @@
 		validationTimer_Password = setTimeout(() => {
 			var target = inputPassword.parent().find("i");
 
-			isValidPassword = HenaUtility.checkValidPassword(inputPassword.val(), 3);
+			isValidPassword = HenaUtility.checkValidPassword(inputPassword.val(), 2);
 			updateCheckIconState(target, isValidPassword);
 			updateConfirmPasswordState();
 			updateSignUpButtonState();

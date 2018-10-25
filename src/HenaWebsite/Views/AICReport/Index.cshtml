@@ -1,0 +1,43 @@
+﻿@using Hena;
+@using Hena.Shared.Data;
+@using Hena.Security.Claims;
+
+@{
+	Layout = "_LayoutDashboard";
+	//ViewData["page-scripts"] = new string[] { "hena/js/pages/test/main.js", "hena/js/pages/test/campaigns.js", "hena/js/pages/test/apps.js" };
+	ViewData["page-id"] = "page-aic-report";
+
+	//DBKey UserId = Context.User.FindFirst(HenaClaimTypes.UserId).Value;
+
+}
+
+<!--tab nav start-->
+<section class="panel">
+	<header class="panel-heading tab-bg-dark-navy-blue ">
+		<ul class="nav nav-tabs">
+			<li class="active">
+				<a data-toggle="tab" href="#tab-advertiser-history">Advertiser</a>
+			</li>
+			<li class="">
+				<a data-toggle="tab" href="#tab-publisher-history">Publisher</a>
+			</li>
+			<li class="">
+				<a data-toggle="tab" href="#tab-customer-history">Customer</a>
+			</li>
+		</ul>
+	</header>
+	<div class="panel-body">
+		<div class="tab-content">
+			<div id="tab-advertiser-history" class="tab-pane active">
+				@await Html.PartialAsync("_AdvertiserReportPartial")
+			</div>
+			<div id="tab-publisher-history" class="tab-pane">
+				@await Html.PartialAsync("_PublisherReportPartial")
+			</div>
+			<div id="tab-customer-history" class="tab-pane">
+				@await Html.PartialAsync("_CustomerReportPartial")
+			</div>
+		</div>
+	</div>
+</section>
+<!--tab nav start-->

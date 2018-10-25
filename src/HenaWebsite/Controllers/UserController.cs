@@ -12,6 +12,7 @@ using HenaWebsite.Models.User;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HenaWebsite.Controllers
 {
@@ -97,6 +98,46 @@ namespace HenaWebsite.Controllers
 		public IActionResult ForgotPassword()
 		{
 			return View();
+		}
+
+		[Authorize, HttpGet]
+		public IActionResult ChangePassword()
+		{
+			return View();
+		}
+
+		[Authorize, HttpPost]
+		public async Task<IActionResult> ChangePassword(string password, string newPassword, string confirmPassword)
+		{
+			if (string.IsNullOrEmpty(password)
+				|| string.IsNullOrEmpty(newPassword)
+				|| newPassword.Length < 8
+				|| newPassword != confirmPassword)
+			{
+				ModelState.AddModelError("Message", "Invalid Password");
+				return View();
+			}
+
+			UserBasicData basicData = new UserBasicData();
+			if( await basicData.FromDBAsync(UserId) == false )
+			{
+				ModelState.AddModelError("Message", "Invalid Session");
+				return View();
+			}
+
+			if (PasswordUtility.VerifyPassword(password, basicData.Password) == false)
+			{
+				ModelState.AddModelError("Message", "Invalid Password");
+				return View();
+			}
+
+			var query = new DBQuery_User_Update_Password();
+			query.IN.UserId = UserId;
+			query.IN.Password = PasswordUtility.HashPassword(newPassword);
+
+			await DBThread.Instance.ReqQueryAsync(query);
+
+			return RedirectToAction("Index", "Dashboard");
 		}
 		#endregion // View
 	}

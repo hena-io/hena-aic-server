@@ -7,14 +7,117 @@
 	ViewData["page-scripts"] = new string[] { "hena/js/pages/dashboard/index.js" };
 	ViewData["page-id"] = "page-dashboard";
 
-}
-<h1>DASHBOARD</h1>
+	DBKey userId = User.FindFirst(HenaClaimTypes.UserId).Value;
 
-<div class="container">
-	<div >
-		<a href="#" id="ad-link" target="_blank">
-			<img id="img-ad" width="300" height="250" />
-		</a>
+
+	BalanceDataContainer balanceDataContainer = new BalanceDataContainer();
+	await balanceDataContainer.FromDBByUserIdAsync(userId);
+
+	var balanceHena = @balanceDataContainer.FindOrAdd(userId, CurrencyTypes.HENA);
+	var balanceHenaAIC = @balanceDataContainer.FindOrAdd(userId, CurrencyTypes.HENA_AIC);
+	var balanceHenaMining = @balanceDataContainer.FindOrAdd(userId, CurrencyTypes.HENA_MINING);
+
+}
+
+<section class="panel">
+	<header class="panel-heading">
+		<h4 class="">Profile</h4>
+	</header>
+	<div class="panel-body">
+		<form action="#" class="form-horizontal tasi-form">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">E-Mail</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" placeholder="" value="@User.FindFirst(HenaClaimTypes.Email).Value" readonly>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">UserId</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" placeholder="" value="@userId" readonly>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Balance</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" placeholder="" value="@( (balanceHena.Amount + balanceHenaAIC.Amount + balanceHenaMining.Amount).ToString("N4") ) HENA" readonly>
+				</div>
+			</div>
+		</form>
 	</div>
-	<div id="btn-refresh" class="btn btn-primary" >Refresh</div>	
-</div>
+</section>
+
+<section class="panel">
+	<header class="panel-heading">
+		<h4 class="">AIC Report</h4>
+	</header>
+
+	<div class="panel-body">
+		<!--tab nav start-->
+		<section class="panel">
+			<header class="panel-heading tab-bg-dark-navy-blue ">
+				<ul class="nav nav-tabs">
+					<li class="active">
+						<a data-toggle="tab" href="#tab-advertiser-history">Advertiser</a>
+					</li>
+					<li class="">
+						<a data-toggle="tab" href="#tab-publisher-history">Publisher</a>
+					</li>
+					<li class="">
+						<a data-toggle="tab" href="#tab-customer-history">Customer</a>
+					</li>
+				</ul>
+			</header>
+			<div class="panel-body">
+				<div class="tab-content">
+					<div id="tab-advertiser-history" class="tab-pane active">
+						@await Html.PartialAsync("_AdvertiserReportPartial")
+					</div>
+					<div id="tab-publisher-history" class="tab-pane">
+						@await Html.PartialAsync("_PublisherReportPartial")
+					</div>
+					<div id="tab-customer-history" class="tab-pane">
+						@await Html.PartialAsync("_CustomerReportPartial")
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+</section>
+
+<!--tab nav start-->
+@*<section class="panel">
+		<header class="panel-heading tab-bg-dark-navy-blue ">
+			<span class="text-warning">Advertiser</span>
+		</header>
+		<div class="panel-body">
+			@await Html.PartialAsync("_AdvertiserHistoryPartial")
+		</div>
+	</section>
+	<section class="panel">
+		<header class="panel-heading tab-bg-dark-navy-blue ">
+			<span class="text-warning">Publisher</span>
+		</header>
+		<div class="panel-body">
+			@await Html.PartialAsync("_PublisherHistoryPartial")
+		</div>
+	</section>
+	<section class="panel">
+		<header class="panel-heading tab-bg-dark-navy-blue ">
+			<span class="text-warning">Customer</span>
+		</header>
+		<div class="panel-body">
+			@await Html.PartialAsync("_CustomerHistoryPartial")
+		</div>
+	</section>*@
+@*<div class="container">
+		<div>
+			<a href="#" id="ad-link" target="_blank">
+				<img id="img-ad" width="300" height="250" />
+			</a>
+		</div>
+		<div id="btn-refresh" class="btn btn-primary">Refresh</div>
+	</div>*@

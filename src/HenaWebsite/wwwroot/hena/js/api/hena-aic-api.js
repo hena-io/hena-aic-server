@@ -186,6 +186,17 @@ var HenaApi = {};
 	};
 
 	// -----------------------------------------------------------
+	// Users
+	// -----------------------------------------------------------
+	HenaApi.users = {
+
+		// eMail:'abc@def.com'
+		resetPassword: function (data, callback) {
+			post("/api/users/resetpassword", data, callback);
+		},
+	};
+
+	// -----------------------------------------------------------
 	// utilities
 	// -----------------------------------------------------------
 	// common api functions
@@ -212,6 +223,8 @@ var HenaApi = {};
 			}
 		});
 	};
+
+	HenaApi.post = post;
 
 	function postFormData(url, formData, callback) {
 		$.ajax({

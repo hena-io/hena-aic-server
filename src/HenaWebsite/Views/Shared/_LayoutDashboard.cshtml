@@ -150,15 +150,15 @@
 						<ul class="dropdown-menu extended logout">
 							<li>
 								<h6>HENA</h6>
-								<span>@balances.FindOrAdd(userId, CurrencyTypes.HENA).Amount.ToString("N2")</span>
+								<span>@balances.FindOrAdd(userId, CurrencyTypes.HENA).Amount.ToFlexibleNumberString(8)</span>
 							</li>
 							<li>
 								<h6>MINING</h6>
-								<span>@balances.FindOrAdd(userId, CurrencyTypes.HENA_MINING).Amount.ToString("N5")</span>
+								<span>@balances.FindOrAdd(userId, CurrencyTypes.HENA_MINING).Amount.ToFlexibleNumberString(8)</span>
 							</li>
 							<li>
 								<h6>AIC</h6>
-								<span>@balances.FindOrAdd(userId, CurrencyTypes.HENA_AIC).Amount.ToString("N2")</span>
+								<span>@balances.FindOrAdd(userId, CurrencyTypes.HENA_AIC).Amount.ToFlexibleNumberString(8)</span>
 							</li>
 							<li><a href="@Url.Action("Logout", "User")"><i class="fa fa-key"></i> Log Out</a></li>
 						</ul>
@@ -175,11 +175,13 @@
 				<!-- sidebar menu start-->
 				<ul class="sidebar-menu" id="nav-accordion">
 					@DrawMenuItem("page-dashboard", "Dashboard", "fa fa-dashboard", Url.Action("Index", "Dashboard"))
+					@DrawMenuItem("page-change-password", "Change Password", "fa fa-lock", Url.Action("ChangePassword", "User"))
 					@DrawMenuItem("page-apps", "Apps", "fa fa-laptop", Url.Action("Index", "Apps"))
 					@*@BeginSubMenu("page-apps", "Apps", "fa fa-laptop", "javascript:;")
 		@DrawSubMenuItem("page-apps-list", "App List", Url.Action("List", "Apps"))
 		@EndSubMenu()*@
 					@DrawMenuItem("page-campaigns", "Campaigns", "fa fa-bullhorn", Url.Action("Index", "Campaigns"))
+					@DrawMenuItem("page-aic-report", "AIC Report", "fa fa-list", Url.Action("Index", "AICReport"))
 
 					@*@DrawMenuItem("page-test", "Test", "fa fa-dashboard", Url.Action("Test", "Dashboard"))*@
 				</ul>
