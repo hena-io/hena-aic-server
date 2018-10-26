@@ -9,6 +9,20 @@ namespace HenaWebsite.Models.API.MiningModel
 {
 	public static class MiningModels
 	{
+		// Mining 상태
+		public static class MiningState
+		{
+			public class Request
+			{
+				public DBKey UserId { get; set; } = GlobalDefine.INVALID_DBKEY;
+			}
+
+			public class Response
+			{
+				public bool IsRunning { get; set; } = false;
+			}
+		}
+
 		// Mining 시작
 		public static class MiningStart
 		{

@@ -14,6 +14,21 @@
     
 
 ### 1. 마이닝 API 
+- ##### 마이닝 상태
+        [POST]
+            /service/mining/miningstate
+        
+        [Parameters]
+            userId: '791472617497798814'
+
+        [Response]
+        {
+            result:'Success'
+            data:{
+                isRunning:false
+            }
+        }
+
 - ##### 마이닝 시작
         [POST]
             /service/mining/miningstart

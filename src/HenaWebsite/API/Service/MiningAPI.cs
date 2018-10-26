@@ -25,12 +25,28 @@ namespace HenaWebsite.Controllers.API
 		#region API
 
 		// -------------------------------------------------------------------------------
+		// Mining 상태
+		[HttpPost]
+		public IActionResult MiningState([FromBody] MiningModels.MiningState.Request request)
+		{
+			if (request.UserId == GlobalDefine.INVALID_DBKEY)
+				return APIResponse(ErrorCode.InvalidParameters);
+
+			var response = new MiningModels.MiningState.Response();
+			response.IsRunning = MiningManager.Instance.IsRunning(request.UserId);
+			return Success(response);
+		}
+
+		// -------------------------------------------------------------------------------
 		// Mining 시작
 		[HttpPost]
 		public async Task<IActionResult> MiningStart([FromBody] MiningModels.MiningStart.Request request)
 		{
 			if (request.UserId == GlobalDefine.INVALID_DBKEY)
 				return APIResponse(ErrorCode.InvalidParameters);
+
+			if( MiningManager.Instance.IsRunning(request.UserId) )
+				return APIResponse(ErrorCode.AlreadyStarted);
 
 			if (await MiningManager.Instance.StartMining(request.UserId) == false)
 				return APIResponse(ErrorCode.Failed);
