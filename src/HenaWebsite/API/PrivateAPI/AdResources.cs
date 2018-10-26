@@ -82,7 +82,7 @@ namespace HenaWebsite.Controllers.API
 
 			// Upload to ftp
 
-			FtpClient ftp = new FtpClient("ftp://hena.io", "henacoin", "henacoin2");
+			FtpClient ftp = new FtpClient(WebConfiguration.Instance.FTPHost, WebConfiguration.Instance.FTPId, WebConfiguration.Instance.FTPPassword);
 			if (await ftp.UploadAsync(remotePath, contents) == false)
 			{
 				await ftp.CreateDirectoryAsync($"aic");

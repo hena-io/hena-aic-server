@@ -35,10 +35,16 @@ namespace Hena
 
         // 이메일 앞에 표시될 이름.
         public string SupportEmailDisplayName { get; set; } = string.Empty;
-        #endregion  // EMail
+		#endregion  // EMail
+
+		#region FTP
+		public string FTPHost { get; set; } = "";
+		public string FTPId { get; set; } = "";
+		public string FTPPassword { get; set; } = "";
+		#endregion // FTP
 
 
-        private static string CombinePath(string directory, string filename)
+		private static string CombinePath(string directory, string filename)
 		{
 			return Path.GetFullPath(directory + "/" + filename);
 		}
@@ -84,6 +90,9 @@ namespace Hena
             SupportEmailPassword = JSONUtility.GetValue(token, "SupportEmailPassword", Default.SupportEmailPassword);
             SupportEmailDisplayName = JSONUtility.GetValue(token, "SupportEmailDisplayName", Default.SupportEmailDisplayName);
             
+            FTPHost = JSONUtility.GetValue(token, "FTPHost", Default.FTPHost);
+            FTPId = JSONUtility.GetValue(token, "FTPId", Default.FTPId);
+            FTPPassword = JSONUtility.GetValue(token, "FTPPassword", Default.FTPPassword);
             return true;
 		}
 
@@ -98,7 +107,11 @@ namespace Hena
             jObject["SupportEmailPassword"] = SupportEmailPassword;
             jObject["SupportEmailDisplayName"] = SupportEmailDisplayName;
 
-            return jObject;
+			jObject["FTPHost"] = FTPHost;
+			jObject["FTPId"] = FTPId;
+			jObject["FTPPassword"] = FTPPassword;
+
+			return jObject;
 		}
 		#endregion // IJSONSerializable
 	}
