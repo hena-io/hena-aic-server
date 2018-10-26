@@ -1652,13 +1652,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_mining_report_select_by_userid`(
 )
 BEGIN
 
-	SELECT DATE(ADDTIME(CreateTime, in_TimeOffset)) AS ReportDate
+	SELECT DATE(ADDTIME(MiningTime, in_TimeOffset)) AS ReportDate
     , in_UserId AS UserId
     , SUM(MiningAmount) AS MiningAmount
 	FROM `tbl_mining_history`
 	WHERE (UserId=in_UserId)
-	AND ADDTIME(CreateTime, in_TimeOffset) >= in_BeginDateTime
-    AND ADDTIME(CreateTime, in_TimeOffset) <= in_EndDateTime
+	AND ADDTIME(MiningTime, in_TimeOffset) >= in_BeginDateTime
+    AND ADDTIME(MiningTime, in_TimeOffset) <= in_EndDateTime
     GROUP BY ReportDate
 	ORDER BY ReportDate DESC;
 
@@ -2271,4 +2271,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-25 17:24:33
+-- Dump completed on 2018-10-26 13:48:36
