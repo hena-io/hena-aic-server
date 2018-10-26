@@ -3,7 +3,7 @@
 @using Hena.Security.Claims;
 
 @{
-	int displayDay = 10;
+	int displayDay = 100;
 	DBKey userId = User.FindFirst(HenaClaimTypes.UserId).Value;
 	RevenueReportDataContainer reportDataContainer = new RevenueReportDataContainer();
 	DateTime nowTime = DateTime.UtcNow.AddHours(9);

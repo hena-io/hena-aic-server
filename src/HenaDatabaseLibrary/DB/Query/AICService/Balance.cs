@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Hena.DB
 {
 	// 잔고 더하기
-	public class DBQuery_Balance_Add : DBQuery<DBQuery_Balance_Add.IN_DATA>
+	public class DBQuery_Balance_Add : DBQuery<DBQuery_Balance_Add.IN_DATA, DBQuery_Balance_Add.OUT_DATA>
 	{
 		public override DBType DBType => DBType.Hena_AIC_Service;
 		public override string ProcedureName => "sp_balance_add";
@@ -30,11 +30,31 @@ namespace Hena.DB
 				parameters.Add(Amount);
 			}
 		}
+
+		public class OUT_DATA : IOUT
+		{
+			public BalanceData Balance = new BalanceData();
+
+			public bool FromDataTable(DataTable table)
+			{
+				try
+				{
+					if (table.Rows.Count == 0)
+						return false;
+
+					return Balance.FromDBTable(table.Rows[0]);
+				}
+				catch
+				{
+					return false;
+				}
+			}
+		}
 		#endregion // IN / OUT
 	}
 
 	// 잔고 갱신
-	public class DBQuery_Balance_Update : DBQuery<DBQuery_Balance_Update.IN_DATA>
+	public class DBQuery_Balance_Update : DBQuery<DBQuery_Balance_Update.IN_DATA, DBQuery_Balance_Update.OUT_DATA>
 	{
 		public override DBType DBType => DBType.Hena_AIC_Service;
 		public override string ProcedureName => "sp_balance_update";
@@ -51,6 +71,26 @@ namespace Hena.DB
 				parameters.Add(UserId);
 				parameters.Add(CurrencyType);
 				parameters.Add(Balance);
+			}
+		}
+
+		public class OUT_DATA : IOUT
+		{
+			public BalanceData Balance = new BalanceData();
+
+			public bool FromDataTable(DataTable table)
+			{
+				try
+				{
+					if (table.Rows.Count == 0)
+						return false;
+
+					return Balance.FromDBTable(table.Rows[0]);
+				}
+				catch
+				{
+					return false;
+				}
 			}
 		}
 		#endregion // IN / OUT

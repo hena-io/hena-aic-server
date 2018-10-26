@@ -51,5 +51,17 @@ namespace Hena.Shared.Data
 
 		// 마지막 업데이트된 시간
 		public DateTime LastUpdate { get; set; } = DateTime.MinValue;
+
+		public string GetDestinationUrl()
+		{
+			string url = DestinationUrl;
+			if (string.IsNullOrEmpty(url))
+				url = string.Empty;
+
+			if (url.IndexOf("://") == -1)
+				url = "http://" + url;
+
+			return url;
+		}
 	}
 }

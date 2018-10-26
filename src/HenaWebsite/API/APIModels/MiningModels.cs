@@ -53,7 +53,7 @@ namespace HenaWebsite.Models.API.MiningModel
 		}
 
 		// Mining 리포트
-		public static class MiningRevenueReport
+		public static class MiningReport
 		{
 			public class Request
 			{
@@ -65,7 +65,7 @@ namespace HenaWebsite.Models.API.MiningModel
 
 			public class Response
 			{
-				public List<RevenueReportData> Items = new List<RevenueReportData>();
+				public List<MiningReportData> Items = new List<MiningReportData>();
 			}
 		}
 	}

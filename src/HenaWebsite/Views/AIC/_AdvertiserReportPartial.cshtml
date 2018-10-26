@@ -3,13 +3,13 @@
 @using Hena.Security.Claims;
 
 @{
-	int displayDay = 10;
+	int displayDay = 100;
 	DBKey userId = User.FindFirst(HenaClaimTypes.UserId).Value;
 	RevenueReportDataContainer reportDataContainer = new RevenueReportDataContainer();
 	DateTime nowTime = DateTime.UtcNow.AddHours(9);
 	DateTime endTimeLocal = nowTime.Date.AddDays(1);
-	DateTime beginTimeLocal = endTimeLocal.Date.AddDays(-displayDay-1);
-	await reportDataContainer.FromDBByCustomerIdAsync(userId, beginTimeLocal, endTimeLocal, TimeSpan.FromHours(9));
+	DateTime beginTimeLocal = endTimeLocal.Date.AddDays(-displayDay - 1);
+	await reportDataContainer.FromDBByAdvertiserIdAsync(userId, beginTimeLocal, endTimeLocal, TimeSpan.FromHours(9));
 
 	DateTime date = nowTime.Date;
 	for (int i = 0; i < displayDay; ++i, date = date.AddDays(-1))
@@ -23,7 +23,7 @@
 <div class="row">
 	<section class="panel" id="section-apps">
 		<header class="panel-heading">
-			@*<h3>AIC Customer History</h3>*@
+			@*<h3>AIC Publisher History</h3>*@
 		</header>
 		<div class="panel-body">
 
@@ -33,7 +33,7 @@
 						<thead>
 							<tr>
 								<th class="text-center" width="25%">Date</th>
-								<th class="text-center" width="25%">Revenue</th>
+								<th class="text-center" width="25%">Cost</th>
 								<th class="text-center" width="25%">Display</th>
 								<th class="text-center" width="25%">Click</th>
 							</tr>
@@ -42,12 +42,12 @@
 							@{
 								foreach (var it in reportDataContainer.Items)
 								{
-								<tr>
-									<td class="text-center">@it.ReportDate.ToStringDate()</td>
-									<td class="text-right">@it.Revenue.ToString("N4") HENA</td>
-									<td class="text-center">@it.DisplayCount</td>
-									<td class="text-center">@it.ClickCount</td>
-								</tr>
+									<tr>
+										<td class="text-center">@it.ReportDate.ToStringDate()</td>
+										<td class="text-right">@((-it.Revenue).ToString("N4")) HENA</td>
+										<td class="text-center">@it.DisplayCount</td>
+										<td class="text-center">@it.ClickCount</td>
+									</tr>
 								}
 							}
 						</tbody>

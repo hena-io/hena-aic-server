@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Hena;
 using Hena.Security.Claims;
@@ -22,6 +23,21 @@ namespace HenaWebsite.Controllers
 		#endregion // Properties
 
 		#region Utility
+		public virtual ViewResult ViewWithErrorMessage(string errorKey, string errorMessage, object model = null)
+		{
+			ModelState.AddModelError(errorKey, errorMessage);
+			return View(model);
+		}
+
+		public virtual ViewResult ViewWithErrorMessage(IDictionary<string, string> errorMessages, object model = null)
+		{
+			foreach( var it in errorMessages)
+			{
+				ModelState.AddModelError(it.Key, it.Value);
+			}
+			return View(model);
+		}
+
 		public virtual string GetClaimValueSafe(string type, string defaultValue = "")
 		{
 			try

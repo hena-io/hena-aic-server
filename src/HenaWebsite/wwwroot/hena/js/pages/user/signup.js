@@ -99,37 +99,6 @@
 		var email = inputEMail.val();
 
 		inputEMail.prop('readonly', true);
-
-		$.ajax({
-			url: "/api/users/SendVerifyEMail",
-			type: "POST",
-			contentType: "application/json; charset=utf-8",
-			dataType: "json",
-			data: JSON.stringify({
-				EMail: email,
-			}),
-			success: function (response) {
-				if (response.result == 'Success') {
-					$('#group-verify-email').prop('hidden', false);
-				} else {
-					inputEMail.removeClass('readonly');
-				}
-			},
-			error: function (error) {
-				inputEMail.removeClass('readonly');
-			}
-		});
-
-	});
-
-	// Check Verify Code
-	$('#btn_request_verify').click(() => {
-		if (isValidEMail == false)
-			return;
-
-		var email = inputEMail.val();
-
-		inputEMail.prop('readonly', true);
 		isValidVerifyCode = false;
 
 		$.ajax({
@@ -242,7 +211,7 @@
 	var btnSignup = $('#btn_signup');
 
 	btnSignup.click(() => {
-
+		
 		var email = inputEMail.val();
 		var password = inputPassword.val();
 		var verifyCode = inputVerifyCode.val();

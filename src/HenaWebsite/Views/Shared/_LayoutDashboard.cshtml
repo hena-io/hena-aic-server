@@ -153,12 +153,12 @@
 								<span>@balances.FindOrAdd(userId, CurrencyTypes.HENA).Amount.ToFlexibleNumberString(8)</span>
 							</li>
 							<li>
-								<h6>MINING</h6>
-								<span>@balances.FindOrAdd(userId, CurrencyTypes.HENA_MINING).Amount.ToFlexibleNumberString(8)</span>
-							</li>
-							<li>
 								<h6>AIC</h6>
 								<span>@balances.FindOrAdd(userId, CurrencyTypes.HENA_AIC).Amount.ToFlexibleNumberString(8)</span>
+							</li>
+							<li>
+								<h6>MINING</h6>
+								<span>@balances.FindOrAdd(userId, CurrencyTypes.HENA_MINING).Amount.ToFlexibleNumberString(8)</span>
 							</li>
 							<li><a href="@Url.Action("Logout", "User")"><i class="fa fa-key"></i> Log Out</a></li>
 						</ul>
@@ -181,8 +181,9 @@
 		@DrawSubMenuItem("page-apps-list", "App List", Url.Action("List", "Apps"))
 		@EndSubMenu()*@
 					@DrawMenuItem("page-campaigns", "Campaigns", "fa fa-bullhorn", Url.Action("Index", "Campaigns"))
-					@DrawMenuItem("page-aic-report", "AIC Report", "fa fa-list", Url.Action("Index", "AICReport"))
-
+					@DrawMenuItem("page-aic-report", "AIC Report", "fa fa-list", Url.Action("Report", "AIC"))
+					@DrawMenuItem("page-mining-report", "Mining Report", "fa fa-list", Url.Action("Report", "Mining"))
+					@DrawMenuItem("page-test-deposit", "Deposit", "fa fa-btc", Url.Action("Deposit", "Test"))
 					@*@DrawMenuItem("page-test", "Test", "fa fa-dashboard", Url.Action("Test", "Dashboard"))*@
 				</ul>
 				<!-- sidebar menu end-->

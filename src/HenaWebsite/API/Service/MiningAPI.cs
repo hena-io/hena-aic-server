@@ -96,7 +96,7 @@ namespace HenaWebsite.Controllers.API
 		// -------------------------------------------------------------------------------
 		// Mining 리포트
 		[HttpPost]
-		public async Task<IActionResult> MiningRevenueReport([FromBody] MiningModels.MiningRevenueReport.Request request)
+		public async Task<IActionResult> MiningReport([FromBody] MiningModels.MiningReport.Request request)
 		{
 			if (request.UserId == GlobalDefine.INVALID_DBKEY)
 				return APIResponse(ErrorCode.InvalidParameters);
@@ -105,11 +105,11 @@ namespace HenaWebsite.Controllers.API
 			if (await userBasicData.FromDBAsync(request.UserId) == false)
 				return APIResponse(ErrorCode.InvalidId);
 
-			RevenueReportDataContainer revenueReports = new RevenueReportDataContainer();
-			await revenueReports.FromDBByCustomerIdAsync(request.UserId, request.BeginTime, request.EndTime, request.TimeZoneOffset);
+			MiningReportDataContainer reports = new MiningReportDataContainer();
+			await reports.FromDBByUserIdAsync(request.UserId, request.BeginTime, request.EndTime, request.TimeZoneOffset);
 
-			var response = new MiningModels.MiningRevenueReport.Response();
-			response.Items.AddRangeSafe(revenueReports.Items);
+			var response = new MiningModels.MiningReport.Response();
+			response.Items.AddRangeSafe(reports.Items);
 			return Success(response);
 		}
 		#endregion // API

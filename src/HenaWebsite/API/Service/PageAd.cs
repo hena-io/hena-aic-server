@@ -139,8 +139,10 @@ namespace HenaWebsite.Controllers
 					// 수익 지급
 					if (ai.AdHistoryData.CampaignType == CampaignTypes.CPM)
 					{
-						await ProvideRevenueToDBAsync(ahd.AdHistoryId, ahd.PublisherId, ahd.CustomerId, ahd.Cost * 0.6m, ahd.Cost * 0.4m);
-						await PaymentCostToDBAsync(ahd.AdvertiserId, ahd.Cost);
+						// 각 뷰당 1/1000로 계산
+						var cost = ahd.Cost * 0.001m;
+						await ProvideRevenueToDBAsync(ahd.AdHistoryId, ahd.PublisherId, ahd.CustomerId, cost * 0.6m, cost * 0.4m);
+						await PaymentCostToDBAsync(ahd.AdvertiserId, cost);
 					}
 				}
 
@@ -167,10 +169,10 @@ namespace HenaWebsite.Controllers
 
 				AdHistoryData ahd = new AdHistoryData();
 				if (await ahd.FromDBAsync(ai.AdHistoryData.AdHistoryId) == false)
-					return Redirect(ai.AdDesignData.DestinationUrl);
+					return Redirect(ai.AdDesignData.GetDestinationUrl());
 
 				if (ahd.IsClicked)
-					return Redirect(ai.AdDesignData.DestinationUrl);
+					return Redirect(ai.AdDesignData.GetDestinationUrl());
 
 				var updateClickQuery = new DBQuery_AdHistory_Update_Click();
 				updateClickQuery.IN.AdHistoryId = ai.AdHistoryData.AdHistoryId;
@@ -185,7 +187,8 @@ namespace HenaWebsite.Controllers
 					}
 				}
 
-				return Redirect(ai.AdDesignData.DestinationUrl);
+
+				return Redirect(ai.AdDesignData.GetDestinationUrl());
 			}
 			catch (Exception ex)
 			{

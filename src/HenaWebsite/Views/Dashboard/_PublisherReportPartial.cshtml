@@ -3,13 +3,19 @@
 @using Hena.Security.Claims;
 
 @{
-
+	int displayDay = 10;
 	DBKey userId = User.FindFirst(HenaClaimTypes.UserId).Value;
 	RevenueReportDataContainer reportDataContainer = new RevenueReportDataContainer();
 	DateTime nowTime = DateTime.UtcNow.AddHours(9);
 	DateTime endTimeLocal = nowTime.Date.AddDays(1);
-	DateTime beginTimeLocal = endTimeLocal.Date.AddDays(-10);
+	DateTime beginTimeLocal = endTimeLocal.Date.AddDays(-displayDay-1);
 	await reportDataContainer.FromDBByPublisherIdAsync(userId, beginTimeLocal, endTimeLocal, TimeSpan.FromHours(9));
+
+	DateTime date = nowTime.Date;
+	for (int i = 0; i < displayDay; ++i, date = date.AddDays(-1))
+	{
+		reportDataContainer.FindOrAdd(userId, date);
+	}
 	reportDataContainer.Items.Sort((x, y) => { return x.ReportDate.CompareToDesc(y.ReportDate); });
 }
 

@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace HenaWebsite.Controllers
 {
 	[Authorize]
-    public class AICReportController : BaseController
+    public class MiningController : BaseController
 	{
-        public IActionResult Index()
+        public IActionResult Report()
         {
 			return View();
         }

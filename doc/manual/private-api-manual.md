@@ -280,7 +280,7 @@
             ai: adready 호출시 받은 ai 정보.
 
 ----------------------------------------
-## 3. 저장소
+## 저장소
    - DB SQL : https://github.com/hena-io/hena-aic-server/tree/master/db/sql/
    - 프로젝트 : https://github.com/hena-io/hena-aic-server/tree/master/src/
         - HenaLibrary : 공유 라이브러리 프로젝트

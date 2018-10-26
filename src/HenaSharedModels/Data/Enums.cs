@@ -132,10 +132,8 @@ namespace Hena.Shared.Data
 				}
 				else
 				{
-					items.Add(en.MobileLeaderboard);
-					items.Add(en.LargeMobileBanner);
+					items.Add(en.Banner);
 				}
-				items.Add(en.Banner);
 			}
 			else if (adSystemType == AdSystemTypes.Interstitial)
 			{

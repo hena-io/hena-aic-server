@@ -46,7 +46,7 @@
     - `tbl_user_permission` : 유저별 권한을 관리
 
 ----------------------------------------
-## 3. 저장소
+## 저장소
    - DB SQL : https://github.com/hena-io/hena-aic-server/tree/master/db/sql/
    - 프로젝트 : https://github.com/hena-io/hena-aic-server/tree/master/src/
         - HenaLibrary : 공유 라이브러리 프로젝트

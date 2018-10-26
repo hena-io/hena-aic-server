@@ -77,9 +77,9 @@
             }
         }
 
-- ##### 마이닝 수익 리포트 조회
+- ##### 마이닝 리포트 조회
         [POST]
-            /service/mining/miningrevenuereport
+            /service/mining/miningreport
         
         [Parameters]
             userId: '791472617497798814'
@@ -202,7 +202,7 @@
         }  
 
 ----------------------------------------
-## 3. 저장소
+## 저장소
    - DB SQL : https://github.com/hena-io/hena-aic-server/tree/master/db/sql/
    - 프로젝트 : https://github.com/hena-io/hena-aic-server/tree/master/src/
         - HenaLibrary : 공유 라이브러리 프로젝트

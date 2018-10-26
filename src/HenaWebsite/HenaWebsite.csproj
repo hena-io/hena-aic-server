@@ -34,7 +34,7 @@
     <Content Update="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Views\AICReport\_AdvertiserReportPartial.cshtml">
+    <Content Update="Views\AIC\_AdvertiserReportPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Apps\Index.cshtml">
@@ -47,6 +47,9 @@
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Dashboard\_CustomerReportPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Dashboard\_MiningReportPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Dashboard\_PublisherReportPartial.cshtml">
@@ -64,16 +67,25 @@
     <Content Update="Views\Dashboard\Index_backup.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\AICReport\Index.cshtml">
+    <Content Update="Views\AIC\Report.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\AICReport\_CustomerReportPartial.cshtml">
+    <Content Update="Views\AIC\_CustomerReportPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\AICReport\_PublisherReportPartial.cshtml">
+    <Content Update="Views\AIC\_PublisherReportPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Mining\Report.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Mining\_MiningReportPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Shared\_LayoutDashboard.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Test\Deposit.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\User\ForgotPassword.cshtml">
