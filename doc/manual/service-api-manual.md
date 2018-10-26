@@ -74,8 +74,8 @@
         
         [Parameters]
             userId: '791472617497798814'
-            offset: '0'
-            count: '20'
+            offset: 0
+            count: 20
 
         [Response]
         {
@@ -85,6 +85,7 @@
                     {
                         miningHistoryId: '1234567890',
                         currencyType: 'HENA_MINING',
+                        miningAmount: 0.123,
                         miningTime: '2018-10-25T00:00:00', // UTC TIME
                     },
                     { ... }
