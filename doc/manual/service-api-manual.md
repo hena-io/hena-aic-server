@@ -207,7 +207,7 @@
             data:{
                 items:[
                     {
-                        date: '2018-10-25T00:00:00', // LOCAL TIME
+                        reportDate: '2018-10-25T00:00:00', // LOCAL TIME
                         revenue:4000.0,
                         displayCount:10,
                         clickCount:10,
