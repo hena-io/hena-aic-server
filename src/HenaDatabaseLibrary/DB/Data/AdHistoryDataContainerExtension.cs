@@ -15,7 +15,7 @@ namespace Hena.Shared.Data
 		private static async Task<int> FromDBByIdAsync<T>(AdHistoryDataContainer item, DBKey id, int offset = 0, int limit = 20)
 			where T : DBQuery_AdHistory_Select_Base<COMMON_IN_DATA_DBKeyOffsetLimit>, new()
 		{
-			var query = new DBQuery_AdHistory_Select_By_CampaignId();
+			var query = new T();
 			query.IN.DBKey = id;
 			query.IN.Offset = offset;
 			query.IN.Limit = limit;
